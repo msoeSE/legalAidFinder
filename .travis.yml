@@ -1,12 +1,14 @@
 language: node_js
-node_js:
-  - '5'
-  - '4'
 before_install:
-  - 'npm install -g npm@latest'
+  - pip install --user awscli
+  - export PATH=$PATH:$HOME/.local/bin
+node_js:
+  - latest
+  - '6.3'
 services:
   - mongodb
-before_script:
-  - sleep 15
+  - docker
+script:
+  - npm test
 after_success:
   - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'

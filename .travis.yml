@@ -2,7 +2,7 @@ language: node_js
 env:
   global:
   - COMMIT=${TRAVIS_COMMIT::8}
-  - REPO=msoeSE/legal-aid-finder
+  - REPO=msoese/legal-aid-finder
 before_install:
   #
 node_js:

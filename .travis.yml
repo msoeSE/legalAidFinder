@@ -2,7 +2,7 @@ language: node_js
 env:
   global:
   - COMMIT=${TRAVIS_COMMIT::8}
-  - REPO=msoeSE/legalAidFinder
+  - REPO=msoeSE/legal-aid-finder
 before_install:
   #
 node_js:
@@ -11,7 +11,7 @@ services:
   - docker
 script:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "bh/dev" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build -t legalAidFinder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .
+  - docker build -t legal-aid-finder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .
   #- eval $(aws ecr get-login --region us-west-2)
   #- docker-compose build
   #- docker login -u="$AWS_ACCESS_KEY_ID" -p="$AWS_SECRET_ACCESS_KEY"

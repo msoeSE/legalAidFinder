@@ -3,12 +3,13 @@ before_install:
   - pip install --user awscli
   - export PATH=$PATH:$HOME/.local/bin
 node_js:
-  - latest
-  - '6.3'
+  - '7'
 services:
   - mongodb
   - docker
 script:
-  - npm test
+  - npm install
+  - mongod
+  - npm start
 after_success:
-  - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
+  #- './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'

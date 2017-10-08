@@ -9,5 +9,10 @@ services:
   - docker
 script:
   - npm install
+  - eval $(aws ecr get-login --region us-west-2)
+  - docker-compose build
+  - docker tag hello-world 059328639153.dkr.ecr.us-west-2.amazonaws.com/hello-word
+  - docker push 059328639153.dkr.ecr.us-west-2.amazonaws.com/hello-world
+  - aws ecs run-task --task-definition hello-world --region us-west-2
 after_success:
   #- './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'

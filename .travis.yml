@@ -1,19 +1,28 @@
 language: node_js
+env:
+  global:
+  - COMMIT=${TRAVIS_COMMIT::8}
+  - REPO=msoeSE/legalAidFinder
 before_install:
-  - pip install --user awscli
-  - export PATH=$PATH:$HOME/.local/bin
+  #
 node_js:
   - '7'
 services:
-  - mongodb
   - docker
 script:
-  - npm install
-  - eval $(aws ecr get-login --region us-west-2)
-  - docker-compose build
-  - docker login -u="$AWS_ACCESS_KEY_ID" -p="$AWS_SECRET_ACCESS_KEY"
-  - docker tag hello-world 059328639153.dkr.ecr.us-west-2.amazonaws.com/hello-word
-  - docker push 059328639153.dkr.ecr.us-west-2.amazonaws.com/hello-world
-  - aws ecs run-task --task-definition hello-world --region us-west-2
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "bh/dev" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -t legalAidFinder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .
+  #- eval $(aws ecr get-login --region us-west-2)
+  #- docker-compose build
+  #- docker login -u="$AWS_ACCESS_KEY_ID" -p="$AWS_SECRET_ACCESS_KEY"
+  #- docker tag hello-world 059328639153.dkr.ecr.us-west-2.amazonaws.com/hello-word
+  #- docker push 059328639153.dkr.ecr.us-west-2.amazonaws.com/hello-world
+  #- aws ecs run-task --task-definition hello-world --region us-west-2
 after_success:
+  - pip install --user awscli
+  - export PATH=$PATH:$HOME/.local/bin
+  - aws ecr create-repository --repository-name $REPO --region us-west-2
+  - eval $(aws ecr get-login --region us-west-2)
+  - docker tag $REPO:$TRAVIS_BUILD_NUMBER $AWS_ACCOUNT_NUMBER.dkr.ecr.us-west-2.amazonaws.com/$REPO:$TRAVIS_BUILD_NUMBER
+  - docker push $AWS_ACCOUNT_NUMBER.dkr.ecr.us-west-2.amazonaws.com/$REPO:$TRAVIS_BUILD_NUMBER
   #- './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'

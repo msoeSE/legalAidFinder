@@ -11,5 +11,7 @@ COPY . /usr/src/app
 ENV NODE_ENV production
 
 EXPOSE 8000
-CMD ["npm", "run", "bs"]
+CMD ["mongod"]
+CMD ["npm", "start"]
+#CMD ["npm", "run", "bs"]
 

@@ -33,8 +33,8 @@ class CategoryListPage extends Component {
   render() {
     return (
       <div>
-        <CategoryCreateWidget addCategory={this.handleAddCategory} showAddCategory={this.props.showAddCategory} />
-        <CategoryList key={this.props.categories.id} handleDeleteCategory={this.handleDeleteCategory} categories={this.props.categories} />
+        {/* <CategoryCreateWidget addCategory={this.handleAddCategory} showAddCategory={this.props.showAddCategory} /> */}
+        <CategoryList key={this.props.categories.id} categories={this.props.categories} />
       </div>
     );
   }

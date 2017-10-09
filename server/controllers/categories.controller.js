@@ -56,7 +56,7 @@ export function addCategory(req, res) {
  * @returns void
  */
 export function getCategory(req, res) {
-  Categories.findById(req.body._id).exec((err, category) => {
+  Categories.findById(req.param.categoryId).exec((err, category) => {
     if (err) {
       res.status(500).send(err);
     }

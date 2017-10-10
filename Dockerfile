@@ -1,5 +1,4 @@
 FROM node
-MAINTAINER jaga santagostino <kandros5591@gmail.com>
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -10,8 +9,8 @@ COPY . /usr/src/app
 
 ENV NODE_ENV production
 
-EXPOSE 8000
-CMD ["mongod"]
-CMD ["npm", "start"]
+EXPOSE 8001
+
+CMD npm start
 #CMD ["npm", "run", "bs"]
 

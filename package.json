@@ -16,20 +16,6 @@
     "slate": "rimraf node_modules && npm install",
     "lint": "eslint client server"
   },
-  "pre-commit": [
-    "lint",
-    "test"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/msoeSE/legalAidFinder.git"
-  },
-  "bugs": {
-    "url": "https://github.com/msoeSE/legalAidFinder/issues"
-  },
-  "homepage": "https://github.com/msoeSE/legalAidFinder#readme",
-  "author": "Brandon Herman <brandon.herman@outlook.com>, Tripp Horbinski <>, Bryant Holland <>, Ben Wozniak <>, Alex Muench <>",
-  "license": "MIT",
   "dependencies": {
     "babel-core": "^6.9.1",
     "body-parser": "^1.15.1",

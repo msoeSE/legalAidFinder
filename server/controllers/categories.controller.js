@@ -8,7 +8,17 @@ import sanitizeHtml from 'sanitize-html';
  * @returns void
  */
 export function getCategories(req, res) {
-  Categories.find({ parent: { $exists: false } }).populate('parent').populate('subcategories')
+  Categories.find({ parent: { $exists: false } })
+    .populate({
+      path: 'subcategories',
+      // Populate categories in subcategories
+      populate: { path: 'subcategories' },
+    })
+    .populate({
+      path: 'parent',
+      // Populate parents in subcategories
+      populate: { path: 'parent' },
+    })
     .exec((err, categories) => {
       if (err) {
         res.status(500).send(err);
@@ -56,11 +66,22 @@ export function addCategory(req, res) {
  * @returns void
  */
 export function getCategory(req, res) {
-  Categories.findById(req.body._id).exec((err, category) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    res.json({ category });
+  Categories.findById(req.params._id)
+    .populate({
+      path: 'subcategories',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: { path: 'subcategories' },
+    })
+    .populate({
+      path: 'parent',
+      // Get friends of friends - populate the 'friends' array for every friend
+      populate: { path: 'parent' },
+    })
+    .exec((err, category) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+      res.json({ category });
   });
 }
 

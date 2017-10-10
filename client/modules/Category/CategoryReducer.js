@@ -17,7 +17,7 @@ const CategoryReducer = (state = initialState, action) => {
 
     case DELETE_CATEGORIES :
       return {
-        data: state.data.filter(category => category.id !== action.id),
+        data: state.data.filter(category => category._id !== action._id),
       };
 
     default:
@@ -31,7 +31,7 @@ const CategoryReducer = (state = initialState, action) => {
 export const getCategories = state => state.categories.data;
 
 // Get category by id
-export const getCategory = (state, categoryId) => state.categories.data.filter(category => category._id === categoryId)[0];
+export const getCategory = (state, _id) => state.categories.data.filter(category => category._id === _id)[0];
 
 // Export Reducer
 export default CategoryReducer;

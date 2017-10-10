@@ -6,29 +6,28 @@ import PropTypes from 'prop-types';
 // Import Style
 import styles from './CategoryListItem.css';
 
-function CategoryListItem(props) {
-  return (
-    <div className={styles['single-category']}>
-      <h3 className={styles['category-title']}>
-        <Link to={`/categories/${props.category._id}`} >
-          {props.category.name}
-        </Link>
-      </h3>
-      {/* <p className={styles['category-desc']}>{props.category.parent}</p> */}
-      {/* <p className={styles['category-action']}><a href="#" onClick={props.onDelete}><FormattedMessage id="deleteCategory" /></a></p> */}
-      <hr className={styles.divider} />
-    </div>
-  );
+class CategoryListItem extends React.Component {
+  render() {
+    return (
+      <div className={styles['single-category']}>
+        <h3 className={styles['category-title']}>
+          <Link to={`/categories/${this.props.category._id}`}>
+            {this.props.category.name}
+          </Link>
+        </h3>
+        <hr className={styles.divider} />
+      </div>
+    );
+  }
 }
 
 CategoryListItem.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    parent: PropTypes.object,
-    subcategories: PropTypes.array.isRequired,
+    parent: PropTypes.string,
+    subcategories: PropTypes.array,
     _id: PropTypes.string.isRequired,
   }).isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
 export default CategoryListItem;

@@ -1,9 +1,9 @@
 language: node_js
 env:
-  - DOCKER_COMPOSE_VERSION=1.16.1
   global:
-  - COMMIT=${TRAVIS_COMMIT::8}
-  - REPO=msoese/legal-aid-finder
+    - DOCKER_COMPOSE_VERSION=1.16.1
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - REPO=msoese/legal-aid-finder
 before_install:
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose

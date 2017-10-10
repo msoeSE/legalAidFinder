@@ -13,6 +13,7 @@ import { fetchCategory } from '../../CategoryActions';
 
 // Import Selectors
 import { getCategory } from '../../CategoryReducer';
+import CategoryListItem from '../../components/CategoryListItem/CategoryListItem';
 
 export class CategoryDetailPage extends React.Component {
   render() {
@@ -22,7 +23,7 @@ export class CategoryDetailPage extends React.Component {
         <div className={`${styles['single-category']} ${styles['category-detail']}`}>
           <h3 className={styles['category-title']}>{this.props.category.name}</h3>
           {this.props.category.subcategories.map((object, i) =>
-            <CategorySubCategories category={object} key={i} />
+            <CategoryListItem category={object} key={i} />
           )}
         </div>
       </div>
@@ -45,8 +46,8 @@ function mapStateToProps(state, props) {
 CategoryDetailPage.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    parent: PropTypes.object,
-    subcategories: PropTypes.array.isRequired,
+    parent: PropTypes.string,
+    subcategories: PropTypes.array,
     _id: PropTypes.string.isRequired,
   }).isRequired,
 };

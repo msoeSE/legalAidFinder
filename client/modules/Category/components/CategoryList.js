@@ -13,10 +13,6 @@ class CategoryList extends React.Component {
           <CategoryListItem
             key={category._id}
             category={category}
-            parent={category.parent}
-            subcategories={category.subcategories}
-            _id={category._id}
-            onDelete={() => this.props.handleDeleteCategory(category._id)}
           />
         ))
       }
@@ -29,8 +25,8 @@ CategoryList.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
-    parent: PropTypes.object,
-    subcategories: PropTypes.ObjectId,
+    parent: PropTypes.string,
+    subcategories: PropTypes.array,
   })).isRequired,
 };
 

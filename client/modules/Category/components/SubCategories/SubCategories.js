@@ -1,18 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 // Import Style
 import styles from './SubCategories.css';
 
-// Import Routes
-import routes from '../../../../routes.js';
-
 class SubCategory extends React.Component {
   handleClick() {
     if (this.props.category.subcategories.length > 0) {
-      console.log('Has subcats');
+      console.log('Has cats');
     } else {
       console.log('No subcats');
     }
@@ -21,9 +18,13 @@ class SubCategory extends React.Component {
   render() {
     return (
       <div className={styles['single-category']}>
-        <button onClick={(e) => this.handleClick(e)} >
+        {/*<button onClick={(e) => this.handleClick(e)} >*/}
+          {/*{this.props.category.name}*/}
+        {/*</button>*/}
+
+        <Link to={`/categories/${this.props.category._id}`} onClick={(e) => this.handleClick(e)}>
           {this.props.category.name}
-        </button>
+        </Link>
       </div>
     );
   }
@@ -32,10 +33,10 @@ class SubCategory extends React.Component {
 SubCategory.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    parent: PropTypes.object.isRequired,
+    parent: PropTypes.string,
     subcategories: PropTypes.array.isRequired,
     _id: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default SubCategory;
+export default (SubCategory);

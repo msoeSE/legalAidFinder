@@ -18,6 +18,9 @@ export function addCategoryRequest(category) {
     return callApi('categories', 'category', {
       category: {
         name: category.name,
+        parent: category.parent,
+        subcategories: category.subcategories,
+        _id: category._id,
       },
     }).then(res => dispatch(addCategory(res.category)));
   };
@@ -38,21 +41,21 @@ export function fetchCategories() {
   };
 }
 
-export function fetchCategory(categoryId) {
+export function fetchCategory(_id) {
   return (dispatch) => {
-    return callApi(`categories/${categoryId}`).then(res => dispatch(addCategory(res.category)));
+    return callApi(`categories/${_id}`).then(res => dispatch(addCategory(res.category)));
   };
 }
 
-export function deleteCategory(categoryId) {
+export function deleteCategory(_id) {
   return {
     type: DELETE_CATEGORIES,
-    categoryId,
+    _id,
   };
 }
 
-export function deleteCategoryRequest(categoryId) {
+export function deleteCategoryRequest(_id) {
   return (dispatch) => {
-    return callApi(`categories/${categoryId}`, 'delete').then(() => dispatch(deleteCategory(categoryId)));
+    return callApi(`categories/${_id}`, 'delete').then(() => dispatch(deleteCategory(_id)));
   };
 }

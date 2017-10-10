@@ -24,8 +24,8 @@ class CategoryListItem extends React.Component {
 CategoryListItem.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    parent: PropTypes.object,
-    subcategories: PropTypes.array.isRequired,
+    parent: PropTypes.string,
+    subcategories: PropTypes.array,
     _id: PropTypes.string.isRequired,
   }).isRequired,
 };

@@ -34,7 +34,7 @@ class CategoryListPage extends Component {
     return (
       <div>
         {/* <CategoryCreateWidget addCategory={this.handleAddCategory} showAddCategory={this.props.showAddCategory} /> */}
-        <CategoryList key={this.props.categories.id} categories={this.props.categories} />
+        <CategoryList categories={this.props.categories} />
       </div>
     );
   }
@@ -54,7 +54,7 @@ function mapStateToProps(state) {
 CategoryListPage.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
-    parent: PropTypes.object,
+    parent: PropTypes.string,
     subcategories: PropTypes.array.isRequired,
     _id: PropTypes.string.isRequired,
   })).isRequired,

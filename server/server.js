@@ -55,7 +55,7 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
-app.use('/api', categories); // categories);
+app.use('/api', categories); // categories
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {

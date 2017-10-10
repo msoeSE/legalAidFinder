@@ -5,13 +5,13 @@ const router = new Router();
 // Get all ParentPosts
 router.route('/categories').get(CategoryController.getCategories);
 
-// Get one category by cuid
-router.route('/categories/:categoryId').get(CategoryController.getCategory);
+// Get one category by _id
+router.route('/categories/:_id').get(CategoryController.getCategory);
 
 // Add a new Category
 router.route('/categories').post(CategoryController.addCategory);
 
 // Delete a category by cuid
-router.route('/categories/:categoryId').delete(CategoryController.deleteCategory);
+router.route('/categories/:_id').delete(CategoryController.deleteCategory);
 
 export default router;

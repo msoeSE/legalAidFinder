@@ -54,7 +54,7 @@ function mapStateToProps(state) {
 CategoryListPage.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
-    parent: PropTypes.string,
+    parent: PropTypes.object,
     subcategories: PropTypes.array.isRequired,
     _id: PropTypes.string.isRequired,
   })).isRequired,

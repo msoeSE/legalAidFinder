@@ -8,7 +8,7 @@ import sanitizeHtml from 'sanitize-html';
  * @returns void
  */
 export function getCategories(req, res) {
-  Categories.find({ parent: { $exists: false } })
+  Categories.find() // { parent: { $exists: false } }
     .populate({
       path: 'subcategories',
       // Populate categories in subcategories

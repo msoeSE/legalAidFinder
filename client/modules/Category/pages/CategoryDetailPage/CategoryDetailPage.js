@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import CategorySubCategories from '../../components/SubCategories/SubCategories';
 
 // Import Style
 import styles from '../../components/CategoryListItem/CategoryListItem.css';

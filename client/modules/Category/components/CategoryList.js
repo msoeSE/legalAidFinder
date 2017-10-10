@@ -9,12 +9,14 @@ class CategoryList extends React.Component {
     return (
       <div className="listView">
       {
-        this.props.categories.map(category => (
-          <CategoryListItem
-            key={category._id}
-            category={category}
-          />
-        ))
+        this.props.categories.map(category => {
+          return category.parent === null ?
+            <CategoryListItem
+              key={category._id}
+              category={category}
+            />
+            : null;
+        })
       }
       </div>
     );
@@ -25,7 +27,7 @@ CategoryList.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
-    parent: PropTypes.string,
+    parent: PropTypes.object,
     subcategories: PropTypes.array,
   })).isRequired,
 };

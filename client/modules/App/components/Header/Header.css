@@ -1,18 +1,20 @@
 .header {
-  background: #c5050c url('../../header-bk.png') center;
+  background: #c5050c;
   background-size: cover;
   border-bottom: 1px solid #ccc;
 }
 
 .content {
   width: 100%;
-  max-width: 980px;
+  /*max-width: 980px;*/
   margin: auto;
-  padding: 64px 16px;
+  padding: 32px 16px;
   overflow: auto;
 }
 
 .site-title {
+  margin-top: 29px;
+  margin-left: 10px;
   font-weight: 300;
   font-size: 42px;
   float: left;
@@ -65,4 +67,10 @@
     float: left;
     margin-top: 16px;
   }
+}
+
+.wiLogo{
+  width: auto;
+  height: 100px;
+  float: left;
 }

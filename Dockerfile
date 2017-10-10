@@ -9,7 +9,7 @@ COPY . /usr/src/app
 
 ENV NODE_ENV production
 
-EXPOSE 8001
+EXPOSE 8000
 
 CMD npm start
 #CMD ["npm", "run", "bs"]

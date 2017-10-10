@@ -1,5 +1,5 @@
 {
-  "name": "mern-starter",
+  "name": "Legal-Aid-Finder",
   "version": "2.0.0",
   "description": "Boilerplate project for building Isomorphic apps using React and Redux",
   "scripts": {
@@ -16,20 +16,6 @@
     "slate": "rimraf node_modules && npm install",
     "lint": "eslint client server"
   },
-  "pre-commit": [
-    "lint",
-    "test"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Hashnode/mern-starter.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Hashnode/mern-starter/issues"
-  },
-  "homepage": "https://github.com/Hashnode/mern-starter#readme",
-  "author": "Prashant Abhishek <prashant.abhishek7g@gmail.com>, Mayank Chandola <imayankchd@gmail.com>, Sandeep Panda <sandeep@hashnode.com>, Syed Fazle Rahman <fazle@hashnode.com>, Alkshendra Maurya <alkshendra@hashnode.com>",
-  "license": "MIT",
   "dependencies": {
     "babel-core": "^6.9.1",
     "body-parser": "^1.15.1",

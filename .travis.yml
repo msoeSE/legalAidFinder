@@ -12,7 +12,6 @@ services:
 script:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "bh/dev" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker-compose build -t legal-aid-finder -t $REPO:$TRAVIS_BUILD_NUMBER
-  - docker-compose up
 after_success:
   - pip install --user awscli
   - export PATH=$PATH:$HOME/.local/bin

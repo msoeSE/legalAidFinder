@@ -13,7 +13,7 @@ services:
   - docker
 script:
   - docker-compose pull
-  - docker-compose build
+  - docker-compose build --no-cache
 after_success:
   - pip install --user awscli
   - export PATH=$PATH:$HOME/.local/bin

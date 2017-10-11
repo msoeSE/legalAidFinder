@@ -39,5 +39,13 @@ export default (
         });
       }}
     />
+    <Route
+      path="/agencies/:_id"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/Agency/pages/AgenciesPage/AgenciesPage').default);
+        });
+      }}
+    />
   </Route>
 );

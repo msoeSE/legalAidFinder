@@ -36,11 +36,11 @@ test('has correct props', t => {
     <CategoryCreateWidget {...props} />
   );
 
-  t.is(wrapper.prop('addCategory'), props.addCategory);
+  t.is(wrapper.prop('addAgency'), props.addCategory);
   t.is(wrapper.prop('showAddCategory'), props.showAddCategory);
 });
 
-test('calls addCategory', t => {
+test('calls addAgency', t => {
   const addPost = sinon.spy();
   const wrapper = mountWithIntl(
     <CategoryCreateWidget addPost={addPost} showAddCategory/>
@@ -55,7 +55,7 @@ test('calls addCategory', t => {
   t.truthy(addPost.calledWith('David', 'Some Title', 'Bla Bla Bla'));
 });
 
-test('empty form doesn\'t call addCategory', t => {
+test('empty form doesn\'t call addAgency', t => {
   const addPost = sinon.spy();
   const wrapper = mountWithIntl(
     <CategoryCreateWidget addPost={addPost} showAddCategory/>

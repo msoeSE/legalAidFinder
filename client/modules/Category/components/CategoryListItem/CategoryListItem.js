@@ -8,18 +8,30 @@ import styles from './CategoryListItem.css';
 
 class CategoryListItem extends React.Component {
   render() {
-    return (
-      <div className={styles['single-category']}>
-        <h3 className={styles['category-title']}>
-          <Link to={`/categories/${this.props.category._id}`}>
-            {this.props.category.name}
-          </Link>
-        </h3>
-        <hr className={styles.divider} />
-      </div>
-    );
+    // if (this.props.category.agencies.length > 0) {
+    //   return (
+    //     this.props.category.agencies.map((agency) =>
+    //       <div className={styles['single-category']}>
+    //         <h3 className={styles['category-title']}>
+    //           {agency.name}
+    //         </h3>
+    //       </div>
+    //     )
+    //   );
+    // } else {
+      return (
+        <div className={`${styles['single-category']}`}>
+          <h3 className={styles['category-btn']}>
+            {<Link className={styles['category-btn']} to={`/categories/${this.props.category._id}`}>
+              {this.props.category.name}
+            </Link>}
+          </h3>
+          {/*<hr className={styles.divider} />*/}
+        </div>
+      );
+    }
   }
-}
+// }
 
 CategoryListItem.propTypes = {
   category: PropTypes.shape({

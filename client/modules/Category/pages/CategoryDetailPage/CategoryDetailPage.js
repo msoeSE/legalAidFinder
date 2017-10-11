@@ -24,6 +24,11 @@ export class CategoryDetailPage extends React.Component {
           {this.props.category.subcategories.map((object, i) =>
             <CategoryListItem category={object} key={i} />
           )}
+          {this.props.category.agencies.map((agency, i) =>
+            <div key={i} className={`${styles['single-category']} ${styles['category-detail']}`}>
+              <a href={agency.url} className={styles['category-action']}>{agency.name}</a>
+            </div>
+          )}
         </div>
       </div>
     );

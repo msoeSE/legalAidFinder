@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import CategoryList from '../../components/CategoryList';
 import CategoryCreateWidget from '../../components/CategoryCreateWidget/CategoryCreateWidget';
 
+// Import styles
+import styles from '../../components/CategoryListItem/CategoryListItem.css';
+
 // Import Actions
 import { addCategoryRequest, fetchCategories, deleteCategoryRequest } from '../../CategoryActions';
 import { toggleAddCategories } from '../../../App/AppActions';
@@ -33,6 +36,9 @@ class CategoryListPage extends Component {
   render() {
     return (
       <div>
+        <div>
+          <h2 className={`${styles['single-category']} ${styles['category-title']}`}>Select a category that corresponds with your legal issue:</h2>
+        </div>
         {/* <CategoryCreateWidget addCategory={this.handleAddCategory} showAddCategory={this.props.showAddCategory} /> */}
         <CategoryList categories={this.props.categories} />
       </div>

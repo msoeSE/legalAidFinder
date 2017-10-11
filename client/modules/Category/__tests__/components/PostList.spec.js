@@ -13,5 +13,5 @@ test('renders the list', t => {
     <PostList posts={posts} handleShowPost={() => {}} handleDeletePost={() => {}} />
   );
 
-  t.is(wrapper.find('CategoryListItem').length, 2);
+  t.is(wrapper.find('AgencyListItem').length, 2);
 });

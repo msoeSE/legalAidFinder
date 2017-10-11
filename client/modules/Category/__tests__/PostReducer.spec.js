@@ -3,7 +3,7 @@ import { reducerTest } from 'redux-ava';
 import postReducer, { getCategory, getCategories } from '../CategoryReducer';
 import { addCategory, deleteCategory, addCategories } from '../CategoryActions';
 
-test('action for ADD_CATEGORY is working', reducerTest(
+test('action for ADD_AGENCY is working', reducerTest(
   postReducer,
   { data: ['foo'] },
   addCategory({
@@ -38,7 +38,7 @@ test('action for DELETE_CATEGORIES is working', reducerTest(
   { data: [] },
 ));
 
-test('action for ADD_CATEGORIES is working', reducerTest(
+test('action for ADD_AGENCIES is working', reducerTest(
   postReducer,
   { data: [] },
   addCategories([
@@ -61,7 +61,7 @@ test('action for ADD_CATEGORIES is working', reducerTest(
   }] },
 ));
 
-test('getCategories selector', t => {
+test('getAgencies selector', t => {
   t.deepEqual(
     getCategories({
       categories: { data: ['foo'] },
@@ -70,7 +70,7 @@ test('getCategories selector', t => {
   );
 });
 
-test('getCategory selector', t => {
+test('getAgency selector', t => {
   t.deepEqual(
     getCategory({
       categories: { data: [{ cuid: '123' }] },

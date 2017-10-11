@@ -2,6 +2,7 @@
   margin: 20px 0;
   padding: 15px;
   border-radius: 2px;
+  border: solid grey;
 }
 
 .category-title{
@@ -11,17 +12,7 @@
   color: #616161;
 }
 
-.category-btn{
-  font-size: 18px;
-  color: #616161;
-  display: inline-block;
-  background: lightgrey;
-  border-radius: 4px;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.category-btn a{
+.category-title a{
   text-decoration: none;
   color: #616161;
 }
@@ -53,7 +44,7 @@
   border: 0;
   height: 1px;
   background: #ccc;
-  width: 500px;
+  width: 250px;
   margin: 32px auto 0;
 }
 

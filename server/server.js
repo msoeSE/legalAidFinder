@@ -33,6 +33,7 @@ import Helmet from 'react-helmet';
 import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
 import categories from './routes/category.routes';
+import agencies from './routes/agency.routes';
 // import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -56,6 +57,7 @@ app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 app.use('/api', categories); // categories
+// app.use('/api', agencies);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {
@@ -142,7 +144,7 @@ app.use((req, res, next) => {
 // start app
 app.listen(serverConfig.port, (error) => {
   if (!error) {
-    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
+    console.log(`LAF is running on port: ${serverConfig.port}!`); // eslint-disable-line
   }
 });
 

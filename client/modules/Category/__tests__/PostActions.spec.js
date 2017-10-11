@@ -12,7 +12,7 @@ import {
 
 const post = { name: 'Prashant', parent: 'Hello Mern', cuid: 'f34gb2bh24b24b2', subcategories: "All cats meow 'mern!'", slug: 'hello-mern', _id: 1 };
 
-test('should return the correct type for addCategory', actionTest(
+test('should return the correct type for addAgency', actionTest(
   addCategory,
   post,
   { type: ADD_CATEGORY, category: post },
@@ -24,7 +24,7 @@ test('should return the correct type for deleteCategory', actionTest(
   { type: DELETE_CATEGORIES, cuid: post.cuid },
 ));
 
-test('should return the correct type for addCategories', actionTest(
+test('should return the correct type for addAgencies', actionTest(
   addCategories,
   [post],
   { type: ADD_CATEGORIES, categories: [post] },

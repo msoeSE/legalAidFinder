@@ -12,12 +12,17 @@ export function getCategories(req, res) {
     .populate({
       path: 'subcategories',
       // Populate categories in subcategories
-      populate: { path: 'subcategories' },
+      populate: { path: 'subcategories agencies' },
     })
     .populate({
       path: 'parent',
       // Populate parents in subcategories
       populate: { path: 'parent' },
+    })
+    .populate({
+      path: 'agencies',
+      // Populate parents in subcategories
+      populate: { path: 'agencies' },
     })
     .exec((err, categories) => {
       if (err) {
@@ -76,6 +81,11 @@ export function getCategory(req, res) {
       path: 'parent',
       // Get friends of friends - populate the 'friends' array for every friend
       populate: { path: 'parent' },
+    })
+    .populate({
+      path: 'agencies',
+      // Populate parents in subcategories
+      populate: { path: 'agencies' },
     })
     .exec((err, category) => {
       if (err) {

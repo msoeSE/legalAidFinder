@@ -1,3 +1,7 @@
+db:
+  image: mongo
+  ports:
+   - "27017:27017"
 web:
   build: .
   links:
@@ -8,8 +12,4 @@ web:
    - .:/usr/src/app/
   environment:
    NODE_ENV: production
-db:
-  image: mongo
-  ports:
-   - "27017:27017"
 

@@ -10,8 +10,9 @@ before_install:
 node_js:
   - '7'
 script:
-  - sudo docker-compose pull
-  - sudo docker-compose build --no-cache
+  - sudo docker build -t legal-aid-finder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .
+  # - sudo docker-compose pull
+  # - sudo docker-compose build --no-cache
 after_success:
   - pip install --user awscli
   - export PATH=$PATH:$HOME/.local/bin

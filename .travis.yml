@@ -6,11 +6,14 @@ env:
     - COMMIT=${TRAVIS_COMMIT::8}
     - REPO=msoese/legal-aid-finder
 before_install:
-  - ./node_modules/.bin/nightwatch
+  #
 node_js:
   - '7'
+before_script:
+  - npm install
 script:
   - sudo docker build -t legal-aid-finder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .
+  - npm test
   # - sudo docker-compose pull
   # - sudo docker-compose build --no-cache
 after_success:

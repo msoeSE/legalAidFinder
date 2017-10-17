@@ -9,12 +9,10 @@
   "selenium" : {
     "start_process" : true,
     "server_path" : "selenium-server-standalone-3.6.0.jar",
-    "log_path" : "",
+    "log_path" : "log.txt",
     "port" : 4444,
     "cli_args" : {
-      "webdriver.chrome.driver" : "",
-      "webdriver.gecko.driver" : "",
-      "webdriver.edge.driver" : ""
+      "webdriver.chrome.driver" : "chromedriver"
     }
   },
 

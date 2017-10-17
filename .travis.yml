@@ -10,7 +10,7 @@ before_install:
 node_js:
   - '7'
 before_script:
-  - npm install
+  #
 script:
   - sudo docker build -t legal-aid-finder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .
   - npm test

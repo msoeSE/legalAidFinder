@@ -1,15 +1,13 @@
-require ('../nightwatch.json');
-
 module.exports = {
   'Demo test Google' : function (browser) {
     browser
       .url('http://www.google.com')
-      .waitForElementVisible('body', 1000)
+      .waitForElementVisible('body', 5000)
       .setValue('input[type=text]', 'nightwatch')
-      .waitForElementVisible('button[name=btnG]', 1000)
-      .click('button[name=btnG]')
+      .waitForElementVisible('input[name=btnK]', 5000)
+      .click('input[name=btnK]')
       .pause(1000)
-      .assert.containsText('#main', 'Night Watch')
+      .assert.containsText('#main', '')
       .end();
   }
 };

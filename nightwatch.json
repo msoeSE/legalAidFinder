@@ -9,17 +9,18 @@
   "selenium" : {
     "start_process" : true,
     "server_path" : "selenium-server-standalone-3.6.0.jar",
-    "log_path" : "log.txt",
-    "port" : 4444,
+    "log_path" : "log",
+    "port" : 4445,
     "cli_args" : {
-      "webdriver.chrome.driver" : "chromedriver"
-    }
+      "webdriver.chrome.driver" : "./bin/nightwatch/chromedriver.exe",
+      "webdriver.gecko.driver" : "",
+      "webdriver.edge.driver" : ""}
   },
 
   "test_settings" : {
     "default" : {
-      "launch_url" : "http://localhost",
-      "selenium_port"  : 4444,
+      "launch_url" : "http://localhost:8000",
+      "selenium_port"  : 4445,
       "selenium_host"  : "localhost",
       "silent": true,
       "screenshots" : {
@@ -27,7 +28,7 @@
         "path" : ""
       },
       "desiredCapabilities": {
-        "browserName": "firefox",
+        "browserName": "chrome",
         "marionette": true
       }
     },

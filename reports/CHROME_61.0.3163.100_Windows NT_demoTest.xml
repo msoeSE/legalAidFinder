@@ -5,9 +5,9 @@
 
   <testsuite name="demoTest"
     errors="0" failures="0" hostname="" id="" package="demoTest" skipped="0"
-    tests="1" time="7.561" timestamp="Mon, 23 Oct 2017 20:39:09 GMT">
+    tests="1" time="7.714" timestamp="Wed, 25 Oct 2017 17:48:32 GMT">
   
-    <testcase name="Demo test Google" classname="demoTest" time="7.561" assertions="3">
+    <testcase name="Demo test Google" classname="demoTest" time="7.714" assertions="3">
 
     
 
@@ -17,6 +17,20 @@
     </testcase>
   
 
+  
+    <system-err>
+      ERROR: Unable to locate element: &quot;h2&quot; using: css selector
+    at command (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\api\assertions\containsText.js:46:21)
+    at module.exports.BaseAssertion._scheduleAssertion (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\core\assertion.js:87:17)
+    at module.exports.BaseAssertion._executeCommand (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\core\assertion.js:82:17)
+    at AssertionInstance.commandFn [as _commandFn] (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\core\assertion.js:180:21)
+    at AsyncTree.runCommand (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\core\queue.js:154:30)
+    at AsyncTree.runChildNode (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\core\queue.js:114:8)
+    at AsyncTree.walkDown (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\core\queue.js:80:10)
+    at AsyncTree.walkUp (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\core\queue.js:97:8)
+    at AsyncTree.walkDown (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\core\queue.js:90:12)
+    at AsyncTree.traverse (C:\Users\wozniakbe\AppData\Roaming\npm\node_modules\nightwatch\lib\core\queue.js:73:8)
+    </system-err>
   
 
   

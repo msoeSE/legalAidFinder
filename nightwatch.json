@@ -31,13 +31,17 @@
         "browserName": "phantomjs",
         "javascriptEnabled" : true,
         "acceptSslCerts" : true,
-        "phantomjs.binary.path" : "./phantomjs.exe"
+        "phantomjs.binary.path" : "./phantomjs.exe",
+        "phantomjs.cli.args": ["--ignore-ssl-errors=true"]
       }
     },
 
     "chrome" : {
       "desiredCapabilities": {
-        "browserName": "chrome"
+        "browserName": "chrome",
+        "chromeOptions" : {
+          "args" : ["headless"]
+        }
       }
     },
 

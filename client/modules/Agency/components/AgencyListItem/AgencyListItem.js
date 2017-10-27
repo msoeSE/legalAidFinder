@@ -8,11 +8,11 @@ import styles from './AgencyListItem.css';
 class AgencyListItem extends React.Component {
   render() {
     return (
-      <div className={styles['single-category']}>
-        <h3 className={styles['category-title']}>
+      <div className={styles['single-agency']}>
+        <h3 className={styles['agency-title']}>
           <a href={this.props.agency.url} className={styles['agency-action']}>{this.props.agency.name}</a>
         </h3>
-        <hr className={styles.divider} />
+        {/*<hr className={styles.divider} />*/}
       </div>
     );
   }

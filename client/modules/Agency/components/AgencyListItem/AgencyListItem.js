@@ -10,9 +10,7 @@ class AgencyListItem extends React.Component {
     return (
       <div className={styles['single-category']}>
         <h3 className={styles['category-title']}>
-          <Link to={`/agencies/${this.props.agency._id}`}>
-            {this.props.agency.name}
-          </Link>
+          <a href={this.props.agency.url} className={styles['agency-action']}>{this.props.agency.name}</a>
         </h3>
         <hr className={styles.divider} />
       </div>

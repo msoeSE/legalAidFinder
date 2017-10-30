@@ -1,4 +1,4 @@
-language: node_js, java
+language: node_js
 sudo: required
 dist: trusty
 env:
@@ -7,23 +7,17 @@ env:
     - REPO=msoese/legal-aid-finder
 node_js:
   - '7'
-jdk:
-  - 'oraclejdk8'
 before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - nvm install 6.9.5
-  - npm install -g yarn
-install:
-    - yarn install
-script:
-    - yarn test
+  - npm start
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+addons:
+  chrome: "latest"
 before_script:
   #
 script:
   - sudo docker build -t legal-aid-finder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .
   - npm test
+  - nightwatch -e chrome
   # - sudo docker-compose pull
   # - sudo docker-compose build --no-cache
 after_success:

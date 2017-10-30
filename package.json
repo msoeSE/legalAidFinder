@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Web application used to find free/low cost legal services in Wisconsin",
   "scripts": {
-    "test": "cross-env NODE_ENV=test PORT=8080 MONGO_URL=mongodb://localhost:27017/mern-test node_modules/.bin/nyc node --harmony-proxies node_modules/.bin/ava",
+    "test": "mocha -w test/helpers/browser.js test/*",
+    "e2e": "nightwatch",
+    "e2e-setup": "selenium-standalone install",
+    "dev:hot": "webpack-dev-server --hot --inline --progress --colors --watch --display-error-details --display-cached --content-base ./",
     "watch:test": "npm run test -- --watch",
     "cover": "nyc npm run test",
     "check-coverage": "nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
@@ -17,7 +20,12 @@
     "slate": "rimraf node_modules && npm install"
   },
   "dependencies": {
-    "babel-core": "^6.9.1",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-airbnb": "^2.4.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "body-parser": "^1.15.1",
     "compression": "^1.6.2",
     "cross-env": "^1.0.8",
@@ -44,7 +52,7 @@
     "babel-loader": "^6.2.4",
     "babel-plugin-webpack-loaders": "^0.7.0",
     "babel-polyfill": "^6.9.1",
-    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2015-native-modules": "^6.6.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-optimize": "^1.0.1",
@@ -60,8 +68,9 @@
     "eventsource-polyfill": "^0.9.6",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
-    "jsdom": "^9.2.1",
+    "jsdom": "^9.12.0",
     "json-loader": "^0.5.4",
+    "mocha": "^4.0.1",
     "mock-css-modules": "^1.0.0",
     "mockgoose": "^6.0.3",
     "nock": "^8.0.0",
@@ -73,13 +82,14 @@
     "postcss-loader": "^0.9.1",
     "postcss-reporter": "^1.3.3",
     "pre-commit": "^1.1.3",
-    "react-addons-test-utils": "^15.1.0",
+    "react-addons-test-utils": "^15.6.2",
     "react-hot-loader": "^3.0.0-beta.2",
     "redux-ava": "^2.0.0",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.0.11",
     "rimraf": "^2.5.2",
+    "selenium-standalone": "^6.11.0",
     "sinon": "^1.17.4",
     "style-loader": "^0.13.1",
     "supertest": "^1.2.0",
@@ -129,5 +139,9 @@
       "text",
       "html"
     ]
-  }
+  },
+  "main": "index.js",
+  "repository": "git@github.com:msoeSE/legalAidFinder.git",
+  "author": "Ben Wozniak <wozniakbe@msoe.edu>",
+  "license": "MIT"
 }

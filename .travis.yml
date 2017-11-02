@@ -16,7 +16,6 @@ before_script:
 script:
   - sudo docker build -t legal-aid-finder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .
   - npm test
-  - npm run e2e
   # - sudo docker-compose pull
   # - sudo docker-compose build --no-cache
 after_success:

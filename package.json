@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Web application used to find free/low cost legal services in Wisconsin",
   "scripts": {
-    "test": "mocha test/*.test.js --require ignore-styles --require babel-register",
+    "test": "mocha --require ignore-styles --require babel-register",
     "dev:hot": "webpack-dev-server --hot --inline --progress --colors --watch --display-error-details --display-cached --content-base ./",
     "e2e": "nightwatch -e chrome",
     "e2e-setup": "selenium-standalone install",
@@ -72,7 +72,8 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "ignore-styles": "^5.0.1",
-    "jsdom": "^9.12.0",
+    "jsdom": "9.12.0",
+    "jsdom-global": "3.0.2",
     "json-loader": "^0.5.4",
     "mocha": "^4.0.1",
     "mock-css-modules": "^1.0.0",

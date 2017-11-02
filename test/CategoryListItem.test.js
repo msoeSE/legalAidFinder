@@ -8,12 +8,7 @@ const minProps = {
   category: {
     name: "Category1",
     parent: "Category0",
-    subcategories: [{category: {
-      name: "Category2",
-      parent: "Category1",
-      subcategories: [],
-      _id: "002"
-    }}],
+    subcategories: ["002"],
     _id: "001",
   }
 };
@@ -26,11 +21,12 @@ describe('<CategoryListItem/>', function () {
       ).length).toEqual(1);
   });
 
-  /*it('should have a category', function () {
-    const wrapper = shallow(<CategoryListItem {...minProps} />);
-
-    expect(wrapper.prop('category')).toBeDefined();
-  });*/
+  it('has a category', () =>{
+    expect(
+      shallow(
+        <CategoryListItem {...minProps} />
+      ).instance().props.category).toBe(minProps.category);
+  });
 
   it('links to its category', function(){
     const wrapper = shallow(<CategoryListItem {...minProps} />);

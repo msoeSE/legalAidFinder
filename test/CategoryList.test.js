@@ -7,7 +7,8 @@ var CategoryList = require('../client/modules/Category/components/CategoryList.j
 
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
 global.document = doc;
-global.window = doc.defaultView;
+global.window = doc.defaultView; // This is needed for using mount rather than shallow.
+                                 // Keeping it here for future use. -bw
 
 const minProps = {
   categories: [{
@@ -46,13 +47,12 @@ describe('<CategoryList/>', function () {
       ).instance().props.categories).toBe(minProps.categories);
   });
 
-  /*it('renders multiple <CategoryListItem/>s', function(){
-    const wrapper = mount(<CategoryList {...minProps} />);
+  it('renders a list view', function(){
+    const wrapper = shallow(<CategoryList {...minProps} />);
 
-  console.log(wrapper);
     expect(
-      wrapper.find('CategoryListItem').exists()
+      wrapper.find('.listView').exists()
     ).toEqual(true);
-  });*/
+  });
 
 });

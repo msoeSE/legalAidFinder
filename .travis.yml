@@ -8,10 +8,6 @@ env:
 node_js:
   - '7'
 before_install:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-addons:
-  chrome: stable
-before_script:
   #
 script:
   - sudo docker build -t legal-aid-finder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .

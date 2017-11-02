@@ -144,9 +144,5 @@
       "text",
       "html"
     ]
-  },
-  "main": "index.js",
-  "repository": "git@github.com:msoeSE/legalAidFinder.git",
-  "author": "Ben Wozniak <wozniakbe@msoe.edu>",
-  "license": "MIT"
+  }
 }

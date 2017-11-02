@@ -18,7 +18,7 @@ const agenciesSchema = new Schema({
   _id: { type: Schema.Types.ObjectId },
   name: { type: 'String', required: true },
   categories: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
-  url: { type: 'String', required: true },
+  url: { type: 'String' },
 }, { versionKey: false });
 const Agency = mongoose.model('import_agencies', agenciesSchema);
 const categoriesSchema = new Schema({
@@ -62,7 +62,6 @@ function mainCategoryCreator(name) {
       callback(null, name);
     });
   });
-  // console.log(`Main Category Created: ${newCategory.name}`);
   categoryStack.push({ name: newCategory.name, _id: newCategory._id });
 }
 
@@ -87,24 +86,26 @@ function subCategoryCreator(name, parentId) {
       callback(null, name);
     });
   });
-  // console.log(`Sub Category Created: ${newCategory.name}`);
-  // console.log(`    Parent Update: ${getLastCategory().name}`);
   categoryStack.push({ name: newCategory.name, _id: newCategory._id });
 }
 
 function createAgency(name) {
-  // const newAgency = new Agency();
-  // var nameAndUrl = name.split(':');
-  // newAgency._id = mongoose.Types.ObjectId();
-  // newAgency.name = nameAndUrl[0];
-  // newAgency.url = nameAndUrl[1];
-  // newAgency.save((error, saved) => {
-  //   if (error) {
-  //     console.log(error);
-  //   }
-  //   console.log(saved);
-  //   agenciesMap.set(newAgency.name, newAgency._id);
-  // });
+  const newAgency = new Agency();
+  var nameAndUrl = name.split(':');
+  newAgency._id = mongoose.Types.ObjectId();
+  newAgency.name = nameAndUrl[0];
+  if (nameAndUrl.length > 1){
+    newAgency.url = nameAndUrl[1];
+  } else {
+    newAgency.url = `https://www.google.com/search?q=${nameAndUrl[0]}`;
+  }
+  newAgency.save((error, saved) => {
+    if (error) {
+      console.log(error);
+    }
+    console.log(saved);
+    agenciesMap.set(newAgency.name, newAgency._id);
+  });
 }
 
 function addAgencyToSubCategory(agencyNameAndUrl, parentId) {

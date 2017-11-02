@@ -5,7 +5,7 @@
   "scripts": {
     "test": "mocha test/*.test.js --require ignore-styles --require babel-register",
     "dev:hot": "webpack-dev-server --hot --inline --progress --colors --watch --display-error-details --display-cached --content-base ./",
-    "e2e": "nightwatch",
+    "e2e": "nightwatch -e chrome",
     "e2e-setup": "selenium-standalone install",
     "watch:test": "npm run test -- --watch",
     "cover": "nyc npm run test",

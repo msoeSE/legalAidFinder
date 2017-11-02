@@ -2,7 +2,7 @@
 module.exports = {
   'Load home screen' : function (browser) {
     browser
-      .url(browser.launchUrl)
+      .url('http://ec2-54-187-102-77.us-west-2.compute.amazonaws.com/')
       .waitForElementVisible('body', 1000);
   },
 

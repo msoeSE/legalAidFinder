@@ -27,8 +27,9 @@ export function getCategories(req, res) {
     .exec((err, categories) => {
       if (err) {
         res.status(500).send(err);
+      } else {
+        res.json({ categories });
       }
-      res.json({ categories });
     });
 }
 
@@ -92,7 +93,7 @@ export function getCategory(req, res) {
         res.status(500).send(err);
       }
       res.json({ category });
-  });
+    });
 }
 
 /**

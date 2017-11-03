@@ -10,16 +10,6 @@ node_js:
 before_install:
   #
 script:
-  - sudo docker build -t legal-aid-finder -t $REPO:$TRAVIS_BUILD_NUMBER -f Dockerfile .
   - npm test
-  # - sudo docker-compose pull
-  # - sudo docker-compose build --no-cache
 after_success:
-  - pip install --user awscli
-  - export PATH=$PATH:$HOME/.local/bin
-  - aws ecr create-repository --repository-name $REPO --region us-west-2
-  - eval $(aws ecr get-login --region us-west-2)
-  - docker tag $REPO:$TRAVIS_BUILD_NUMBER $AWS_ACCOUNT_NUMBER.dkr.ecr.us-west-2.amazonaws.com/$REPO:$TRAVIS_BUILD_NUMBER
-  - docker push $AWS_ACCOUNT_NUMBER.dkr.ecr.us-west-2.amazonaws.com/$REPO:$TRAVIS_BUILD_NUMBER
-  # - docker-compose push $AWS_ACCOUNT_NUMBER.dkr.ecr.us-west-2.amazonaws.com/$REPO:$TRAVIS_BUILD_NUMBER
-  #- './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
+  #

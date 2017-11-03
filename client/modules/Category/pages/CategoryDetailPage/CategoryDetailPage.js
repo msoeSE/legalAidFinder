@@ -13,6 +13,7 @@ import { fetchCategory } from '../../CategoryActions';
 // Import Selectors
 import { getCategory } from '../../CategoryReducer';
 import CategoryListItem from '../../components/CategoryListItem/CategoryListItem';
+import AgencyList from "../../../Agency/components/AgencyList";
 
 export class CategoryDetailPage extends React.Component {
   render() {
@@ -24,11 +25,7 @@ export class CategoryDetailPage extends React.Component {
           {this.props.category.subcategories.map((object, i) =>
             <CategoryListItem category={object} key={i} />
           )}
-          {this.props.category.agencies.map((agency, i) =>
-            <div key={i} className={`${styles['single-category']} ${styles['category-detail']}`}>
-              <a href={agency.url} className={styles['category-action']}>{agency.name}</a>
-            </div>
-          )}
+          <AgencyList agencies={this.props.category.agencies} category={this.props.category.name}/>
         </div>
       </div>
     );

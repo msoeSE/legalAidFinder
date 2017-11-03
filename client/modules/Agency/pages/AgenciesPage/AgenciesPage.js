@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet'
 
 // Import Components
 import AgencyList from '../../components/AgencyList';
@@ -16,7 +17,14 @@ class AgencyListPage extends React.Component {
   render() {
     return (
       <div>
-        Hello world
+        <Helmet title={this.props.agency.name} />
+        <div>
+        {this.props.category.agencies.map((agency, i) =>
+          <div key={i} className={`${styles['single-category']} ${styles['category-detail']}`}>
+            <a href={agency.url} className={styles['category-action']}>{agency.name}</a>
+          </div>
+        )}
+        </div>
         {/*<AgencyList agencies={this.props.agencies} category={this.props.agencies.categories} />*/}
       </div>
     );

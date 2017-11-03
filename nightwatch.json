@@ -1,0 +1,54 @@
+{
+  "src_folders" : ["tests"],
+  "output_folder" : "reports",
+  "custom_commands_path" : "",
+  "custom_assertions_path" : "",
+  "page_objects_path" : "",
+  "globals_path" : "",
+
+  "selenium" : {
+    "start_process" : true,
+    "server_path" : "node_modules/selenium-standalone/.selenium/selenium-server/3.6.0-server.jar",
+    "log_path" : "log",
+    "port" : 4445,
+    "cli_args" : {
+      "webdriver.chrome.driver" : "./bin/nightwatch/chromedriver.exe",
+      "webdriver.gecko.driver" : "./geckodriver.exe",
+      "webdriver.edge.driver" : ""}
+  },
+
+  "test_settings" : {
+    "default" : {
+      "launch_url" : "http://localhost:8000",
+      "selenium_port"  : 4445,
+      "selenium_host"  : "localhost",
+      "silent": true,
+      "screenshots" : {
+        "enabled" : false,
+        "path" : ""
+      },
+      "desiredCapabilities": {
+        "browserName": "phantomjs",
+        "javascriptEnabled" : true,
+        "acceptSslCerts" : true,
+        "phantomjs.binary.path" : "./phantomjs.exe",
+        "phantomjs.cli.args": ["--ignore-ssl-errors=true"]
+      }
+    },
+
+    "chrome" : {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "chromeOptions" : {
+          "args" : ["headless"]
+        }
+      }
+    },
+
+    "edge" : {
+      "desiredCapabilities": {
+        "browserName": "MicrosoftEdge"
+      }
+    }
+    }
+  }

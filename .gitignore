@@ -8,4 +8,6 @@ public/*
 dist
 coverage/
 .nyc_output/
+log/
+reports/
 docker.txt

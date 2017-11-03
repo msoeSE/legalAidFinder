@@ -11,6 +11,5 @@ ENV NODE_ENV production
 
 EXPOSE 8000
 
-CMD npm start
-#CMD ["npm", "run", "bs"]
+CMD npm run-script build && npm run-script build:server && npm run start:prod
 

@@ -17,23 +17,11 @@ export function Header(props, context) {
 
   return (
     <div className={styles.header}>
-      <div className={styles['language-switcher']}>
-        <ul>
-          <span style={{ margin: 10 + 'px' }}>Tool Bar</span>
-          {/*<li><FormattedMessage id="switchLanguage" /></li>*/}
-          {/*{languageNodes}*/}
-        </ul>
-      </div>
       <div className={styles.content}>
         <img className={styles.wiLogo} alt="Wisconsin" src="http://images.clipartpanda.com/wisconsin-clipart-wisconsin-outline-clipart-1.jpg" />
         <h1 className={styles['site-title']}>
           <Link to="/" ><FormattedMessage id="siteTitle" /></Link>
         </h1>
-        {/*{*/}
-          {/*context.router.isActive('/', true)*/}
-            {/*? <a className={styles['add-category-button']} href="#" onClick={props.toggleAddCategory}><FormattedMessage id="addCategory" /></a>*/}
-            {/*: null*/}
-        {/*}*/}
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ const agenciesSchema = new Schema({
   categories: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
   url: { type: 'String' },
 }, { versionKey: false });
-const Agency = mongoose.model('import_agencies', agenciesSchema);
+const Agency = mongoose.model('agencies', agenciesSchema);
 const categoriesSchema = new Schema({
   _id: { type: Schema.Types.ObjectId },
   name: { type: 'String', required: true },
@@ -28,7 +28,7 @@ const categoriesSchema = new Schema({
   subcategories: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
   agencies: [{ type: Schema.Types.ObjectId, ref: 'agencies' }],
 }, { versionKey: false });
-const Category = mongoose.model('import_categories', categoriesSchema);
+const Category = mongoose.model('categories', categoriesSchema);
 
 const readline = require('readline');
 const fs = require('fs');
@@ -77,6 +77,7 @@ function subCategoryCreator(name, parentId) {
       }
       console.log(saved);
       calls2.push(callback2 => {
+        console.log(newCategory);
         Category.update({ _id: parentId }, { $addToSet: { subcategories: newCategory._id } }, (error2, saved2) => {
           console.log(saved2);
           callback2(null, name);
@@ -90,22 +91,22 @@ function subCategoryCreator(name, parentId) {
 }
 
 function createAgency(name) {
-  const newAgency = new Agency();
-  var nameAndUrl = name.split(':');
-  newAgency._id = mongoose.Types.ObjectId();
-  newAgency.name = nameAndUrl[0];
-  if (nameAndUrl.length > 1){
-    newAgency.url = nameAndUrl[1];
-  } else {
-    newAgency.url = `https://www.google.com/search?q=${nameAndUrl[0]}`;
-  }
-  newAgency.save((error, saved) => {
-    if (error) {
-      console.log(error);
-    }
-    console.log(saved);
-    agenciesMap.set(newAgency.name, newAgency._id);
-  });
+  // const newAgency = new Agency();
+  // var nameAndUrl = name.split(':');
+  // newAgency._id = mongoose.Types.ObjectId();
+  // newAgency.name = nameAndUrl[0];
+  // if (nameAndUrl.length > 1){
+  //   newAgency.url = nameAndUrl[1];
+  // } else {
+  //   newAgency.url = `https://www.google.com/search?q=${nameAndUrl[0]}`;
+  // }
+  // newAgency.save((error, saved) => {
+  //   if (error) {
+  //     console.log(error);
+  //   }
+  //   console.log(saved);
+  //   agenciesMap.set(newAgency.name, newAgency._id);
+  // });
 }
 
 function addAgencyToSubCategory(agencyNameAndUrl, parentId) {
@@ -127,6 +128,7 @@ const rl = readline.createInterface({
 
 var lastCategory;
 rl.on('line', line => {
+  console.log(lastCategory);
   if (isHeader === true) {
     headers = line.split('\t');
     headers.forEach(value => {

@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
-import keyComparatorValue from './key_comparator_value';
+import keyComparatorValue from './keyComparatorValue';
 
 const Schema = mongoose.Schema;
 
 const eligibilitySchema = new Schema({
   _id: { type: Schema.Types.ObjectId },
-  category_id: { type: Schema.Types.ObjectId, ref: 'categories' },
-  agency_id: { type: Schema.Types.ObjectId, ref: 'agencies' },
+  category: { type: Schema.Types.ObjectId, ref: 'categories' },
+  agency: { type: Schema.Types.ObjectId, ref: 'agencies' },
   key_comparator_value: [keyComparatorValue],
 });
 

@@ -6,7 +6,7 @@ const categoriesSchema = new Schema({
   name: { type: 'String', required: true },
   parent: { type: Schema.Types.ObjectId, default: null },
   subcategories: [{ type: Schema.Types.ObjectId, ref: 'import_categories' }],
-  agencies: [{type: Schema.Types.ObjectId, ref: 'agencies' }],
+  agencies: [{type: Schema.Types.ObjectId, ref: 'import_agencies' }],
 });
 
 export default mongoose.model('import_categories', categoriesSchema);

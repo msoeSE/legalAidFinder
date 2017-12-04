@@ -9,7 +9,7 @@ import KeyComparatorValue from '../models/keyComparatorValue';
  * @returns void
  */
 export function getAgencyEligibility(req, res) {
-  Eligibility.find({ agency: req.body.agency})
+  Eligibility.find({ agency: req.body.agency })
     .populate('agency')
     .populate('category')
     .exec((err, eligibility) => {
@@ -38,19 +38,38 @@ export function addEligibility(req, res) {
     value: req.body.value,
   });
 
-  const newEligibility = new Eligibility({
-    _id: new mongoose.Types.ObjectId(),
-    agency: req.body.agency,
-    category: req.body.category,
-    key_comparator_value: newKCV,
-  });
+  Eligibility.findOne({ agency: req.body.agency, category: req.body.category })
+    .populate('agency')
+    .populate('category')
+    .exec((err, eligibility) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        if (eligibility === null) {
+          const newEligibility = new Eligibility({
+            _id: new mongoose.Types.ObjectId(),
+            agency: req.body.agency,
+            category: req.body.category,
+            key_comparator_value: newKCV,
+          });
 
-  newEligibility.save((err) => {
-    if (err) {
-      return err;
-    }
-    return true;
-  });
+          newEligibility.save((error) => {
+            if (error) {
+              return error;
+            }
+            return true;
+          });
+        } else {
+          eligibility.key_comparator_value.push(newKCV);
+          eligibility.save((error) => {
+            if (error) {
+              return error;
+            }
+            return true;
+          });
+        }
+      }
+    });
 }
 
 /**

@@ -1,43 +1,63 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 // Import Style
 import styles from './EligibilityCreator.css';
 
 class EligibilityCreator extends React.Component {
-  addCategory = () => {
-    const nameRef = this.refs.name;
-    const parentRef = this.refs.parent;
+  constructor() {
+    super();
+    this.state = { keyValue: 'Income (% of FPL)', comparatorValue: '<' };
+  }
 
-    if (nameRef.value) {
-      this.props.addCategory(nameRef.value, parentRef.value);
-      nameRef.value = parentRef.value = '';
+  handleKeyChange = (e) => {
+    this.state.keyValue = e.target.value;
+  };
+
+  handleComparatorChange = (e) => {
+    this.state.comparatorValue = e.target.value;
+  };
+
+  addEligibility = () => {
+    const valueRef = this.refs.value;
+    alert(`${this.state.keyValue} ${this.state.comparatorValue} ${valueRef.value}`);
+    if (this.state.keyValue && this.state.comparatorValue && valueRef.value) {
+      this.props.addEligibility(this.state.keyValue, this.state.comparatorValue, valueRef.value);
+      this.state.keyValue = this.state.comparatorValue = valueRef.value = '';
     }
   };
+
   render() {
     return (
-      <div className={`${styles['single-category']}`}>
-        <h3 className={styles['category-btn']}>
-          {<Link className={styles['category-btn']} to={`/categories/${this.props.category._id}`}>
-            {this.props.category.name}
-          </Link>}
-        </h3>
+      <div>
+        <div className={styles['form-content']}>
+          <h2 className={styles['form-title']}>Create new eligibility criteria:</h2>
+          <select name="key" className={styles['form-field']} onChange={this.handleKeyChange} >
+            <option value="Income (% of FPL)">Income (% of FPL)</option>
+            <option value="Age">Age</option>
+            <option value="Disability">Disability</option>
+            <option value="Veteran">Veteran</option>
+          </select>
+          <select name="comparator" className={styles['form-field']} onChange={this.handleComparatorChange}>
+            <option value="<">&lt;</option>
+            <option value="≤">≤</option>
+            <option value=">">&gt;</option>
+            <option value="≥">≥</option>
+            <option value="=">=</option>
+          </select>
+          <input placeholder="Value" className={styles['form-field']} ref="value" />
+          <button className={styles['eligibility-submit-button']} onClick={this.addEligibility}>Submit</button>
+        </div>
       </div>
     );
   }
 }
 
 EligibilityCreator.propTypes = {
+  addEligibility: PropTypes.func.isRequired,
   eligibility: PropTypes.shape({
     category: PropTypes.string.isRequired,
     agency: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired,
-    key_comparator_value:{
-      key: PropTypes.string.isRequired,
-      comparator: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    },
   }).isRequired,
 };
 

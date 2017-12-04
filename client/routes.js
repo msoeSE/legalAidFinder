@@ -47,5 +47,13 @@ export default (
         });
       }}
     />
+    <Route
+      path="/agency/:name"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/Agency/pages/AgenciesPage/AgenciesPage.1').default);
+        });
+      }}
+    />
   </Route>
 );

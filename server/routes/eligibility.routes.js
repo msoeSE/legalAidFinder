@@ -4,15 +4,15 @@ import * as EligibilityController from '../controllers/eligibility.controller';
 const router = new Router();
 
 // Get all ParentPosts
-router.route('/agency_eligibities/:_id').get(EligibilityController.getAgencyEligibility);
+router.route('/agency_eligibilities/:_id').get(EligibilityController.getAgencyEligibility);
 
 // Get one category by _id
-router.route('/eligibity/:_id').get(EligibilityController.getEligibility);
+router.route('/eligibility/:_id').get(EligibilityController.getEligibility);
 
 // Add a new Category
-router.route('/eligibity').post(EligibilityController.addEligibility);
+router.route('/eligibility').post(EligibilityController.addEligibility);
 
 // Delete a category by cuid
-router.route('/eligibity/:_id').delete(EligibilityController.deleteEligibility);
+router.route('/eligibility/:_id').delete(EligibilityController.deleteEligibility);
 
 export default router;

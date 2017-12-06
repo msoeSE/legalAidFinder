@@ -33,6 +33,7 @@ import Helmet from 'react-helmet';
 import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
 import categories from './routes/category.routes';
+import eligibility from './routes/eligibility.routes';
 import agencies from './routes/agency.routes';
 // import dummyData from './dummyData';
 import serverConfig from './config';
@@ -56,7 +57,8 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
-app.use('/api', categories); // categories
+app.use('/api', categories); // categories routes
+app.use('/api', eligibility); // eligibility routes
 // app.use('/api', agencies);
 
 // Render Initial HTML

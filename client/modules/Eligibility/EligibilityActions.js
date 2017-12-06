@@ -16,7 +16,7 @@ export function addEligibility(eligibility) {
 export function addEligibilityRequest(eligibility) {
   return (dispatch) => {
     return callApi(
-      'eligibity',
+      'eligibility',
       'post',
       // eligibility: {
       //   name: eligibility.name,

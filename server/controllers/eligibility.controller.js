@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import Eligibility from '../models/eligibility';
-import KeyComparatorValue from '../models/keyComparatorValue';
 
 /**
  * Get all eligibility for an agency
@@ -10,8 +9,6 @@ import KeyComparatorValue from '../models/keyComparatorValue';
  */
 export function getAgencyEligibility(req, res) {
   Eligibility.find({ agency: req.body.agency })
-    .populate('agency')
-    .populate('category')
     .exec((err, eligibility) => {
       if (err) {
         res.status(500).send(err);
@@ -32,15 +29,13 @@ export function addEligibility(req, res) {
     res.status(403).end();
   }
 
-  const newKCV = new KeyComparatorValue({
+  const newKCV = {
     key: req.body.key,
     comparator: req.body.comparator,
     value: req.body.value,
-  });
+  };
 
   Eligibility.findOne({ agency: req.body.agency, category: req.body.category })
-    .populate('agency')
-    .populate('category')
     .exec((err, eligibility) => {
       if (err) {
         res.status(500).send(err);
@@ -57,6 +52,7 @@ export function addEligibility(req, res) {
             if (error) {
               return error;
             }
+            res.json({ newEligibility });
             return true;
           });
         } else {
@@ -65,7 +61,7 @@ export function addEligibility(req, res) {
             if (error) {
               return error;
             }
-            return true;
+            res.json({ eligibility });
           });
         }
       }

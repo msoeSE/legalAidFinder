@@ -11,7 +11,7 @@ tag = "legalaidfinder/laf:" + str(sys.argv[1])
 
 # Build and tag image
 s.call(["docker-compose", "build"])
-s.call(["docker", "tag", "legalaidfinder/laf:latest", tag])
+s.call(["docker", "tag", "legalaidfinder_web:latest", tag])
 
 # Docker login to allow push to registry
 if os.name == 'nt':

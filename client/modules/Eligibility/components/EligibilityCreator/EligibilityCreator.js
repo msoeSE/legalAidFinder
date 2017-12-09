@@ -47,7 +47,7 @@ class EligibilityCreator extends React.Component {
             <option value="=">=</option>
           </select>
           <input placeholder="Value" className={styles['form-field']} ref="value" />
-          <button className={styles['eligibility-submit-button']} onClick={this.addEligibility}>Submit</button>
+          <button id="submitButton" className={styles['eligibility-submit-button']} onClick={this.addEligibility}>Submit</button>
         </div>
       </div>
     );

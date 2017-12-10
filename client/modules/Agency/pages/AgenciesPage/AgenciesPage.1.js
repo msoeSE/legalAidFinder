@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet'
 
 // Import Components
-import AgencyList from '../../components/AgencyList';
+import AgencyCategoryTree from '../../components/AgencyCategoryTree/AgencyCategoryTree';
 
 // Import Actions
 import { fetchAgencies } from '../../AgencyActions';
@@ -14,18 +14,29 @@ import { getAgencies } from '../../AgencyReducer';
 import {getCategories} from "../../../Category/CategoryReducer";
 
 class AgencyListPage extends React.Component {
+  componentWillMount() {
+    if(typeof window !== 'undefined') { 
+    const script = document.createElement("script");
+
+    script.src = "https://use.fontawesome.com/af1114b3c3.js";
+    script.async = true;
+
+    document.body.appendChild(script);}
+  }
+  
   render() {
     return (
       <div>
-        {
+        <AgencyCategoryTree />
+        {/*
           this.props.agencies.map(agency => {
             return agency.id === id ?
             <AgencyCategoryTree 
-              single_agency={agency} 
+              
             />
             : null
           })
-        } 
+        */} 
       </div>
     );
   }

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 // Import Components
 import CategoryList from '../../components/CategoryList';
 import CategoryCreateWidget from '../../components/CategoryCreateWidget/CategoryCreateWidget';
+import AgencyCategoryTree from '../../../Agency/components/AgencyCategoryTree/AgencyCategoryTree'
 
 // Import styles
 import styles from '../../components/CategoryListItem/CategoryListItem.css';
@@ -41,6 +42,7 @@ class CategoryListPage extends Component {
         </div>
         {/* <CategoryCreateWidget addCategory={this.handleAddCategory} showAddCategory={this.props.showAddCategory} /> */}
         <CategoryList categories={this.props.categories} />
+        <AgencyCategoryTree categories={this.props.categories} agencyid='5a04d2e3ec140922c08a6713'/>
       </div>
     );
   }

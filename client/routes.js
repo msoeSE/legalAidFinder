@@ -51,7 +51,7 @@ export default (
       path="/agency"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
-          cb(null, require('./modules/Agency/pages/AgenciesPage/AgenciesPage.1').default);
+          cb(null, require('./modules/Agency/pages/AgenciesPage/AgenciesPage1').default);
         });
       }}
     />

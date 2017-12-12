@@ -1,37 +1,35 @@
 import React, { Component, PropTypes } from 'react';
 
 class Checkbox extends Component {
-  state = {
+  /*state = {
     isChecked: false,
-  }
+  }*/
 
   toggleCheckboxChange = () => {
     const { handleCheckboxChange, label } = this.props;
 
-    this.setState(({ isChecked }) => (
+    /*this.setState(({ isChecked }) => (
       {
         isChecked: !isChecked,
       }
-    ));
+    ));*/
 
     handleCheckboxChange(label);
   }
 
   render() {
-    const { label } = this.props;
-    const { isChecked } = this.state;
 
     return (
       <div className="checkbox">
         <label>
           <input
             type="checkbox"
-            value={label}
-            checked={isChecked}
+            value={this.props.key}
+            checked={this.props.checked}
             onChange={this.toggleCheckboxChange}
           />
 
-          {'\t'+label}
+          {'\t' + this.props.label}
         </label>
       </div>
     );
@@ -41,6 +39,7 @@ class Checkbox extends Component {
 Checkbox.propTypes = {
   label: PropTypes.string.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
+  checked: PropTypes.bool,
 };
 
 export default Checkbox;

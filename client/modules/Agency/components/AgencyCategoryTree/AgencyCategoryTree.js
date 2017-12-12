@@ -22,25 +22,21 @@ import './AgencyCategoryTree.css';
 var items = [];
 
 class AgencyCategoryTree extends React.Component {
-    /*constructor() {
-        super();
-
-        this.state = {
-            checked: [],
-            expanded: [],
-        };
-    }*/
-
     getNodes() {
         this.props.categories.map(category => {
-            //console.log(category)
+            // If child node
             if(category.subcategories.length === 0) {
                 for(var i = 0; i < category.agencies.length; i++) {
+                    // If matches agency, check the box
                     if(category.agencies[i]._id === this.props.agencyid) {
-                        //console.log('Yes, ' + category.name)
-                        items.push(category.name)
+                        items.push({category: category, child: true, checked: true})
+                    } else {
+                        items.push({category: category, child: true, checked: false})
                     }
                 }
+            } else {
+                // Parent node
+                items.push({category: category, child: false, checked: false})
             }
         })
     }
@@ -51,16 +47,8 @@ class AgencyCategoryTree extends React.Component {
             <div>
                 <form onSubmit={this.handleFormSubmit}>
                     {this.createCheckboxes()}
-
                     <button className="btn btn-default" type="submit">Save</button>
                 </form>
-                {/*<CheckboxTree
-                    nodes={nodes}
-                    checked={this.state.checked}
-                    expanded={this.state.expanded}
-                    onCheck={checked => this.setState({ checked })}
-                    onExpand={expanded => this.setState({ expanded })}
-                />*/}
             </div>
         );
     }
@@ -85,13 +73,23 @@ class AgencyCategoryTree extends React.Component {
         }
     }
 
-    createCheckbox = label => (
-        <Checkbox
-            label={label}
-            handleCheckboxChange={this.toggleCheckbox}
-            key={label}
-        />
-    )
+    createCheckbox = box => {
+        console.log(box.child)
+        if (box.child) {
+            return (
+                <Checkbox
+                    label={box.category.name}
+                    handleCheckboxChange={this.toggleCheckbox}
+                    key={box.category._id}
+                    checked={box.checked}
+                />
+            )
+        } else {
+            return (
+                <label>{box.category.name}</label>
+            )
+        }
+    }
 
     createCheckboxes = () => (
         items.map(this.createCheckbox)

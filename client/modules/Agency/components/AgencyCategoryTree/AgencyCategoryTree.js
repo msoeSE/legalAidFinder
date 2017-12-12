@@ -1,11 +1,13 @@
 import React from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import PropTypes, { func } from 'prop-types';
+import Checkbox from './Checkbox'
+
 
 // Import Style
 import './AgencyCategoryTree.css';
 
-const nodes = [{
+/*const nodes = [{
     value: 'mars',
     label: 'Mars',
     children: [
@@ -15,24 +17,29 @@ const nodes = [{
         ] },
         { value: 'deimos', label: 'Deimos' },
     ],
-}];
+}];*/
+
+var items = [];
 
 class AgencyCategoryTree extends React.Component {
-    constructor() {
+    /*constructor() {
         super();
 
         this.state = {
             checked: [],
             expanded: [],
         };
-    }
+    }*/
 
     getNodes() {
         this.props.categories.map(category => {
-            if(category.agencies.length > 1) {
+            //console.log(category)
+            if(category.subcategories.length === 0) {
                 for(var i = 0; i < category.agencies.length; i++) {
-                    if(category.agencies[i]._id === this.props.agencyid)
-                        console.log(category.agencies[i].name)
+                    if(category.agencies[i]._id === this.props.agencyid) {
+                        //console.log('Yes, ' + category.name)
+                        items.push(category.name)
+                    }
                 }
             }
         })
@@ -42,16 +49,53 @@ class AgencyCategoryTree extends React.Component {
         this.getNodes()
         return (
             <div>
-                <CheckboxTree
+                <form onSubmit={this.handleFormSubmit}>
+                    {this.createCheckboxes()}
+
+                    <button className="btn btn-default" type="submit">Save</button>
+                </form>
+                {/*<CheckboxTree
                     nodes={nodes}
                     checked={this.state.checked}
                     expanded={this.state.expanded}
                     onCheck={checked => this.setState({ checked })}
                     onExpand={expanded => this.setState({ expanded })}
-                />
+                />*/}
             </div>
         );
     }
+
+    componentWillMount = () => {
+        this.selectedCheckboxes = new Set();
+    }
+
+    toggleCheckbox = label => {
+        if (this.selectedCheckboxes.has(label)) {
+            this.selectedCheckboxes.delete(label);
+        } else {
+            this.selectedCheckboxes.add(label);
+        }
+    }
+
+    handleFormSubmit = formSubmitEvent => {
+        formSubmitEvent.preventDefault();
+
+        for (const checkbox of this.selectedCheckboxes) {
+            console.log(checkbox, 'is selected.');
+        }
+    }
+
+    createCheckbox = label => (
+        <Checkbox
+            label={label}
+            handleCheckboxChange={this.toggleCheckbox}
+            key={label}
+        />
+    )
+
+    createCheckboxes = () => (
+        items.map(this.createCheckbox)
+    )
 }
 
 AgencyCategoryTree.propTypes = {

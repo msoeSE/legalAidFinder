@@ -42,7 +42,7 @@ class CategoryListPage extends Component {
         </div>
         {/* <CategoryCreateWidget addCategory={this.handleAddCategory} showAddCategory={this.props.showAddCategory} /> */}
         <CategoryList categories={this.props.categories} />
-        <AgencyCategoryTree categories={this.props.categories} agencyid='5a04d2e3ec140922c08a6713'/>
+        <AgencyCategoryTree categories={this.props.categories} agencyId='5a04d2e3ec140922c08a6713' dispatch={this.props.dispatch}/>
       </div>
     );
   }

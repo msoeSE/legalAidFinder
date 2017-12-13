@@ -4,6 +4,7 @@ import callApi from '../../util/apiCaller';
 export const ADD_CATEGORY = 'ADD_CATEGORY';
 export const ADD_CATEGORIES = 'ADD_CATEGORIES';
 export const DELETE_CATEGORIES = 'DELETE_CATEGORIES';
+export const ADD_OR_REMOVE_CATEGORY = 'ADD_OR_REMOVE_CATEGORY';
 
 // Export Actions
 export function addCategory(category) {
@@ -30,6 +31,22 @@ export function addCategories(categories) {
   return {
     type: ADD_CATEGORIES,
     categories,
+  };
+}
+
+export function addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency) {
+  return (dispatch) => {
+    return callApi('categories/addAgency', 'post', {
+      agencyId,
+      categoryId,
+      pushAgency
+    }).then(res => dispatch(addOrRemoveAgencyFromCategory()));
+  };
+}
+
+export function addOrRemoveAgencyFromCategory() {
+  return {
+    type: ADD_OR_REMOVE_CATEGORY,
   };
 }
 

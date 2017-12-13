@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes, { func } from 'prop-types';
 import Checkbox from './Checkbox'
 
+import { addOrRemoveAgencyFromCategoryRequest } from '../../../Category/CategoryActions';
 
 // Import Style
 import './AgencyCategoryTree.css';
@@ -10,39 +11,11 @@ let items = [];
 let depth = 0;
 
 class AgencyCategoryTree extends React.Component {
-    getNodes() {
-        this.props.categories.map(category => {
-            // If child node
-            if(category.subcategories.length === 0) {
-                if(category.agencies.length === 0){
-                  items.push({category: category, child: true, checked: false})
-                } else {
-                    for (let i = 0; i < category.agencies.length; i++) {
-                        // If matches agency, check the box
-                        if (category.agencies[i]._id === this.props.agencyid) {
-                          items.push({category: category, child: true, checked: true})
-                        } else {
-                          items.push({category: category, child: true, checked: false})
-                        }
-                    }
-                }
-            } else {
-                // Parent node
-                items.push({category: category, child: false, checked: false})
-            }
-        })
-    }
-
-    // //called with every property and its value
-    // addToList(key, value) {
-    //   console.log(key + " : "+value);
-    // }
-
     traverse = (category) => {
       if (category.agencies && category.agencies.length > 0) {
         let contains = false;
-        category.agencies.forEach((element) => {
-          if(element._id === this.props.agencyid){
+        category.agencies.forEach((id) => {
+          if(id === this.props.agencyId){
             contains = true;
           }
         });
@@ -52,10 +25,10 @@ class AgencyCategoryTree extends React.Component {
         }else{
           items.push(this.createCheckbox(category, depth, false));
         }
-
       } else {
         items.push(this.createCheckbox(category, depth, false));
       }
+
       for (let key in category) {
         if (!category.hasOwnProperty(key))
           continue;
@@ -82,41 +55,19 @@ class AgencyCategoryTree extends React.Component {
       });
     }
 
-
     render() {
-        // this.getNodes();
         this.makeTree();
         return (
             <div>
-                <form onSubmit={this.handleFormSubmit}>
                     {items.map(stuff => {
                       return stuff
-                    })
-                    }
-                    <button className="btn btn-default" type="submit">Save</button>
-                </form>
+                    })}
             </div>
         );
     }
 
-    componentWillMount = () => {
-        this.selectedCheckboxes = new Set();
-    };
-
-    toggleCheckbox = label => {
-        if (this.selectedCheckboxes.has(label)) {
-            this.selectedCheckboxes.delete(label);
-        } else {
-            this.selectedCheckboxes.add(label);
-        }
-    };
-
-    handleFormSubmit = formSubmitEvent => {
-        formSubmitEvent.preventDefault();
-
-        for (const checkbox of this.selectedCheckboxes) {
-            console.log(checkbox, 'is selected.');
-        }
+    toggleCheckbox = (agencyId, categoryId, pushAgency) => {
+      this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
     };
 
     createCheckbox = (category, depth, checked) => {
@@ -127,20 +78,22 @@ class AgencyCategoryTree extends React.Component {
                     label={category.name}
                     handleCheckboxChange={this.toggleCheckbox}
                     key={category._id}
+                    agencyId={this.props.agencyId}
+                    categoryId={category._id}
                     checked={checked}
                 />
               </div>
             )
         } else {
             return (
-                <div style={{marginLeft: 10*depth + 'px'}}><label>{category.name}</label></div>
+                <div style={{marginLeft: 15*depth + 'px'}}><label>{category.name}</label></div>
             )
         }
     };
 
-    createCheckboxes = () => (
-        items.map(this.createCheckbox)
-    )
+    // createCheckboxes = () => (
+    //     items.map(this.createCheckbox)
+    // )
 }
 
 AgencyCategoryTree.propTypes = {
@@ -151,7 +104,8 @@ AgencyCategoryTree.propTypes = {
         _id: PropTypes.string.isRequired,
         agencies: PropTypes.array,
     })).isRequired,
-    agencyid: PropTypes.string,
+    agencyId: PropTypes.string,
+    dispatch: PropTypes.func.isRequired,
 };
 
 export default AgencyCategoryTree;

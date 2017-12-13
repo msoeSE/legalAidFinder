@@ -6,18 +6,16 @@ import styles from './AgencyCategoryTree.css';
 class Checkbox extends Component {
   state = {
     isChecked: this.props.checked,
-  }
+  };
 
   toggleCheckboxChange = () => {
-    const { handleCheckboxChange, label } = this.props;
-
     this.setState(({ isChecked }) => (
       {
         isChecked: !isChecked,
       }
     ));
 
-    handleCheckboxChange(label);
+    this.props.handleCheckboxChange(this.props.agencyId, this.props.categoryId, !this.state.isChecked);
   };
 
   render() {
@@ -43,7 +41,9 @@ class Checkbox extends Component {
 Checkbox.propTypes = {
   label: PropTypes.string.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
-  checked: PropTypes.bool,
+  checked: PropTypes.bool.isRequired,
+  agencyId: PropTypes.string.isRequired,
+  categoryId: PropTypes.string.isRequired,
 };
 
 export default Checkbox;

@@ -1,4 +1,4 @@
-import { ADD_CATEGORY, ADD_CATEGORIES, DELETE_CATEGORIES } from './CategoryActions';
+import { ADD_CATEGORY, ADD_CATEGORIES, DELETE_CATEGORIES, ADD_OR_REMOVE_CATEGORY } from './CategoryActions';
 
 // Initial State
 const initialState = { data: [] };
@@ -6,6 +6,11 @@ const initialState = { data: [] };
 const CategoryReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_CATEGORY :
+      return {
+        data: [action.category, ...state.data],
+      };
+
+    case ADD_OR_REMOVE_CATEGORY :
       return {
         data: [action.category, ...state.data],
       };

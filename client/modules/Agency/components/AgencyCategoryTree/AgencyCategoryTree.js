@@ -5,7 +5,7 @@ import Checkbox from './Checkbox'
 import { addOrRemoveAgencyFromCategoryRequest } from '../../../Category/CategoryActions';
 
 // Import Style
-import './AgencyCategoryTree.css';
+import styles from './AgencyCategoryTree.css';
 
 let items = [];
 let depth = 0;
@@ -17,8 +17,8 @@ class AgencyCategoryTree extends React.Component {
     // Check if the agency exists in a leaf node
     if (category.agencies && category.agencies.length > 0) {
       let contains = false;
-      category.agencies.forEach((id) => {
-        if (id === this.props.agencyId) {
+      category.agencies.forEach((agency) => {
+        if (agency._id === this.props.agencyId) {
           contains = true;
         }
       });
@@ -32,7 +32,11 @@ class AgencyCategoryTree extends React.Component {
 
     } else {
       // Create branch node (label)
-      items.push(this.createCheckbox(category, depth, false));
+      if(category.parent === null){
+        items.push(this.createCheckbox(category, depth, false, true));
+      } else {
+        items.push(this.createCheckbox(category, depth, false));
+      }
     }
 
     // Iterate though all keys in the category object
@@ -44,15 +48,25 @@ class AgencyCategoryTree extends React.Component {
         if (category[key] !== null && typeof(category[key]) === "object") {
           //going one step down in the object tree!!
           ++depth;
+
           category[key].forEach((element) => {
-            this.traverse(element);
+            if(typeof(element) === "string"){
+              this.traverse(this.findCategory(element));
+            } else {
+              this.traverse(this.findCategory(element._id));
+            }
           });
+
           --depth;
         }
       }
     }
   };
 
+  findCategory = (categoryId) => {
+    let elementPos = this.props.categories.map(function(x) {return x._id;}).indexOf(categoryId);
+    return this.props.categories[elementPos];
+  };
 
   makeTree() {
     this.props.categories.map(category => {
@@ -63,29 +77,17 @@ class AgencyCategoryTree extends React.Component {
     });
   };
 
-  render() {
-    this.makeTree();
-    return (
-      <div>
-        {items.map(stuff => {
-          return stuff
-        })}
-      </div>
-    );
-  };
-
   toggleCheckbox = (agencyId, categoryId, pushAgency) => {
     this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
   };
 
-  createCheckbox = (category, depth, checked) => {
+  createCheckbox = (category, depth, checked, isTopParent = false) => {
     if (category.subcategories && category.subcategories.length === 0) {
       return (
-        <div style={{marginLeft: 15 * depth + 'px'}}>
+        <div key={category._id} style={{marginLeft: 25 * depth + 'px'}}>
           <Checkbox
             label={category.name}
             handleCheckboxChange={this.toggleCheckbox}
-            key={category._id}
             agencyId={this.props.agencyId}
             categoryId={category._id}
             checked={checked}
@@ -93,10 +95,32 @@ class AgencyCategoryTree extends React.Component {
         </div>
       )
     } else {
-      return (
-        <div style={{marginLeft: 15 * depth + 'px'}}><label>{category.name}</label></div>
-      )
+        if(isTopParent) {
+          return (
+            <div key={category._id} style={{marginLeft: 25 * depth + 'px'}}>
+              <h2 className={`${styles['underline']} ${styles['topParent']}`}>{category.name}</h2>
+            </div>
+          );
+        } else {
+          return (
+            <div key={category._id} style={{marginLeft: 25 * depth + 'px'}}>
+              <h4 className={`${styles['underline']}`}>{category.name}</h4>
+            </div>
+          );
+        }
     }
+  };
+
+  render() {
+    this.makeTree();
+    return (
+      <div>
+        <h1>Select which categories your agency can provide legal services for:</h1>
+        {items.map(item => {
+          return item
+        })}
+      </div>
+    );
   };
 }
 

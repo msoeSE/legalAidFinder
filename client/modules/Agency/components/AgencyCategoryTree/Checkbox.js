@@ -4,22 +4,32 @@ import React, { Component, PropTypes } from 'react';
 import styles from './AgencyCategoryTree.css';
 
 class Checkbox extends Component {
+  state = {
+    isChecked: this.props.checked,
+  }
 
   toggleCheckboxChange = () => {
     const { handleCheckboxChange, label } = this.props;
+
+    this.setState(({ isChecked }) => (
+      {
+        isChecked: !isChecked,
+      }
+    ));
 
     handleCheckboxChange(label);
   };
 
   render() {
-
+    const { label } = this.props;
+    const { isChecked } = this.state;
     return (
       <div>
         <label>
           <input
             type="checkbox"
             value={this.props.key}
-            checked={this.props.checked}
+            checked={isChecked}
             onChange={this.toggleCheckboxChange}
           />
 

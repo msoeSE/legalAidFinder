@@ -89,18 +89,6 @@ export function addAgencyToCategory(req, res) {
       res.send(saved);
     });
   });
-
-  // if(req.body.pushAgency){ // If we want to add agency to category
-  //   Categories.update(
-  //     { _id: req.body.categoryId },
-  //     { $addToSet: { agencies: req.body.agencyId } }
-  //   )
-  // } else { // We want to remove agencyId from category
-  //   Categories.update(
-  //     { _id:req.body.categoryId },
-  //     { $pull: { agencies: req.body.agencyId }}
-  //   )
-  // }
 }
 
 /**

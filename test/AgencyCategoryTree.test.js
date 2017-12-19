@@ -13,7 +13,15 @@ const minProps = {
                      "5a04f8d1f9c010051c0426d1",
                      "5a04f8d1f9c010051c0426f0",
                      "5a04f8d1f9c010051c0426e3"],
-                  "parent":null}],
+                  "parent":{ "_id": "5a04f8d1f9c010051c0426cb",
+                  "name": "Business & Work",
+                  "agencies":[],
+                  "subcategories":
+                    ["5a04f8d1f9c010051c0426cc",
+                     "5a04f8d1f9c010051c0426d1",
+                     "5a04f8d1f9c010051c0426f0",
+                     "5a04f8d1f9c010051c0426e3"],
+                  "parent":null}}],
     agencyid: '5a04f8d1f9c010051c0426cb'
 };
 

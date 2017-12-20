@@ -12,6 +12,9 @@ router.route('/categories/:_id').get(CategoryController.getCategory);
 // Add a new Category
 router.route('/categories').post(CategoryController.addCategory);
 
+// Edit an existing Category
+router.route('/categories/addAgency').post(CategoryController.addAgencyToCategory);
+
 // Delete a category by cuid
 router.route('/categories/:_id').delete(CategoryController.deleteCategory);
 

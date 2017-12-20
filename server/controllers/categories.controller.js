@@ -66,6 +66,32 @@ export function addCategory(req, res) {
 }
 
 /**
+ *
+ * @param req
+ * @param res
+ */
+export function addAgencyToCategory(req, res) {
+  if (!req.body.categoryId || !req.body.agencyId || req.body.pushAgency === null) {
+    res.status(403).end();
+  }
+
+  Categories.findById(req.body.categoryId, function (err, category) {
+    if (err) return handleError(err);
+
+    if (req.body.pushAgency){
+      category.agencies.addToSet(req.body.agencyId);
+    } else {
+      category.agencies.pull(req.body.agencyId);
+    }
+
+    category.save(function (err, saved) {
+      if (err) return handleError(err);
+      res.send(saved);
+    });
+  });
+}
+
+/**
  * Get a single category
  * @param req
  * @param res

@@ -13,6 +13,7 @@
     "marked": "^0.3.12",
     "mongoose": "^4.13.9",
     "nodemon": "^1.14.11",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",

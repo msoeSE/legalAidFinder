@@ -1,15 +1,10 @@
 language: node_js
-sudo: required
-dist: trusty
-env:
-  global:
-    - COMMIT=${TRAVIS_COMMIT::8}
-    - REPO=msoese/legal-aid-finder
 node_js:
-  - '7'
-before_install:
-  #
+  - 4
+  - 6
+cache:
+  directories:
+    - node_modules
+    - client/node_modules
 script:
-  - npm test
-after_success:
-  #
+  - cd client && npm i && npm test

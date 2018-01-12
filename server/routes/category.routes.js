@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as CategoryController from '../controllers/categories.controller';
 import * as AgencyController from '../controllers/agencies.controller';
+
 const router = new Router();
 
 // Get all ParentPosts

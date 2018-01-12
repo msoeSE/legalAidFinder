@@ -13,4 +13,4 @@ const eligibilitySchema = new Schema({
   }],
 });
 
-export default mongoose.model('eligibility', eligibilitySchema);
+export default mongoose.model('eligibilities', eligibilitySchema);

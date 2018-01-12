@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+#food-search {
+  margin-top: 5em;
+}
+
+.app-header {
+    background: #c5050c;
+    background-size: cover;
+    border-bottom: 1px solid #ccc;
+}
+
+.header-content {
+    width: 100%;
+    margin: auto;
+    padding: 16px 16px;
+    overflow: auto;
+    box-shadow: 1px 1px 1px 1px grey;
+}
+
+.header-title {
+    color: white;
+    margin-top: 29px;
+    margin-left: 10px;
+    font-weight: 300;
+    font-size: 42px;
+    float: left;
+}
+
+.header-login{
+    float: right;
+}
+
+/*.card{*/
+    /*height: 450px;*/
+/*}*/
+
+.card-holder{
+    margin: 25px;
+}

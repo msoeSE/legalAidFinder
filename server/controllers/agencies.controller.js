@@ -1,5 +1,4 @@
 import Agencies from '../models/agencies';
-import sanitizeHtml from 'sanitize-html';
 
 /**
  * Get all parent categories

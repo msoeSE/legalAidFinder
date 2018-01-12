@@ -1,5 +1,4 @@
 import Categories from '../models/categories';
-import sanitizeHtml from 'sanitize-html';
 
 /**
  * Get all parent categories
@@ -47,7 +46,7 @@ export function addCategory(req, res) {
   const newCategory = new Categories(req.body.category);
 
   // Let's sanitize inputs
-  newCategory.name = sanitizeHtml(newCategory.name);
+  //newCategory.name = sanitizeHtml(newCategory.name);
 
   Categories.findOne({ name: req.body.category.parent }).exec((err, parent) => {
     if (err) {

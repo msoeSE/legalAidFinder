@@ -1,13 +1,4 @@
 /* eslint-disable no-undef */
-function search(query, cb) {
-  return fetch(`api/food?q=${query}`, {
-    accept: "application/json"
-  })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb);
-}
-
 function getCategories(cb) {
   return fetch('api/categories', {
     accept: 'application/json',
@@ -32,5 +23,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { search, getCategories };
+const Client = { getCategories };
 export default Client;

@@ -9,9 +9,8 @@ body {
 }
 
 .app-header {
-    background: #c5050c;
+    background: rgb(68, 104, 176);
     background-size: cover;
-    border-bottom: 1px solid #ccc;
 }
 
 .header-content {
@@ -19,7 +18,6 @@ body {
     margin: auto;
     padding: 16px 16px;
     overflow: auto;
-    box-shadow: 1px 1px 1px 1px grey;
 }
 
 .header-title {

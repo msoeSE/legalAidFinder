@@ -9,25 +9,7 @@ import Login from './Login';
 import Header from './Header';
 
 class App extends Component {
-  state = {
-    selectedFoods: [],
-  };
-
-  removeFoodItem = (itemIndex) => {
-    const filteredFoods = this.state.selectedFoods.filter(
-      (item, idx) => itemIndex !== idx,
-    );
-    this.setState({ selectedFoods: filteredFoods });
-  };
-
-  addFood = (food) => {
-    const newFoods = this.state.selectedFoods.concat(food);
-    this.setState({ selectedFoods: newFoods });
-  };
-
   render() {
-    const { selectedFoods } = this.state;
-
     return (
       <div className='App'>
         <Header />
@@ -37,13 +19,6 @@ class App extends Component {
             <Route path='/login' component={Login} />
           </div>
         </div>
-        {/*<div className='ui text container'>*/}
-          {/*<SelectedFoods*/}
-            {/*foods={selectedFoods}*/}
-            {/*onFoodClick={this.removeFoodItem}*/}
-          {/*/>*/}
-          {/*<FoodSearch onFoodClick={this.addFood} />*/}
-        {/*</div>*/}
       </div>
     );
   }

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import {
   Route,
 } from 'react-router-dom';
-import SelectedFoods from './SelectedFoods';
-import FoodSearch from './FoodSearch';
 import Home from './Home';
 import Login from './Login';
 import Header from './Header';

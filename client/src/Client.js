@@ -17,6 +17,15 @@ function getCategories(cb) {
     .then(cb);
 }
 
+function getCounties(cb){
+    return fetch('api/counties', {
+        accept: 'application/json',
+    })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(cb);
+}
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;

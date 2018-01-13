@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import categories from './server/routes/category.routes';
 import eligibility from './server/routes/eligibility.routes';
 import agencies from './server/routes/agency.routes';
+import counties from './server/routes/counties.routes';
 import serverConfig from './server/config';
 
 // Set native promises as mongoose promise
@@ -31,6 +32,7 @@ if (process.env.NODE_ENV === "production") {
 app.use('/api', categories); // categories routes
 app.use('/api', eligibility); // eligibility routes
 app.use('/api', agencies); // Agenices routes
+app.use('/api', counties); // Agenices routes
 
 app.listen(app.get("port"), () => {
   console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console

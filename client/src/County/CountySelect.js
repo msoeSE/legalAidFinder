@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import Link from 'react-router';
-import PropTypes from 'prop-types';
 import CountySelector from './CountySelector';
-import Client from '../Client';
 
 class CountySelect extends Component {
 
@@ -19,6 +16,7 @@ class CountySelect extends Component {
     }
 
     chooseCounty = (county) => {
+        console.log(county);
         this.setState({ chosenCounty: county });
     };
 
@@ -38,35 +36,17 @@ class CountySelect extends Component {
 
         return (
             <div>
-                <div>
-                    <h2>Select the county in Wisconsin which you reside in:</h2>
-                </div>
-                <CountySelector counties={this.state.counties} handleCountyChange={this.chooseCounty} />
-                <button className="ui button">
+                    <div>
+                        <h2>Select the county in Wisconsin which you reside in:</h2>
+                    </div>
+                    <CountySelector counties={this.state.counties} handleCountyChange={this.chooseCounty} />
+
+                   <a href="/"> <button onClick={this.chooseCounty} className="ui button">
                     Submit
-                </button>
+                   </button></a>
             </div>
         );
     }
 }
-
-// Actions required to provide data for this component to render in sever side.
-//CountySelectPage.need = [() => { return fetchCounties(); }];
-
-// Retrieve data from store as props
-
-CountySelect.propTypes = {
-    counties: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        state: PropTypes.string,
-        _id: PropTypes.string.isRequired,
-    })).isRequired,
-    chosenCounty: PropTypes.string,
-    dispatch: PropTypes.func.isRequired,
-};
-
-CountySelect.contextTypes = {
-    router: PropTypes.object,
-};
 
 export default CountySelect;

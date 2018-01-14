@@ -26,7 +26,6 @@ class CountySelector extends React.Component {
     }
 
     handleCountyChosen = e => {
-        this.setState({ chosenCounty: e.target.value });
         this.props.handleCountyChange(e.target.value);
     };
 
@@ -52,11 +51,6 @@ CountySelector.propTypes = {
         state: PropTypes.string,
         _id: PropTypes.string.isRequired,
     })),
-    chosenCounty: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        state: PropTypes.string,
-        _id: PropTypes.string.isRequired,
-    }),
     handleCountyChange: PropTypes.func
 };
 

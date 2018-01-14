@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Client from './Client';
 import exampleImg from './images/money.png';
+import PropTypes from "prop-types";
+import CountySelector from "./County/CountySelector";
 
 class CategoryExplorer extends Component {
   constructor(props) {
@@ -33,6 +35,7 @@ class CategoryExplorer extends Component {
         </div>
       </div>);
     }
+    console.log(this.props.county);
 
     return (
       <div className='card-holder'>
@@ -84,5 +87,10 @@ class CategoryCard extends Component {
     </div>);
   }
 }
+
+
+CountySelector.propTypes = {
+    county: PropTypes.string
+};
 
 export default CategoryExplorer;

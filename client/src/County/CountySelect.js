@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CountySelector from './CountySelector';
+import PropTypes from "prop-types";
 
 class CountySelect extends Component {
 
@@ -8,6 +9,7 @@ class CountySelect extends Component {
         this.state = {
             requestFailed: false,
             counties: [],
+            chosenCounty: ""
         };
     }
 
@@ -16,8 +18,9 @@ class CountySelect extends Component {
     }
 
     chooseCounty = (county) => {
-        console.log(county);
+        console.log("CountySelect: " + county);
         this.setState({ chosenCounty: county });
+        this.props.callback(county);
     };
 
     addSelectedCountyClick() {
@@ -41,12 +44,16 @@ class CountySelect extends Component {
                     </div>
                     <CountySelector counties={this.state.counties} handleCountyChange={this.chooseCounty} />
 
-                   <a href="/"> <button onClick={this.chooseCounty} className="ui button">
+                   <a href="/"> <button className="ui button">
                     Submit
                    </button></a>
             </div>
         );
     }
 }
+
+CountySelector.propTypes = {
+    callback: PropTypes.func
+};
 
 export default CountySelect;

@@ -5,6 +5,7 @@ import {
 import Home from './Home';
 import Login from './Login';
 import Header from './Header';
+import AgencyAdd from './AgencyAdd';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
           <div className='content'>
             <Route exact path='/' component={Home} />
             <Route path='/login' component={Login} />
+            <Route path='/admin' component={AgencyAdd} />
           </div>
         </div>
       </div>

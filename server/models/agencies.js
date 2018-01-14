@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const agenciesSchema = new Schema({
   _id: { type: Schema.Types.ObjectId },
   name: { type: 'String', required: true },
-  categories: [{ type: Schema.Types.ObjectId, ref: 'categories_tests' }],
+  categories: [{ type: Schema.Types.ObjectId, ref: 'agencies' }],
   url: { type: 'String', required: true },
 });
 

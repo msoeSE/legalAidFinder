@@ -8,4 +8,7 @@ router.route('/agencies').get(AgencyController.getAgencies);
 // Get one category by _id
 router.route('/agencies/:_id').get(AgencyController.getAgency);
 
+// Add new agency
+router.route('/agencies').post(AgencyController.addAgency);
+
 export default router;

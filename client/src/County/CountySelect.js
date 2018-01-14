@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router';
 import PropTypes from 'prop-types';
+import CountySelector from './CountySelector';
+import Client from '../Client';
 
-class CountySelectPage extends Component {
+class CountySelect extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            requestFailed: false,
+            counties: [],
+        };
+    }
+
     componentDidMount() {
-        this.props.dispatch(fetchCounties());
+
     }
 
     chooseCounty = (county) => {
@@ -12,35 +23,39 @@ class CountySelectPage extends Component {
     };
 
     addSelectedCountyClick() {
-        addSelectedCounty(this.props.chosenCounty);
+        //addSelectedCounty(this.props.chosenCounty);
     }
 
     render() {
+        if (!this.state.counties) {
+            return (<div className='ui segment'>
+                <p>Loading</p>
+                <div className='ui active dimmer'>
+                    <div className='ui loader' />
+                </div>
+            </div>);
+        }
+
         return (
             <div>
                 <div>
-                    <h2 className={`${styles['county-title']}`}>Select the county in Wisconsin which you reside in:</h2>
+                    <h2>Select the county in Wisconsin which you reside in:</h2>
                 </div>
-                <CountySelector counties={this.props.counties} handleCountyChange={this.chooseCounty} />
-                {<Link to="/categories/" onClick={this.addSelectedCountyClick}>
+                <CountySelector counties={this.state.counties} handleCountyChange={this.chooseCounty} />
+                <button className="ui button">
                     Submit
-                </Link>}
+                </button>
             </div>
         );
     }
 }
 
 // Actions required to provide data for this component to render in sever side.
-CountySelectPage.need = [() => { return fetchCounties(); }];
+//CountySelectPage.need = [() => { return fetchCounties(); }];
 
 // Retrieve data from store as props
-function mapStateToProps(state) {
-    return {
-        counties: getCounties(state)
-    };
-}
 
-CountySelectPage.propTypes = {
+CountySelect.propTypes = {
     counties: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
         state: PropTypes.string,
@@ -50,8 +65,8 @@ CountySelectPage.propTypes = {
     dispatch: PropTypes.func.isRequired,
 };
 
-CountySelectPage.contextTypes = {
+CountySelect.contextTypes = {
     router: PropTypes.object,
 };
 
-export default connect(mapStateToProps)(CountySelectPage);
+export default CountySelect;

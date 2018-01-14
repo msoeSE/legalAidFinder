@@ -5,7 +5,7 @@ import {
 import Home from './Home';
 import Login from './Login';
 import Header from './Header';
-import CountySelector from "./County/CountySelector";
+import CountySelect from "./County/CountySelect";
 
 class App extends Component {
   state = {
@@ -21,7 +21,7 @@ class App extends Component {
           <div className='content'>
             <Route exact path='/' component={Home} />
             <Route path='/login' component={Login} />
-            <Route path='/counties' component={CountySelector} />
+            <Route path='/counties' component={CountySelect} />
           </div>
         </div>
         {/*<div className='ui text container'>*/}

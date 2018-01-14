@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Client from '../Client';
+import Client from "../Client";
 
 class CountySelector extends React.Component {
 
@@ -31,14 +31,6 @@ class CountySelector extends React.Component {
     };
 
     render() {
-        if (!this.state.counties) {
-            return (<div className='ui segment'>
-                <p>Loading</p>
-                <div className='ui active dimmer'>
-                    <div className='ui loader' />
-                </div>
-            </div>);
-        }
 
         return (
             <div className="Search">
@@ -59,13 +51,13 @@ CountySelector.propTypes = {
         name: PropTypes.string.isRequired,
         state: PropTypes.string,
         _id: PropTypes.string.isRequired,
-    })).isRequired,
+    })),
     chosenCounty: PropTypes.shape({
         name: PropTypes.string.isRequired,
         state: PropTypes.string,
         _id: PropTypes.string.isRequired,
     }),
-    handleCountyChange: PropTypes.func.isRequired
+    handleCountyChange: PropTypes.func
 };
 
 export default CountySelector;

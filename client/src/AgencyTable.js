@@ -8,6 +8,8 @@ class AgencyTable extends Component {
           requestFailed: false,
           agencies: [],
         };
+        this.changeName = this.changeName.bind(this);
+        this.changeURL = this.changeURL.bind(this);
       }
 
       changeName(name, event) {

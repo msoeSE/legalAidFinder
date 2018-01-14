@@ -26,8 +26,8 @@ export function getAgencies(req, res) {
 export function addAgency(req, res) {
   var mongoose = require('mongoose');
   var newAgency = new Agencies({
-    name: 'hi',
-    url: 'test',
+    name: req.body.name,
+    url: req.body.url,
     _id: mongoose.Types.ObjectId()
   });
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Client from './Client';
 
-class AgencyAdd extends Component {
+class AgencyDelete extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -9,7 +9,6 @@ class AgencyAdd extends Component {
       url: ''
     };
     this.handleAgencyName = this.handleAgencyName.bind(this);
-    this.handleAgencyURL = this.handleAgencyURL.bind(this);
     this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
   }
   handleAgencyName(event) {
@@ -24,7 +23,9 @@ class AgencyAdd extends Component {
         url: this.state.url,
       };
 
-      Client.postAgencies(data);
+      Client.postAgencies(data, event);
+        console.log(this.state.name)
+        console.log(this.state.url)
   }
   render() {
     return (
@@ -35,11 +36,7 @@ class AgencyAdd extends Component {
               onChange={this.handleAgencyName}
               value={this.state.name}
             />
-            <input
-              onChange={this.handleAgencyURL}
-              value={this.state.url}
-            />
-            <button type='Submit' value='Submit'>Add</button>
+            <button type='Submit' value='Submit'>Delete</button>
           </form>
         </div>
       </div>
@@ -47,4 +44,4 @@ class AgencyAdd extends Component {
   }
 }
 
-export default AgencyAdd;
+export default AgencyDelete;

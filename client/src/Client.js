@@ -17,6 +17,18 @@ function getAgencies(cb) {
     .then(cb);
 }
 
+function postAgencies(data, cb) {
+  return fetch('api/agencies', {
+    accept: 'application/json',
+    method: 'POST',
+    body: data
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -32,5 +44,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { getCategories, getAgencies };
+const Client = { getCategories, getAgencies, postAgencies };
 export default Client;

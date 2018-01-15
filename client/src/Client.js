@@ -19,9 +19,12 @@ function getAgencies(cb) {
 
 function postAgencies(data, cb) {
   return fetch('api/agencies', {
-    accept: 'application/json',
-    method: 'POST',
-    body: data
+    method: 'post',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
   })
     .then(checkStatus)
     .then(parseJSON)

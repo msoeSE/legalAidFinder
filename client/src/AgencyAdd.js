@@ -24,7 +24,10 @@ class AgencyAdd extends Component {
         url: this.state.url,
       };
 
-      Client.postAgencies(data);
+      Client.postAgencies(data)
+        .then((d) => {
+          console.log(d);
+        });
   }
   render() {
     return (

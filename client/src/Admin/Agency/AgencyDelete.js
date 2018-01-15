@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Dropdown } from 'semantic-ui-react'
-import Client from './Client';
+import { Dropdown, Button } from 'semantic-ui-react';
+import Client from '../../Client';
 
 class AgencyDelete extends Component {
   constructor(props) {
@@ -51,7 +51,7 @@ class AgencyDelete extends Component {
         <div>
           <form onSubmit={this.handleSubmitAgency}>
             <Dropdown placeholder='Agency' search selection options={this.state.agencies} onChange={this.handleAgencyID} />
-            <button type='Submit' value='Submit'>Delete</button>
+            <Button negative type='Submit' value='Submit'>Delete</Button>
           </form>
         </div>
       </div>

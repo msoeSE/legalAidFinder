@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Client from './Client';
+import { Input, Button } from 'semantic-ui-react';
+import Client from '../../Client';
 
 class AgencyAdd extends Component {
   constructor(props) {
@@ -34,15 +35,15 @@ class AgencyAdd extends Component {
       <div>
         <div>
           <form onSubmit={this.handleSubmitAgency}>
-            <input
+            <Input placeholder='Name'
               onChange={this.handleAgencyName}
               value={this.state.name}
             />
-            <input
+            <Input placeholder='URL'
               onChange={this.handleAgencyURL}
               value={this.state.url}
             />
-            <button type='Submit' value='Submit'>Add</button>
+            <Button positive type='Submit' value='Submit'>Add</Button>
           </form>
         </div>
       </div>

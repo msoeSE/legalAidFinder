@@ -45,6 +45,20 @@ function deleteAgencies(id, cb) {
     .then(cb);
 }
 
+function modifyAgencies(data, cb) {
+  return fetch('api/agencies', {
+    method: 'put',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -61,5 +75,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { getCategories, getAgencies, postAgencies, deleteAgencies };
+const Client = { getCategories, getAgencies, postAgencies, deleteAgencies, modifyAgencies };
 export default Client;

@@ -72,3 +72,20 @@ export function deleteAgency(req, res) {
     }
   });
 }
+
+/**
+ * Modify an agency
+ * @param req
+ * @param res
+ * @returns void
+ */
+export function modifyAgency(req, res) {
+  Agencies.put({ _id: req.body.id }, function(err) {
+    if (!err) {
+      res.status(200);
+    }
+    else {
+      res.status(500).send(err);
+    }
+  });
+}

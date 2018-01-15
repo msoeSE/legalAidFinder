@@ -11,4 +11,7 @@ router.route('/agencies/:_id').get(AgencyController.getAgency);
 // Add new agency
 router.route('/agencies').post(AgencyController.addAgency);
 
+// Delete an agency
+router.route('/agencies').delete(AgencyController.deleteAgency);
+
 export default router;

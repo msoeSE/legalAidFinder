@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
+import {
+  Route,
+} from 'react-router-dom';
 import CategoryExplorer from './CategoryExplorer';
-import CountySelector from "./County/CountySelector";
-import PropTypes from "prop-types";
+import CategoryDetail from './CategoryDetail';
+
 
 class Home extends Component {
   render() {
     return (
       <div>
-        <CategoryExplorer county={this.props.county} />
+        <Route exact path='/' component={CategoryExplorer} />
+        <Route path='category/:id' component={CategoryDetail} />
       </div>
     );
   }
 }
-
-CountySelector.propTypes = {
-    county: PropTypes.string
-};
 
 export default Home;

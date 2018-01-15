@@ -19,13 +19,6 @@ class App extends Component {
             <Route path='/counties' component={CountySelect} />
           </div>
         </div>
-        {/*<div className='ui text container'>*/}
-          {/*<SelectedFoods*/}
-            {/*foods={selectedFoods}*/}
-            {/*onFoodClick={this.removeFoodItem}*/}
-          {/*/>*/}
-          {/*<FoodSearch onFoodClick={this.addFood} />*/}
-        {/*</div>*/}
       </div>
     );
   }

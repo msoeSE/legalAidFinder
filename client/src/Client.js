@@ -1,15 +1,15 @@
 /* eslint-disable no-undef */
-function search(query, cb) {
-  return fetch(`api/food?q=${query}`, {
-    accept: "application/json"
+function getCategories(cb) {
+  return fetch('api/categories', {
+    accept: 'application/json',
   })
     .then(checkStatus)
     .then(parseJSON)
     .then(cb);
 }
 
-function getCategories(cb) {
-  return fetch('api/categories', {
+function getCategory(id, cb) {
+  return fetch(`api/categories?id=${id}`, {
     accept: 'application/json',
   })
     .then(checkStatus)

@@ -8,6 +8,15 @@ function getCategories(cb) {
     .then(cb);
 }
 
+function getCategory(id, cb) {
+  return fetch(`api/categories?id=${id}`, {
+    accept: 'application/json',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;

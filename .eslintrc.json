@@ -15,6 +15,8 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/no-array-index-key": 0,
     "space-before-function-paren": [2, {"anonymous": "always", "named": "never"}],
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "max-len": 0,
+    "no-else-return": 0
   }
 }

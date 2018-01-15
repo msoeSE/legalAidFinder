@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
   Route,
+  Switch,
 } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
 import Header from './Header';
+import CategoryDetail from './CategoryDetail';
 
 class App extends Component {
   render() {
@@ -12,8 +14,11 @@ class App extends Component {
       <div className='App'>
         <Header />
         <div className='content'>
-          <Route exact path='/' component={Home} />
-          <Route path='/login' component={Login} />
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/login' component={Login} />
+            <Route path='/category/:id' component={CategoryDetail} />
+          </Switch>
         </div>
       </div>
     );

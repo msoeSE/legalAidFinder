@@ -26,6 +26,15 @@ function getCounties(cb){
         .then(cb);
 }
 
+function getAgencies(cb){
+    return fetch('api/agencies', {
+        accept: 'application/json',
+    })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(cb);
+}
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -41,5 +50,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { search, getCategories, getCounties };
+const Client = { search, getCategories, getCounties, getAgencies };
 export default Client;

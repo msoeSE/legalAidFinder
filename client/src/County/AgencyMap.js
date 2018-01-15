@@ -3,6 +3,21 @@ import PropTypes from "prop-types";
 import CountySelector from './CountySelector';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import geolib from 'geolib';
+import Client from "../Client";
+
+const MapComponent = withScriptjs(withGoogleMap((props) =>
+    <GoogleMap
+        defaultZoom={11}
+        defaultCenter={props.center}
+    >
+        {props.agencies.map(agency => {
+            if(agency.lat) {
+                return (props.isMarkerShown && <Marker position={{lat: agency.lat, lng: agency.lon}} label={agency.name}/>
+                );
+            }
+        })}
+    </GoogleMap>
+));
 
 class AgencyMap extends Component {
 
@@ -37,30 +52,46 @@ class AgencyMap extends Component {
     }
 
     componentDidMount() {
-        this.state.center = this.calculateCenter(this.props.agencies);
+        Client.getAgencies()
+            .then((d) => {
+                this.setState({
+                    agencies: d.agencies,
+                });
+            }, () => {
+                this.setState({
+                    requestFailed: true,
+                });
+            });
     }
 
     render() {
-        return (
+        if (!this.state.agencies) {
+            return (<div className='ui segment'>
+                <p>Loading</p>
+                <div className='ui active dimmer'>
+                    <div className='ui loader' />
+                </div>
+            </div>);
+        }
+
+        return(
             <div>
-                <GoogleMap
-                    defaultZoom={12}
-                    defaultCenter={this.state.center}
-                >
-                    {this.props.agencies.map(agency => {
-                        if (agency.lat) {
-                            return (this.props.isMarkerShown &&
-                                <Marker position={{lat: agency.lat, lng: agency.lon}} label={agency.name}/>
-                            );
-                        }
-                    })}
-                </GoogleMap>
+                <MapComponent
+                    isMarkerShown
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsT5bprWJB-h2ztvVUXRRSPHJGKnZtCvo"
+                    loadingElement={<div style={{height: '100%'}}/>}
+                    containerElement={<div style={{height: '400px'}}/>}
+                    mapElement={<div style={{height: '100%'}}/>}
+                    agencies={this.state.agencies}
+                    center={this.calculateCenter(this.state.agencies)}
+                />
             </div>
-        );
+        )
+
     }
 }
 
-CountySelector.propTypes = {
+AgencyMap.propTypes = {
     agencies: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
         state: PropTypes.string.isRequired,

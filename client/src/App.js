@@ -8,33 +8,15 @@ import Header from './Header';
 import CountySelect from "./County/CountySelect";
 
 class App extends Component {
-
-    constructor() {
-        super();
-        console.log("app constructor");
-        this.state = {
-            chosenCounty: ""
-        };
-        this.county = "";
-        this.chooseCounty = this.chooseCounty.bind(this);
-    }
-
-    chooseCounty = (county) => {
-        console.log("App: " + county);
-        this.setState({ chosenCounty: county });
-        this.county = county;
-    };
-
   render() {
-
     return (
       <div className='App'>
         <Header />
         <div className='content'>
           <div className='content'>
-            <Route exact path='/' render={() => <Home county={this.county}/>} />
+            <Route exact path='/' component={Home} />
             <Route path='/login' component={Login} />
-            <Route path='/counties' render={() => <CountySelect callback={this.chooseCounty}/>} />
+            <Route path='/counties' component={CountySelect} />
           </div>
         </div>
         {/*<div className='ui text container'>*/}

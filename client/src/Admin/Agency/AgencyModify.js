@@ -6,14 +6,17 @@ class AgencyModify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropdown_agencies: '',
+      dropdown_agencies: '', // Agencies formatted for dropdown
       full_agencies: '',
       nameVal: '',
       urlVal: '',
+      idVal: ''
     };
     this.handleAgency = this.handleAgency.bind(this);
+    this.handleInput = this.handleInput.bind(this);
     this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
   }
+  // Import agencies
   componentDidMount() {
     Client.getAgencies()
       .then((d) => {
@@ -27,14 +30,24 @@ class AgencyModify extends Component {
         });
       });
   }
+  // Map agencies to dropdown, set state of selected agency
   handleAgency(event, data) {
     var agency = this.state.full_agencies.find((e) => {return e._id === data.value});
-    this.setState({ urlVal: agency.url, nameVal: agency.name });
+    this.setState({ urlVal: agency.url, nameVal: agency.name, idVal: agency._id });
   }
+  // Update agency name and value
+  handleInput(event, data) {
+    if (data.placeholder === 'Name')
+      this.setState({ nameVal: event.target.value });
+    else
+      this.setState({ urlVal: event.target.value });
+  }
+  // PUT request on submit
   handleSubmitAgency(event) {
       const data = {
         name: this.state.nameVal,
-        url: this.state.urlVal
+        url: this.state.urlVal,
+        query: { _id : this.state.idVal }
       };
 
       Client.modifyAgencies(data)
@@ -55,10 +68,29 @@ class AgencyModify extends Component {
       <div>
         <div>
           <form onSubmit={this.handleSubmitAgency}>
-            <Dropdown placeholder='Agency' search selection options={this.state.dropdown_agencies} onChange={this.handleAgency} />
-            <Input placeholder='Name' value={this.state.nameVal} />
-            <Input placeholder='URL' value={this.state.urlVal} />
-            <Button positive type='Submit' value='Submit'>Modify</Button>
+            <Dropdown placeholder='Select an Agency to edit' 
+              fluid
+              className='padding'
+              search selection 
+              options={this.state.dropdown_agencies} 
+              onChange={this.handleAgency} />
+            <Input placeholder='Name'
+              label='Name'
+              labelPosition='left'
+              size='big'
+              fluid={true}
+              className='padding'
+              value={this.state.nameVal}
+              onChange={this.handleInput} />
+            <Input placeholder='URL' 
+              label='URL'
+              labelPosition='left'
+              size='big'
+              fluid={true}
+              className='padding'
+              value={this.state.urlVal} 
+              onChange={this.handleInput} />
+            <Button positive type='Submit' value='Submit'>Edit Agency</Button>
           </form>
         </div>
       </div>

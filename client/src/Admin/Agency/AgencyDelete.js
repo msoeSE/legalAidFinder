@@ -7,6 +7,7 @@ class AgencyDelete extends Component {
     super(props);
     this.state = {
       id: '',
+      name: '',
       agencies: ''
     };
     this.handleAgencyID = this.handleAgencyID.bind(this);
@@ -25,6 +26,7 @@ class AgencyDelete extends Component {
       });
   }
   handleAgencyID(event, data) {
+    console.log(data)
     this.setState({ id: data.value });
   }
   handleSubmitAgency(event) {
@@ -50,8 +52,17 @@ class AgencyDelete extends Component {
       <div>
         <div>
           <form onSubmit={this.handleSubmitAgency}>
-            <Dropdown placeholder='Agency' search selection options={this.state.agencies} onChange={this.handleAgencyID} />
-            <Button negative type='Submit' value='Submit'>Delete</Button>
+            <Dropdown placeholder='Agency' 
+              fluid={true} size='big' 
+              className='padding2' 
+              search 
+              selection 
+              options={this.state.agencies} 
+              onChange={this.handleAgencyID} 
+            />
+            <div className='padding2'>
+              <Button negative type='Submit' value='Submit' className='padding2'>Delete Agency</Button>
+            </div>
           </form>
         </div>
       </div>

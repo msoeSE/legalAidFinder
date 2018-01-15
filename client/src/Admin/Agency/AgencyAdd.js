@@ -36,14 +36,24 @@ class AgencyAdd extends Component {
         <div>
           <form onSubmit={this.handleSubmitAgency}>
             <Input placeholder='Name'
+              label='Name '
+              labelPosition='left'
+              size='big'
+              fluid={true}
+              className='padding'
               onChange={this.handleAgencyName}
               value={this.state.name}
             />
             <Input placeholder='URL'
+              label='URL'
+              labelPosition='left'
+              size='big'
+              fluid={true}
+              className='padding'
               onChange={this.handleAgencyURL}
               value={this.state.url}
             />
-            <Button positive type='Submit' value='Submit'>Add</Button>
+            <Button positive type='Submit' value='Submit' className='padding'>Add Agency</Button>
           </form>
         </div>
       </div>

@@ -15,6 +15,6 @@ router.route('/agencies').post(AgencyController.addAgency);
 router.route('/agencies').delete(AgencyController.deleteAgency);
 
 // Modify an agency
-router.route('/agencies').delete(AgencyController.modifyAgency);
+router.route('/agencies').put(AgencyController.modifyAgency);
 
 export default router;

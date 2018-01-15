@@ -80,12 +80,9 @@ export function deleteAgency(req, res) {
  * @returns void
  */
 export function modifyAgency(req, res) {
-  Agencies.put({ _id: req.body.id }, function(err) {
-    if (!err) {
-      res.status(200);
-    }
-    else {
-      res.status(500).send(err);
-    }
+  Agencies.findOneAndUpdate(req.body.query, { name: req.body.name, url: req.body.url }, {upsert:true}, function(err, doc){
+    if (err) 
+      return res.send(500, { error: err });
+    return res.status(200).send(JSON.stringify(req.body));
   });
 }

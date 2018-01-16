@@ -1,88 +1,106 @@
 import React, { Component } from 'react';
-import Client from './Client';
-import exampleImg from './images/money.png';
+import {
+  Link,
+  withRouter,
+} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Card, Image, Loader, List } from 'semantic-ui-react';
+import fetchCategories from './actions/categoriesActions';
+import moneyImg from './images/money.png';
+import crimeImg from './images/crime.png';
+import healthImg from './images/health.png';
+import homeImg from './images/home.png';
+import immImg from './images/immigration.png';
+import schoolImg from './images/school.png';
+import workImg from './images/work.png';
+import famImg from './images/family.png';
+
+function mapStateToProps(state) {
+  return { data: state.categories };
+}
 
 class CategoryExplorer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      requestFailed: false,
-      categories: [],
-    };
-  }
-
-  componentDidMount() {
-    Client.getCategories()
-      .then((d) => {
-        this.setState({
-          categories: d.categories,
-        });
-      }, () => {
-        this.setState({
-          requestFailed: true,
-        });
-      });
+  componentWillMount() {
+    this.props.dispatch(fetchCategories());
   }
 
   render() {
-    if (!this.state.categories) {
-      return (<div className='ui segment'>
-        <p>Loading</p>
-        <div className='ui active dimmer'>
-          <div className='ui loader' />
-        </div>
-      </div>);
+    if (this.props.data.categories.length === 0) {
+      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
 
     return (
       <div className='card-holder'>
         <h2>Select a category that corresponds with your legal issue:</h2>
-        <div className='ui four column grid'>
+        <Card.Group itemsPerRow={4} reversed='mobile vertically'>
           {
-            this.state.categories.map(category =>
+            this.props.data.categories.map((category) =>
               category.parent === null ?
                 <CategoryCard
                   key={category._id}
                   category={category}
                 />
-                  : null)
+                : null)
           }
-        </div>
+        </Card.Group>
       </div>);
   }
 }
 
 class CategoryCard extends Component {
 
+  getCorrespondingImage() {
+    switch (this.props.category.name) {
+      case 'Business & Work':
+        return <Image floated='right' size='mini' src={workImg} />;
+      case 'Immigration':
+        return <Image floated='right' size='mini' src={immImg} />;
+      case 'Crime & Traffic':
+        return <Image floated='right' size='mini' src={crimeImg} />;
+      case 'Health & Benefits':
+        return <Image floated='right' size='mini' src={healthImg} />;
+      case 'House & Apartment':
+        return <Image floated='right' size='mini' src={homeImg} />;
+      case 'Juvenile & School':
+        return <Image floated='right' size='mini' src={schoolImg} />;
+      case 'Money & Debt':
+        return <Image floated='right' size='mini' src={moneyImg} />;
+      case 'Family & Safety':
+        return <Image floated='right' size='mini' src={famImg} />;
+      default:
+        return null;
+    }
+  }
+
+  getSubcategories() {
+    return this.props.category.subcategories.map((subcat) => {
+      return <List.Item>{subcat.name}</List.Item>;
+    });
+  }
+
   render() {
-    return (<div className='column'>
-      <div className='ui red link card'>
-        <div className='content'>
-          <img className='right floated mini ui image' src={exampleImg} alt='category_img' />
-          <div className='header'>{this.props.category.name}</div>
-          <div className='meta'>
-            <a>Sub-Categories</a>
-          </div>
-          <div className='description'> More categories!
-            {/* { */}
-            {/* this.props.category.subcategories.map(subCat => { */}
-            {/* return <p>{subCat.name}</p>; */}
-            {/* }) */}
-            {/* } */}
-          </div>
-        </div>
-        <div className='extra content'>
-          <span className='right floated'>
-            Click for more info
-          </span>
-          <span>
-            {/* <i className='user icon' /> */}
-            {/* 75 Friends */}
-          </span>
-        </div>
-      </div>
-    </div>);
+    return (
+      <Card as={Link} to={`category/${this.props.category._id}`} color='blue' raised>
+        <Card.Content>
+          {this.getCorrespondingImage()}
+          <Card.Header>
+            {this.props.category.name}
+          </Card.Header>
+          <Card.Meta>
+            Sub-Categories:
+          </Card.Meta>
+          <Card.Description>
+            <List bulleted size={'mini'}>
+              {this.getSubcategories()}
+            </List>
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra size={'mini'}>
+          Click for more information
+        </Card.Content>
+      </Card>
+    );
   }
 }
 
-export default CategoryExplorer;
+export default withRouter(connect(mapStateToProps)(CategoryExplorer));

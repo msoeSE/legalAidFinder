@@ -83,7 +83,12 @@ class AgencyCategoryTree extends Component {
 
   toggleCheckbox = (agencyId, categoryId, pushAgency) => {
     return (
-      <EligibilityModal showModal={true}/>
+      <div>
+        <EligibilityModal
+         showModal={true}
+         //eligibility={{ category: '5a04f8d1f9c010051c0426ce', agency: '5a04d2e3ec140922c08a6717' }}
+        />
+      </div>
     )
     //this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
   };

@@ -1,50 +1,41 @@
 import React, { Component } from 'react';
 import CountySelector from './CountySelector';
 import PropTypes from "prop-types";
+import { chooseCounty } from '../actions/countiesActions';
+import {withRouter} from "react-router-dom";
+import { connect } from 'react-redux';
+
+
+function mapStateToProps(state) {
+    return { data: state.counties };
+}
 
 class CountySelect extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            requestFailed: false,
-            counties: [],
-            chosenCounty: ""
-        };
-    }
-
-    componentDidMount() {
+    componentWillMount() {
+        //this.props.dispatch(fetchCounties());
 
     }
 
-    chooseCounty = (county) => {
-        console.log("CountySelect: " + county);
-        this.setState({ chosenCounty: county });
-        this.props.callback(county);
+    switchCounty = (county) => {
+        console.log("Switched: " + county);
+        this.setState({chosenCounty: county});
     };
 
-    addSelectedCountyClick() {
-        //addSelectedCounty(this.props.chosenCounty);
-    }
+    chooseCounty = () => {
+        this.props.dispatch(chooseCounty(this.state.chosenCounty));
+    };
 
     render() {
-        if (!this.state.counties) {
-            return (<div className='ui segment'>
-                <p>Loading</p>
-                <div className='ui active dimmer'>
-                    <div className='ui loader' />
-                </div>
-            </div>);
-        }
 
         return (
             <div>
                     <div>
                         <h2>Select the county in Wisconsin which you reside in:</h2>
                     </div>
-                    <CountySelector counties={this.state.counties} handleCountyChange={this.chooseCounty} />
+                    <CountySelector handleCountyChange={this.switchCounty} />
 
-                   <a href="/"> <button className="ui button">
+                   <a href="/"> <button onClick={this.chooseCounty} className="ui button">
                     Submit
                    </button></a>
             </div>
@@ -52,8 +43,4 @@ class CountySelect extends Component {
     }
 }
 
-CountySelector.propTypes = {
-    callback: PropTypes.func
-};
-
-export default CountySelect;
+export default withRouter(connect(mapStateToProps)(CountySelect));

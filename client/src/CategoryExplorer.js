@@ -16,7 +16,8 @@ import workImg from './images/work.png';
 import famImg from './images/family.png';
 
 function mapStateToProps(state) {
-  return { data: state.categories };
+  console.log(state);
+  return { data: state.categories, chosenCounty: state.chosenCounty };
 }
 
 class CategoryExplorer extends Component {
@@ -28,7 +29,6 @@ class CategoryExplorer extends Component {
     if (this.props.data.categories.length === 0) {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
-    console.log(this.props.county);
 
     return (
       <div className='card-holder'>

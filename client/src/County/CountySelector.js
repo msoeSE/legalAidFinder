@@ -1,28 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Client from "../Client";
+import { fetchCounties } from '../actions/countiesActions';
+import {withRouter} from "react-router-dom";
+import { connect } from 'react-redux';
+
+
+function mapStateToProps(state) {
+    return { data: state.counties };
+}
 
 class CountySelector extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            requestFailed: false,
-            counties: [],
-        };
-    }
-
-    componentDidMount() {
-        Client.getCounties()
-            .then((d) => {
-                this.setState({
-                    counties: d.counties,
-                });
-            }, () => {
-                this.setState({
-                    requestFailed: true,
-                });
-            });
+    componentWillMount() {
+        this.props.dispatch(fetchCounties());
     }
 
     handleCountyChosen = e => {
@@ -34,7 +25,7 @@ class CountySelector extends React.Component {
         return (
             <div className="Search">
                 {
-                    <select onChange={this.handleCountyChosen}>{this.state.counties.map((county, i) =>
+                    <select onChange={this.handleCountyChosen}>{this.props.data.counties.map((county, i) =>
                         <option key={i}>
                             {county.name}
                         </option>)}
@@ -54,4 +45,4 @@ CountySelector.propTypes = {
     handleCountyChange: PropTypes.func
 };
 
-export default CountySelector;
+export default withRouter(connect(mapStateToProps)(CountySelector));

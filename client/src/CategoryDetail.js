@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link, withRouter} from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Item, Loader, List, Segment, Divider, Card } from 'semantic-ui-react';
 import fetchCategories from './actions/categoriesActions';
@@ -17,9 +17,7 @@ class CategoryDetail extends Component {
   }
 
   getSubcategories(category) {
-    return category.map((subcat) => {
-      return <List.Item>{subcat.name}</List.Item>;
-    });
+    return category.map(subcat => <List.Item>{subcat.name}</List.Item>);
   }
 
   render() {
@@ -28,11 +26,9 @@ class CategoryDetail extends Component {
     }
 
     if (this.props.match.params.id && this.props.data.categories) {
-      const currentCategory = this.props.data.categories.filter((cat) => {
-        return cat._id === this.props.match.params.id;
-      })[0];
+      const currentCategory = this.props.data.categories.filter(cat => cat._id === this.props.match.params.id)[0];
 
-      if (!currentCategory){
+      if (!currentCategory) {
         return 'ERROR - Could not find subcategory';
       }
       return (
@@ -40,11 +36,11 @@ class CategoryDetail extends Component {
           <h2>{currentCategory.name}</h2>
           {(() => {
             if (currentCategory.agencies.length === 0 && currentCategory.subcategories.length === 0) {
-              return <h3>Select an Agency:</h3>;
+              return <h3>Select an agency:</h3>;
             } else if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
-              return <h3>Select an Agency:</h3>;
+              return <h3>Select an agency:</h3>;
             } else {
-              return <h3>Select a subcategory that corresponds with your legal issue:</h3>
+              return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
             }
           })()}
           <Divider section />
@@ -54,7 +50,7 @@ class CategoryDetail extends Component {
                 return (
                   <Card fluid color='blue'>
                     <Card.Content>
-                      <Card.Header>Currently no Agencies support this category..</Card.Header>
+                      <Card.Header>Currently no agencies support this category..</Card.Header>
                       <Card.Meta>
                         Please contact Wisconsin Legal Aid Finder for help.
                       </Card.Meta>
@@ -68,7 +64,7 @@ class CategoryDetail extends Component {
                       <Card.Content>
                         <Card.Header>{agency.name}</Card.Header>
                         <Card.Meta>
-                          Click to go to this Agencies website!
+                          Click to go to this agencies website!
                         </Card.Meta>
                       </Card.Content>
                     </Card>));
@@ -85,7 +81,7 @@ class CategoryDetail extends Component {
                             } else if (subcat.agencies.length > 0 && subcat.subcategories.length === 0) {
                               return <h3>Click to see list of Agencies who can help!</h3>;
                             } else {
-                              return <h3>Subcategories</h3>;
+                              //return <h3>Click to see subcategories</h3>;
                             }
                           })()}
                         </Card.Meta>

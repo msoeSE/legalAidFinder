@@ -30,7 +30,6 @@ class AgencyAdd extends Component {
         url: this.state.url,
         emails: this.state.emails
       };
-      console.log(data);
 
       Client.postAgencies(data)
         .then((d) => {

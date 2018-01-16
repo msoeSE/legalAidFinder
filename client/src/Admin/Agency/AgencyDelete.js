@@ -26,7 +26,6 @@ class AgencyDelete extends Component {
       });
   }
   handleAgencyID(event, data) {
-    console.log(data)
     this.setState({ id: data.value });
   }
   handleSubmitAgency(event) {

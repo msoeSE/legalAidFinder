@@ -1,4 +1,5 @@
 import Categories from '../models/categories';
+import agencies from '../models/agencies';
 
 /**
  * Get all parent categories
@@ -136,5 +137,55 @@ export function deleteCategory(req, res) {
     category.remove(() => {
       res.status(200).end();
     });
+  });
+}
+
+  /**
+ * Delete an category
+ * @param req
+ * @param res
+ * @returns void
+ */
+export function deleteCategories(req, res) {
+  Categories.remove({ _id: req.body.id }, function(err) {
+    if (!err) {
+      res.status(200);
+    }
+    else {
+      res.status(500).send(err);
+    }
+  });
+}
+
+/**
+ * Save a new category
+ * @param req
+ * @param res
+ * @returns void
+ */
+export function addCategories(req, res) {
+  var subcategory_array = []
+  req.body.subcategories.forEach((s) => {
+    subcategory_array.push(s.id);
+  });
+  var agencies_array = []
+  req.body.agencies.forEach((a) => {
+    agencies_array.push(a.id);
+  });
+  console.log(subcategory_array)
+  console.log(agencies_array)
+  var newCategory = new Categories({
+    name: req.body.name,
+    parent: req.body.parent,
+    subcategories: subcategory_array,
+    agencies: agencies_array,
+    _id: mongoose.Types.ObjectId()
+  });
+
+  newCategory.save((err, saved) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+      res.json({ category: saved });
   });
 }

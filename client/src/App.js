@@ -6,7 +6,6 @@ import Home from './Home';
 import Login from './Login';
 import Header from './Header';
 import AdminPage from './Admin/AdminPage';
-import CategoryTree from './Admin/Category/CategoryTree';
 
 class App extends Component {
   render() {
@@ -18,7 +17,6 @@ class App extends Component {
             <Route exact path='/' component={Home} />
             <Route path='/login' component={Login} />
             <Route path='/admin' component={AdminPage} />
-            <Route path='/category' component={CategoryTree} />
           </div>
         </div>
       </div>

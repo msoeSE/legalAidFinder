@@ -7,11 +7,15 @@ class AgencyAdd extends Component {
     super(props);
     this.state = {
       name: '',
-      url: ''
+      url: '',
+      emails: [{ address: '' }],
     };
     this.handleAgencyName = this.handleAgencyName.bind(this);
     this.handleAgencyURL = this.handleAgencyURL.bind(this);
     this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
+    this.handleAddEmail = this.handleAddEmail.bind(this);
+    this.handleRemoveEmail = this.handleRemoveEmail.bind(this);
+    this.handleEmailAddressChange = this.handleEmailAddressChange.bind(this);
   }
   handleAgencyName(event) {
     this.setState({ name: event.target.value });
@@ -20,21 +24,43 @@ class AgencyAdd extends Component {
       this.setState({ url: event.target.value });
   }
   handleSubmitAgency(event) {
+      event.preventDefault();
       const data = {
         name: this.state.name,
         url: this.state.url,
+        emails: this.state.emails
       };
+      console.log(data);
 
       Client.postAgencies(data)
         .then((d) => {
           console.log(d);
         });
   }
+  handleEmailAddressChange = (idx) => (event) => {
+    let copy = this.state.emails.slice();
+    let emails = copy.map((email, i) => {
+      return (i === idx) ? {...email, address: event.target.value} : email
+    })
+    this.setState({ emails: emails });
+  }
+  handleAddEmail(event) {
+    event.preventDefault();
+    this.setState({
+      emails: this.state.emails.concat([{ address: '' }])
+    });
+  }
+  handleRemoveEmail = (idx) => (event) => {
+    event.preventDefault();
+    this.setState({
+      emails: this.state.emails.filter((a, eidx) => idx !== eidx)
+    });
+  }
   render() {
     return (
       <div>
         <div>
-          <form onSubmit={this.handleSubmitAgency}>
+          <form>
             <Input placeholder='Name'
               label='Name '
               labelPosition='left'
@@ -53,7 +79,23 @@ class AgencyAdd extends Component {
               onChange={this.handleAgencyURL}
               value={this.state.url}
             />
-            <Button positive type='Submit' value='Submit' className='padding'>Add Agency</Button>
+            {this.state.emails.map((email, idx) => (
+              <div key={Math.random(99999999)*(new Date().getMilliseconds())}>
+                <Input
+                  label='Email'
+                  labelPosition='left'
+                  size='big'
+                  type="text"
+                  placeholder={`Email #${idx + 1} address`}
+                  value={email.address}
+                  className='padding'
+                  onChange={this.handleEmailAddressChange(idx)}
+                />
+                <Button negative onClick={this.handleRemoveEmail(idx)} className="padding" >-</Button>
+              </div>
+            ))}
+            <Button color='blue' onClick={this.handleAddEmail} className='padding'>Add Email</Button>
+            <Button positive onClick={this.handleSubmitAgency}>Add Agency</Button>
           </form>
         </div>
       </div>

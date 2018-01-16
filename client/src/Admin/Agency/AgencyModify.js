@@ -10,11 +10,15 @@ class AgencyModify extends Component {
       full_agencies: '',
       nameVal: '',
       urlVal: '',
-      idVal: ''
+      idVal: '',
+      emailVal: [{ address: '' }],
     };
     this.handleAgency = this.handleAgency.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
+    this.handleAddEmail = this.handleAddEmail.bind(this);
+    this.handleRemoveEmail = this.handleRemoveEmail.bind(this);
+    this.handleEmailAddressChange = this.handleEmailAddressChange.bind(this);
   }
   // Import agencies
   componentDidMount() {
@@ -34,6 +38,12 @@ class AgencyModify extends Component {
   handleAgency(event, data) {
     var agency = this.state.full_agencies.find((e) => {return e._id === data.value});
     this.setState({ urlVal: agency.url, nameVal: agency.name, idVal: agency._id });
+    var array = [];
+    agency.emails.forEach((e) => {
+      if (e !== null)
+        array.push({ address: e });
+    });
+    this.setState({ emailVal: array });
   }
   // Update agency name and value
   handleInput(event, data) {
@@ -44,16 +54,37 @@ class AgencyModify extends Component {
   }
   // PUT request on submit
   handleSubmitAgency(event) {
-      const data = {
-        name: this.state.nameVal,
-        url: this.state.urlVal,
-        query: { _id : this.state.idVal }
-      };
+    event.preventDefault();
+    const data = {
+      name: this.state.nameVal,
+      url: this.state.urlVal,
+      query: { _id : this.state.idVal },
+      emails: this.state.emailVal
+    };
 
-      Client.modifyAgencies(data)
-        .then((d) => {
-          console.log(d);
-        });
+    Client.modifyAgencies(data)
+      .then((d) => {
+        console.log(d);
+      });
+  }
+  handleEmailAddressChange = (idx) => (event) => {
+    let copy = this.state.emailVal.slice();
+    let emails = copy.map((email, i) => {
+      return (i === idx) ? {...emails, address: event.target.value} : email
+    })
+    this.setState({ emailVal: emails });
+  }
+  handleAddEmail(event) {
+    event.preventDefault();
+    this.setState({
+      emailVal: this.state.emailVal.concat([''])
+    });
+  }
+  handleRemoveEmail = (idx) => (event) => {
+    event.preventDefault();
+    this.setState({
+      emailVal: this.state.emailVal.filter((a, eidx) => idx !== eidx)
+    });
   }
   render() {
     if (!this.state.dropdown_agencies) {
@@ -67,7 +98,7 @@ class AgencyModify extends Component {
     return (
       <div>
         <div>
-          <form onSubmit={this.handleSubmitAgency}>
+          <form>
             <Dropdown placeholder='Select an Agency to edit' 
               fluid
               className='padding'
@@ -90,7 +121,23 @@ class AgencyModify extends Component {
               className='padding'
               value={this.state.urlVal} 
               onChange={this.handleInput} />
-            <Button positive type='Submit' value='Submit'>Edit Agency</Button>
+            {this.state.emailVal.map((email, idx) => (
+              <div key={Math.random(99999999)*(new Date().getMilliseconds())}>
+                <Input
+                  label='Email'
+                  labelPosition='left'
+                  size='big'
+                  type="text"
+                  placeholder={`Email #${idx + 1} address`}
+                  value={email.address}
+                  className='padding'
+                  onChange={this.handleEmailAddressChange(idx)}
+                />
+                <Button negative onClick={this.handleRemoveEmail(idx)} className="padding" >-</Button>
+              </div>
+            ))}
+            <Button color='blue' onClick={this.handleAddEmail} className='padding'>Add Email</Button>
+            <Button positive onClick={this.handleSubmitAgency}>Edit Agency</Button>
           </form>
         </div>
       </div>

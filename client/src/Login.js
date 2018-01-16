@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
-import { Icon } from 'semantic-ui-react';
-import { GoogleLogin } from 'react-google-login-component';
 
-class Login extends React.Component{
-
-  constructor (props, context) {
-    super(props, context);
-  }
+class Login extends Component{
 
   responseGoogle (googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;

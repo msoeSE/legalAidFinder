@@ -5,7 +5,6 @@ import {
   Link,
 } from 'react-router-dom';
 import logo from './logo.png';
-import Comment from 'semantic-ui-react/dist/commonjs/views/Comment/Comment';
 
 class Header extends Component {
   render() {

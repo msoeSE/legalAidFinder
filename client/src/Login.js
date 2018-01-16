@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
+import { Icon } from 'semantic-ui-react';
+import { GoogleLogin } from 'react-google-login-component';
 
-class Login extends Component {
-  render() {
+class Login extends React.Component{
+
+  constructor (props, context) {
+    super(props, context);
+  }
+
+  responseGoogle (googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+    var googleId = googleUser.getId();
+    
+    console.log({ googleId });
+    console.log({accessToken: id_token});
+    //anything else you want to do(save to localStorage)...
+  }
+
+  render () {
     return (
       <div>
-        <h2>Google sign in or something.....</h2>
-        <p>Enter name:     _____________</p>
-        <p>Enter Password: _____________</p>
       </div>
     );
   }
+
 }
 
 export default Login;

@@ -46,6 +46,10 @@ body {
     padding-top: 10px;
 }
 
+.button-text:before {
+    content: 'Agency Login'
+}
+
 /*.card{*/
     /*height: 450px;*/
 /*}*/

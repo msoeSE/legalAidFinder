@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Item, Loader, List, Segment, Divider, Card } from 'semantic-ui-react';
 import fetchCategories from './actions/categoriesActions';
+import AgencyMap from 'County/AgencyMap.js';
 
 
 function mapStateToProps(state) {
@@ -67,7 +68,8 @@ class CategoryDetail extends Component {
                           Click to go to this agencies website!
                         </Card.Meta>
                       </Card.Content>
-                    </Card>));
+                    </Card>)
+                );
               } else {
                 return (
                   currentCategory.subcategories.map(subcat =>

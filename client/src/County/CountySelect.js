@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import CountySelector from './CountySelector';
-import { chooseCounty } from '../actions/countiesActions';
 import {withRouter, Link} from "react-router-dom";
 import { connect } from 'react-redux';
+import {Button} from 'semantic-ui-react';
 
 
 function mapStateToProps(state) {
@@ -11,26 +11,18 @@ function mapStateToProps(state) {
 
 class CountySelect extends Component {
 
-    componentWillMount() {
-        //this.props.dispatch(fetchCounties());
-
-    }
-
-    switchCounty = (county) => {
-        //console.log("Switched: " + county);
-        //this.setState({chosenCounty: county});
-    };
-
     render() {
 
         return (
-            <div>
+            <div class="county-select-div">
                     <div>
                         <h2>Select the county in Wisconsin which you reside in:</h2>
                     </div>
-                    <CountySelector handleCountyChange={this.switchCounty} />
+                    <CountySelector />
 
-                <Link to="/">Submit</Link>
+
+
+                <Button primary={true} as={Link} to='/'>Submit</Button>
             </div>
         );
     }

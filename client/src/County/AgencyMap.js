@@ -21,14 +21,6 @@ const MapComponent = withScriptjs(withGoogleMap((props) =>
 
 class AgencyMap extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            requestFailed: false,
-            counties: [],
-            center: {lat: 0, lng: 0}
-        };
-    }
 
     calculateCenter(agencies){
         var i = 0;
@@ -51,7 +43,7 @@ class AgencyMap extends Component {
         return center;
     }
 
-    componentDidMount() {
+    componentWillMount() {
         Client.getAgencies()
             .then((d) => {
                 this.setState({

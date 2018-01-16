@@ -15,7 +15,7 @@ class Checkbox extends Component {
       }
     ));
 
-    //this.props.handleCheckboxChange(this.props.agencyId, this.props.categoryId, !this.state.isChecked);
+    this.props.handleCheckboxChange(this.props.agencyId, this.props.categoryId, !this.state.isChecked);
   };
 
   render() {
@@ -42,7 +42,7 @@ Checkbox.propTypes = {
   label: PropTypes.string.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
-  agencyId: PropTypes.string.isRequired,
+  //agencyId: PropTypes.string.isRequired,
   categoryId: PropTypes.string.isRequired,
 };
 

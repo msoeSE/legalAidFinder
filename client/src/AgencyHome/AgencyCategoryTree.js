@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import fetchCategories from '../actions/categoriesActions';
 import { connect } from 'react-redux';
-import { Card, Image, Loader, List } from 'semantic-ui-react';
 import Checkbox from "./Checkbox";
+
+//Import styles
+import styles from './AgencyCategoryTree.css';
+import EligibilityCreator from "../Eligibility/EligibilityCreator";
+import EligibilityModal from "../Eligibility/EligibilityModal";
+
 
 function mapStateToProps(state) {
   return { data: state.categories };
@@ -77,6 +82,9 @@ class AgencyCategoryTree extends Component {
   };
 
   toggleCheckbox = (agencyId, categoryId, pushAgency) => {
+    return (
+      <EligibilityModal showModal={true}/>
+    )
     //this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
   };
 
@@ -87,7 +95,7 @@ class AgencyCategoryTree extends Component {
           <Checkbox
             label={category.name}
             handleCheckboxChange={this.toggleCheckbox}
-            agencyId={this.props.agencyId}
+            //agencyId={this.props.agencyId}
             categoryId={category._id}
             checked={checked}
           />
@@ -97,27 +105,20 @@ class AgencyCategoryTree extends Component {
       if(isTopParent) {
         return (
           <div key={category._id} style={{marginLeft: 25 * depth + 'px'}}>
-            <h2>{category.name}</h2>
+            <h2 className='underline'>{category.name}</h2>
           </div>
         );
       } else {
         return (
           <div key={category._id} style={{marginLeft: 25 * depth + 'px'}}>
-            <h4>{category.name}</h4>
+            <h4 className={`${styles['underline']}`}>{category.name}</h4>
           </div>
         );
       }
     }
   };
 
-  getSubcategories(category) {
-    if (category.subcategories && category.subcategories.length > 0) {
-      return category.subcategories.map((subcat) => {
-        return <List.Item>{subcat.name}</List.Item>;
-      });
-    }
-  }
-
+  //Find the appropriate category based off of the category ID
   findCategory = (categoryId) => {
     let elementPos = this.props.data.categories.map(function (x) {
       return x._id;

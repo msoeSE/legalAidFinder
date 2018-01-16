@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import CountySelector from './CountySelector';
-import PropTypes from "prop-types";
 import { chooseCounty } from '../actions/countiesActions';
-import {withRouter} from "react-router-dom";
+import {withRouter, Link} from "react-router-dom";
 import { connect } from 'react-redux';
 
 
@@ -18,12 +17,8 @@ class CountySelect extends Component {
     }
 
     switchCounty = (county) => {
-        console.log("Switched: " + county);
-        this.setState({chosenCounty: county});
-    };
-
-    chooseCounty = () => {
-        //this.props.dispatch(chooseCounty(this.state.chosenCounty));
+        //console.log("Switched: " + county);
+        //this.setState({chosenCounty: county});
     };
 
     render() {
@@ -35,9 +30,7 @@ class CountySelect extends Component {
                     </div>
                     <CountySelector handleCountyChange={this.switchCounty} />
 
-                   <a href="/"> <button onClick={this.chooseCounty} className="ui button">
-                    Submit
-                   </button></a>
+                <Link to="/">Submit</Link>
             </div>
         );
     }

@@ -17,6 +17,15 @@ function getAgencies(cb) {
     .then(cb);
 }
 
+function getCategory(id, cb) {
+  return fetch(`api/categories?id=${id}`, {
+    accept: 'application/json',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
 function postAgencies(data, cb) {
   return fetch('api/agencies', {
     method: 'post',
@@ -58,7 +67,6 @@ function modifyAgencies(data, cb) {
     .then(parseJSON)
     .then(cb);
 }
-
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {

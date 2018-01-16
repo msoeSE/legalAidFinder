@@ -23,7 +23,7 @@ class CountySelect extends Component {
     };
 
     chooseCounty = () => {
-        this.props.dispatch(chooseCounty(this.state.chosenCounty));
+        //this.props.dispatch(chooseCounty(this.state.chosenCounty));
     };
 
     render() {

@@ -18,12 +18,6 @@ export function chooseCounty(county){
     };
 }
 
-export function fetchChosenCounty(){
-    return function(dispatch){
-      dispatch({type: 'FETCH_CHOSEN_COUNTY'});
-    };
-}
-
 function parseJSON(response) {
     return response.json();
 }

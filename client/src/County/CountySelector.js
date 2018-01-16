@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Client from "../Client";
-import { fetchCounties } from '../actions/countiesActions';
+import { fetchCounties, chooseCounty } from '../actions/countiesActions';
 import {withRouter} from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -18,6 +18,7 @@ class CountySelector extends React.Component {
 
     handleCountyChosen = e => {
         this.props.handleCountyChange(e.target.value);
+        this.props.dispatch(chooseCounty(e.target.value));
     };
 
     render() {

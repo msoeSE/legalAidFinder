@@ -6,6 +6,7 @@ import {
 import { connect } from 'react-redux';
 import { Card, Image, Loader, List } from 'semantic-ui-react';
 import fetchCategories from './actions/categoriesActions';
+import { chooseCounty} from "./actions/countiesActions";
 import moneyImg from './images/money.png';
 import crimeImg from './images/crime.png';
 import healthImg from './images/health.png';
@@ -14,15 +15,17 @@ import immImg from './images/immigration.png';
 import schoolImg from './images/school.png';
 import workImg from './images/work.png';
 import famImg from './images/family.png';
+import store from './store.js';
 
 function mapStateToProps(state) {
-  console.log(state);
-  return { data: state.categories, chosenCounty: state.chosenCounty };
+  console.log(store.getState());
+  return { data: state.categories, chosenCounty: state.counties.chosenCounty };
 }
 
 class CategoryExplorer extends Component {
   componentWillMount() {
     this.props.dispatch(fetchCategories());
+    //this.props.dispatch(chooseCounty("Clark"));
   }
 
   render() {

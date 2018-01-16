@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import CountySelector from './CountySelector';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import geolib from 'geolib';
-import Client from "../Client";
+import {withRouter} from "react-router-dom";
+import { connect } from 'react-redux';
 
 const MapComponent = withScriptjs(withGoogleMap((props) =>
     <GoogleMap
@@ -18,6 +18,10 @@ const MapComponent = withScriptjs(withGoogleMap((props) =>
         })}
     </GoogleMap>
 ));
+
+function mapStateToProps(state) {
+    return { data: state.agencies };
+}
 
 class AgencyMap extends Component {
 
@@ -44,20 +48,10 @@ class AgencyMap extends Component {
     }
 
     componentWillMount() {
-        Client.getAgencies()
-            .then((d) => {
-                this.setState({
-                    agencies: d.agencies,
-                });
-            }, () => {
-                this.setState({
-                    requestFailed: true,
-                });
-            });
     }
 
     render() {
-        if (!this.state.agencies) {
+        if (!this.props.agencies) {
             return (<div className='ui segment'>
                 <p>Loading</p>
                 <div className='ui active dimmer'>
@@ -67,15 +61,15 @@ class AgencyMap extends Component {
         }
 
         return(
-            <div>
+            <div style={{margin: '10px'}}>
                 <MapComponent
                     isMarkerShown
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsT5bprWJB-h2ztvVUXRRSPHJGKnZtCvo"
                     loadingElement={<div style={{height: '100%'}}/>}
-                    containerElement={<div style={{height: '400px'}}/>}
+                    containerElement={<div style={{height: '80%', width: '80%', position: 'absolute'}}/>}
                     mapElement={<div style={{height: '100%'}}/>}
-                    agencies={this.state.agencies}
-                    center={this.calculateCenter(this.state.agencies)}
+                    agencies={this.props.agencies}
+                    center={this.calculateCenter(this.props.agencies)}
                 />
             </div>
         )
@@ -86,7 +80,7 @@ class AgencyMap extends Component {
 AgencyMap.propTypes = {
     agencies: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
-        state: PropTypes.string.isRequired,
+        url: PropTypes.string,
         lat: PropTypes.number,
         lon: PropTypes.number,
         _id: PropTypes.string.isRequired,
@@ -94,7 +88,7 @@ AgencyMap.propTypes = {
     isMarkerShown: PropTypes.bool
 };
 
-export default AgencyMap;
+export default withRouter(connect(mapStateToProps)(AgencyMap));
 
 
 

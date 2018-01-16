@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Item, Loader, List, Segment, Divider, Card } from 'semantic-ui-react';
 import fetchCategories from './actions/categoriesActions';
-import AgencyMap from 'County/AgencyMap.js';
+import AgencyMap from './County/AgencyMap.js';
 
 
 function mapStateToProps(state) {
@@ -60,16 +60,15 @@ class CategoryDetail extends Component {
               }
               if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
                 return (
-                  currentCategory.agencies.map(agency =>
-                    <Card fluid color='blue' href={agency.url}>
-                      <Card.Content>
-                        <Card.Header>{agency.name}</Card.Header>
-                        <Card.Meta>
-                          Click to go to this agencies website!
-                        </Card.Meta>
-                      </Card.Content>
-                    </Card>)
-                );
+                        currentCategory.agencies.map(agency =>
+                            <Card fluid color='blue' href={agency.url}>
+                                <Card.Content>
+                                    <Card.Header>{agency.name}</Card.Header>
+                                    <Card.Meta>
+                                        Click to go to this agencies website!
+                                    </Card.Meta>
+                                </Card.Content>
+                            </Card>));
               } else {
                 return (
                   currentCategory.subcategories.map(subcat =>
@@ -97,6 +96,16 @@ class CategoryDetail extends Component {
               }
             })()}
           </Card.Group>
+            {(() => {
+                if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
+                    if (currentCategory.agencies.some((x) => x.lat && x.lon)) {
+                        return <div>< AgencyMap isMarkerShown={true} agencies={currentCategory.agencies}/></div>;
+                    }
+                    else {
+                        return <div><h3 style={{margin: '5px'}}>No agencies listed have a physical location</h3></div>;
+                    }
+                }
+            })()}
         </div>);
     } else {
       return 'ERROR - Could not find subcategory';

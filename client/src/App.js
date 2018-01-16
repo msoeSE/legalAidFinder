@@ -4,9 +4,9 @@ import {
   Switch,
 } from 'react-router-dom';
 import Home from './Home';
-import Login from './Login';
 import Header from './Header';
 import CategoryDetail from './CategoryDetail';
+import AgencyHome from "./AgencyHome/AgencyHome";
 
 class App extends Component {
   render() {
@@ -16,7 +16,7 @@ class App extends Component {
         <div className='content'>
           <Switch>
             <Route exact path='/' component={Home} />
-            <Route path='/login' component={Login} />
+            <Route path='/login' component={AgencyHome} />
             <Route path='/category/:id' component={CategoryDetail} />
           </Switch>
         </div>

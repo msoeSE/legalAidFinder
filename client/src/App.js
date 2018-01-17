@@ -7,6 +7,7 @@ import Home from './Home';
 import Login from './Login';
 import Header from './Header';
 import AdminPage from './Admin/AdminPage';
+import CountySelect from './County/CountySelect';
 import CategoryDetail from './CategoryDetail';
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
             <Route path='/login' component={Login} />
             <Route path='/admin' component={AdminPage} />
             <Route path='/category/:id' component={CategoryDetail} />
+            <Route path='/counties' component={CountySelect} />
           </Switch>
         </div>
       </div>

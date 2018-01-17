@@ -8,7 +8,7 @@ import Agencies from '../models/agencies';
  */
 export function getAgencies(req, res) {
   Agencies.find() // { parent: { $exists: false } }
-    .populate('categories')
+    .populate('agencies')
     .exec((err, agencies) => {
       if (err) {
         res.status(500).send(err);

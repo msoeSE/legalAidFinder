@@ -18,6 +18,16 @@ let items = [];
 let depth = 0;
 
 class AgencyCategoryTree extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalOpen: false,
+    };
+
+    this.toggleModal = this.toggleModal.bind(this);
+  }
+
   componentWillMount() {
     this.props.dispatch(fetchCategories());
   }
@@ -76,17 +86,24 @@ class AgencyCategoryTree extends Component {
     this.props.data.categories.map(category => {
       if (category.parent === null) {
         depth = 0;
-        this.traverse(category)
+        this.traverse(category);
       }
     });
+  }
+
+  toggleModal = (isChecked) => {
+      this.setState({
+        modalOpen: !this.state.modalOpen,
+      });
   };
 
   toggleCheckbox = (agencyId, categoryId, pushAgency) => {
+    this.toggleModal();
     return (
       <div>
         <EligibilityModal
-         showModal={true}
-         //eligibility={{ category: '5a04f8d1f9c010051c0426ce', agency: '5a04d2e3ec140922c08a6717' }}
+          showModal={true}
+          //eligibility={{ category: '5a04f8d1f9c010051c0426ce', agency: '5a04d2e3ec140922c08a6717' }}
         />
       </div>
     )
@@ -105,7 +122,7 @@ class AgencyCategoryTree extends Component {
             checked={checked}
           />
         </div>
-      )
+      );
     } else {
       if(isTopParent) {
         return (
@@ -136,6 +153,11 @@ class AgencyCategoryTree extends Component {
     return (
       <div>
         <h1>Select which categories your agency can provide legal services for:</h1>
+        <EligibilityModal
+          showModal={this.state.modalOpen}
+          onClose={this.toggleModal}
+          //eligibility={{ category: '5a04f8d1f9c010051c0426ce', agency: '5a04d2e3ec140922c08a6717' }}
+        />
         {items.map(item => {
           return item
         })}

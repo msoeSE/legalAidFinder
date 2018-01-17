@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
 
 // Import Style
 import styles from './EligibilityCreator.css';
@@ -33,21 +34,21 @@ class EligibilityCreator extends React.Component {
       <div>
         <div className='form-content'>
           <h2 className='form-title'>Create new eligibility criteria:</h2>
-          <select name="key" className='form-field' onChange={this.handleKeyChange} >
-            <option value="Income (% of FPL)">Income (% of FPL)</option>
-            <option value="Age">Age</option>
-            <option value="Disability">Disability</option>
-            <option value="Veteran">Veteran</option>
+          <select name='key' className='form-field' onChange={this.handleKeyChange} >
+            <option value='Income (% of FPL)'>Income (% of FPL)</option>
+            <option value='Age'>Age</option>
+            <option value='Disability'>Disability</option>
+            <option value='Veteran'>Veteran</option>
           </select>
-          <select name="comparator" className='form-field' onChange={this.handleComparatorChange}>
-            <option value="<">&lt;</option>
-            <option value="≤">≤</option>
-            <option value=">">&gt;</option>
-            <option value="≥">≥</option>
-            <option value="=">=</option>
+          <select name='comparator' className='form-field' onChange={this.handleComparatorChange}>
+            <option value='<'>&lt;</option>
+            <option value='≤'>≤</option>
+            <option value='>'>&gt;</option>
+            <option value='≥'>≥</option>
+            <option value='='>=</option>
           </select>
-          <input placeholder="Value" className='form-field' ref="value" />
-          <button id="submitButton" className='eligibility-submit-button' onClick={this.addEligibility}>Submit</button>
+          <input placeholder='Value' className='form-field' ref='value' />
+          <Button primary id='submitButton' className='eligibility-submit-button' onClick={this.addEligibility}>Submit</Button>
         </div>
       </div>
     );
@@ -55,7 +56,7 @@ class EligibilityCreator extends React.Component {
 }
 
 EligibilityCreator.propTypes = {
-  //addEligibility: PropTypes.func.isRequired,
+  // addEligibility: PropTypes.func.isRequired,
   eligibility: PropTypes.shape({
     category: PropTypes.string.isRequired,
     agency: PropTypes.string.isRequired,

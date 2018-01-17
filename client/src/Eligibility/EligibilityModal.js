@@ -1,44 +1,33 @@
 import React, { Component } from 'react';
-import {Header, Image, Modal } from 'semantic-ui-react'
-import PropTypes from 'prop-types';
+import { Button, Modal } from 'semantic-ui-react';
+import EligibilityCreator from './EligibilityCreator';
 
 
 class EligibilityModal extends Component {
-  state = { open: this.props.showModal };
-
-  show = () => this.setState({ open: true });
-  close = () => this.setState({ opn: false });
-
   // handleAddEligibility = (category, agency, key, comparator, value) => {
   //   this.props.dispatch(addEligibilityRequest({ category, agency, key, comparator, value }));
   // };
 
   render() {
-    this.show();
+
+    if(!this.props.showModal) {
+      return null;
+    }
 
     return (
-      <Modal
-        open ={this.state}>
-        <Modal.Header>Select a Photo</Modal.Header>
-        <Modal.Content image>
-          <Image wrapped size='medium' src='/assets/images/avatar/large/rachel.png' />
+      <Modal open={this.props.showModal}>
+        <Modal.Header>Add an eligibility constraint:</Modal.Header>
+        <Modal.Content>
           <Modal.Description>
-            <Header>Default Profile Image</Header>
-            <p>We've found the following gravatar image associated with your e-mail address.</p>
-            <p>Is it okay to use this photo?</p>
+            <EligibilityCreator eligibility={{ agency: '', category: '' }} />
+            <Button primary onClick={this.props.onClose}>
+              Close
+            </Button>
           </Modal.Description>
         </Modal.Content>
       </Modal>
-    )
+    );
   }
 }
-
-EligibilityModal.propTypes = {
-  showModal: PropTypes.bool.isRequired,
-  // eligibility: PropTypes.shape({
-  //   category: PropTypes.string.isRequired,
-  //   agency: PropTypes.string.isRequired,
-  // }).isRequired,
-};
 
 export default EligibilityModal;

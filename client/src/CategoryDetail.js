@@ -38,7 +38,11 @@ class CategoryDetail extends Component {
           {(() => {
             if (currentCategory.agencies.length === 0 && currentCategory.subcategories.length === 0) {
               return <h3>Select an agency:</h3>;
-            } else if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
+            }
+            else if(currentCategory.agencies.length > 0 && currentCategory.agencies.filter((x) => this.props.chosenCounty === "" ? 1 == 1 : x.counties.some((x)=> x === this.props.chosenCounty)).length === 0){
+                return <h3>No agencies support this legal issue for your chosen county.</h3>;
+            }
+            else if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
               return <h3>Select an agency:</h3>;
             } else {
               return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
@@ -97,7 +101,7 @@ class CategoryDetail extends Component {
             })()}
           </Card.Group>
             {(() => {
-                if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
+                if (currentCategory.agencies.filter((x) => this.props.chosenCounty === "" ? 1 == 1 :  x.counties.some((x)=> x === this.props.chosenCounty)).length > 0 && currentCategory.subcategories.length === 0) {
                     if (currentCategory.agencies.some((x) => x.lat && x.lon)) {
                         return <div>< AgencyMap isMarkerShown={true} agencies={currentCategory.agencies.filter((x) => this.props.chosenCounty === "" ? 1 == 1 :  x.counties.some((x)=> x === this.props.chosenCounty))}/></div>;
                     }

@@ -21,12 +21,12 @@ class EligibilityCreator extends React.Component {
 
   addEligibility = () => {
     const valueRef = this.refs.value;
-    if (this.state.keyValue && this.state.comparatorValue && valueRef.value) {
-      this.props.addEligibility(this.props.eligibility.category, this.props.eligibility.agency, this.state.keyValue, this.state.comparatorValue, valueRef.value).then(() => {
-        alert('Created new Eligibility!');
-      });
-      this.state.keyValue = this.state.comparatorValue = valueRef.value = '';
-    }
+    // if (this.state.keyValue && this.state.comparatorValue && valueRef.value) {
+    //   this.props.addEligibility(this.props.eligibility.category, this.props.eligibility.agency, this.state.keyValue, this.state.comparatorValue, valueRef.value).then(() => {
+    //     alert('Created new Eligibility!');
+    //   });
+    //   this.state.keyValue = this.state.comparatorValue = valueRef.value = '';
+    // }
   };
 
   render() {

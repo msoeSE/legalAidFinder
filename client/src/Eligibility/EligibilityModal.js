@@ -19,7 +19,7 @@ class EligibilityModal extends Component {
         <Modal.Header>Add an eligibility constraint:</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <EligibilityCreator eligibility={{ agency: '', category: '' }} />
+            <EligibilityCreator eligibility={{ agency: '5a04f8d1f9c010051c0426ce', category: '5a04d2e3ec140922c08a6717' }} />
             <Button primary onClick={this.props.onClose}>
               Close
             </Button>

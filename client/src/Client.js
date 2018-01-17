@@ -8,9 +8,88 @@ function getCategories(cb) {
     .then(cb);
 }
 
+function getAgencies(cb) {
+  return fetch('api/agencies', {
+    accept: 'application/json',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
 function getCategory(id, cb) {
   return fetch(`api/categories?id=${id}`, {
     accept: 'application/json',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
+function deleteCategories(id, cb) {
+  return fetch('api/categories2', {
+    method: 'delete',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(id),
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
+function postCategories(data, cb) {
+  return fetch('api/categories2', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
+function postAgencies(data, cb) {
+  return fetch('api/agencies', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
+function deleteAgencies(id, cb) {
+  return fetch('api/agencies', {
+    method: 'delete',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(id),
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
+function modifyAgencies(data, cb) {
+  return fetch('api/agencies', {
+    method: 'put',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
   })
     .then(checkStatus)
     .then(parseJSON)
@@ -32,5 +111,7 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { getCategories };
+const Client = { getCategories, getAgencies, postAgencies,
+                 deleteAgencies, modifyAgencies, deleteCategories,
+                 postCategories };
 export default Client;

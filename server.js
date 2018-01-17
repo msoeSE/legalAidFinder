@@ -4,6 +4,7 @@ import categories from './server/routes/category.routes';
 import eligibility from './server/routes/eligibility.routes';
 import agencies from './server/routes/agency.routes';
 import serverConfig from './server/config';
+import bodyParser from 'body-parser';
 
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
@@ -28,9 +29,12 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
+app.use(bodyParser.urlencoded({ extended: true })); // Parses urlencoded bodies
+app.use(bodyParser.json()); // Send JSON responses
+
 app.use('/api', categories); // categories routes
 app.use('/api', eligibility); // eligibility routes
-app.use('/api', agencies); // Agenices routes
+app.use('/api', agencies); // agencies routes
 
 app.listen(app.get("port"), () => {
   console.log(`Find the server at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console

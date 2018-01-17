@@ -13,11 +13,17 @@ router.route('/categories/:_id').get(CategoryController.getCategory);
 // Add a new Category
 router.route('/categories').post(CategoryController.addCategory);
 
+// Add a new Category
+router.route('/categories2').post(CategoryController.addCategories);
+
 // Edit an existing Category
 router.route('/categories/addAgency').post(CategoryController.addAgencyToCategory);
 
 // Delete a category by cuid
 router.route('/categories/:_id').delete(CategoryController.deleteCategory);
+
+// Delete a category
+router.route('/categories2').delete(CategoryController.deleteCategories);
 
 // Get all ParentPosts
 router.route('/agencies').get(AgencyController.getAgencies);

@@ -144,7 +144,6 @@ class AgencyCategoryTree extends Component {
     this.makeTree();
     return (
       <div>
-        <h1>Select which categories your agency can provide legal services for:</h1>
         <EligibilityModal
           showModal={this.state.modalOpen}
           onClose={this.toggleModal}

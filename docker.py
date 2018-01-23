@@ -10,8 +10,8 @@ docker_login = "docker login " + username + " " + password
 tag = "legalaidfinder/laf:" + str(sys.argv[1])
 
 # Build and tag image
-s.call(["docker-compose", "build"])
-s.call(["docker", "tag", "legalaidfinder_web:latest", tag])
+s.call(["docker-compose", "-f", "docker-compose-prod.yml", "build"])
+s.call(["docker", "tag", "legalaidfinder_laf-prod:latest", tag])
 
 # Docker login to allow push to registry
 if os.name == 'nt':

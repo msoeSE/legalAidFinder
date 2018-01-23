@@ -8,4 +8,4 @@ ADD package.json /usr/src/app/package.json
 RUN npm install --silent
 RUN npm install react-scripts@1.1.0 -g --silent
 ADD . /usr/src/app
-RUN npm run start:prod
+CMD ["npm", "run", "start:prod"]

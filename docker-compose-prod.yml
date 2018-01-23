@@ -2,15 +2,15 @@ version: '3.3'
 
 services:
 
-  laf:
-    container_name: laf
+  laf-prod:
+    container_name: laf-prod
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-prod
     volumes:
       - '.:/usr/src/app'
     ports:
       - '3000:3000'
       - '3001:3001'
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production

@@ -1,7 +1,7 @@
 {
-  "name": "lookup-server",
-  "version": "0.0.1",
-  "private": true,
+  "name": "wisconsin-legal-aid-finder",
+  "version": "1.0.0",
+  "description": "Web application used to find free/low cost legal services in Wisconsin",
   "dependencies": {
     "axios": "^0.17.1",
     "babel-cli": "^6.26.0",
@@ -43,8 +43,11 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start:prod": "concurrently \"npm run server:prod\" \"npm run client:prod\"",
     "server": "nodemon server.js --exec babel-node",
     "client": "node start-client.js",
+    "server:prod": "set NODE_ENV=production && nodemon server.js --exec babel-node",
+    "client:prod": "set NODE_ENV=production && node start-client.js",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
     "lint": "eslint ."
   },

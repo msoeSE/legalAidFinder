@@ -37,7 +37,9 @@ class CategoryModify extends Component {
   handleCategoryID(event, data) {
     this.setState({ id: data.value });
     var category = this.state.full_categories.find((e) => {return e._id === data.value});
-    this.setState({ nameVal: category.name, idVal: category._id, parentVal: category.parent.name });
+    this.setState({ nameVal: category.name, idVal: category._id });
+    if (category.parent)
+      this.setState({ parentVal: category.parent.name });
     var array = [];
     category.subcategories.forEach((e) => {
       if (e !== null)

@@ -6,6 +6,7 @@ import {
 import Home from './Home';
 import Header from './Header';
 import AdminPage from './Admin/AdminPage';
+import CountySelect from './County/CountySelect';
 import CategoryDetail from './CategoryDetail';
 import AgencyHome from "./AgencyHome/AgencyHome";
 import Login from "./Login";
@@ -22,6 +23,7 @@ class App extends Component {
             <Route path='/agency' component={AgencyHome}/>
             <Route path='/admin' component={AdminPage} />
             <Route path='/category/:id' component={CategoryDetail} />
+            <Route path='/counties' component={CountySelect} />
           </Switch>
         </div>
       </div>

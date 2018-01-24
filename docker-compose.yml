@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+
+  laf:
+    container_name: laf
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+    ports:
+      - '3000:3000'
+      - '3001:3001'
+    environment:
+      - NODE_ENV=development

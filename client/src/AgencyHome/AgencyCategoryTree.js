@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import fetchCategories from '../actions/categoriesActions';
+import { withRouter } from 'react-router-dom';
+import { Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import Checkbox from "./Checkbox";
+import fetchCategories from '../actions/categoriesActions';
+import Checkbox from './Checkbox';
 
-//Import styles
+// Import styles
 import styles from './AgencyCategoryTree.css';
-import EligibilityCreator from "../Eligibility/EligibilityCreator";
-import EligibilityModal from "../Eligibility/EligibilityModal";
+import EligibilityModal from '../Eligibility/EligibilityModal';
 
 
 function mapStateToProps(state) {
   return { data: state.categories };
 }
-
-let items = [];
-let depth = 0;
 
 class AgencyCategoryTree extends Component {
   constructor(props) {
@@ -23,9 +20,13 @@ class AgencyCategoryTree extends Component {
 
     this.state = {
       modalOpen: false,
+      items: [],
+      depth: 0,
+      created: false,
+      currentCategory: null,
     };
 
-    this.toggleModal = this.toggleModal.bind(this);
+    this.toggleCheckbox = this.toggleCheckbox.bind(this);
   }
 
   componentWillMount() {
@@ -33,7 +34,11 @@ class AgencyCategoryTree extends Component {
   }
 
   // Recursive function that generates the checkboxes
-  traverse = (category) => {
+  traverse(category) {
+    if (this.state.items.some(e => e._id === category._id)){
+      return;
+    }
+
     // Check if the agency exists in a leaf node
     if (category.agencies && category.agencies.length > 0) {
       let contains = false;
@@ -45,116 +50,110 @@ class AgencyCategoryTree extends Component {
 
       // Determine to check the checkbox if agency exists in leaf node
       if (contains) {
-        items.push(this.createCheckbox(category, depth, true));
+        this.state.items.push(this.createCheckbox(category, this.state.depth, true));
       } else {
-        items.push(this.createCheckbox(category, depth, false));
+        this.state.items.push(this.createCheckbox(category, this.state.depth, false));
       }
-
     } else {
       // Create branch node (label)
-      if(category.parent === null){
-        items.push(this.createCheckbox(category, depth, false, true));
+      if (category.parent === null) {
+        this.state.items.push(this.createCheckbox(category, this.state.depth, false, true));
       } else {
-        items.push(this.createCheckbox(category, depth, false));
+        this.state.items.push(this.createCheckbox(category, this.state.depth, false));
       }
     }
 
     // Iterate though all keys in the category object
-    for (let key in category) {
-      if (!category.hasOwnProperty(key))
-        continue;
+    for (const key in category) {
+      if (!category.hasOwnProperty(key)) { continue; }
       // Recursive call if category has subcategories
       if (key === 'subcategories') {
-        if (category[key] !== null && typeof(category[key]) === "object") {
-          //going one step down in the object tree!!
-          ++depth;
+        if (category[key] !== null && typeof (category[key]) === 'object') {
+          // going one step down in the object tree!!
+          ++this.state.depth;
 
           category[key].forEach((element) => {
-            if(typeof(element) === "string"){
+            if (typeof (element) === 'string') {
               this.traverse(this.findCategory(element));
             } else {
               this.traverse(this.findCategory(element._id));
             }
           });
-          --depth;
+          --this.state.depth;
         }
       }
     }
-  };
+  }
 
   makeTree() {
-    this.props.data.categories.map(category => {
+    this.props.data.categories.map((category) => {
       if (category.parent === null) {
-        depth = 0;
+        this.state.depth = 0;
         this.traverse(category);
       }
     });
   }
 
-  toggleModal = (isChecked) => {
-      this.setState({
-        modalOpen: !this.state.modalOpen,
-      });
-  };
+  toggleCheckbox(agencyId, categoryId, pushAgency) {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+      currentCategory: categoryId,
+    });
+    // this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
+  }
 
-  toggleCheckbox = (agencyId, categoryId, pushAgency) => {
-    this.toggleModal();
-    //this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
-  };
-
-  createCheckbox = (category, depth, checked, isTopParent = false) => {
+  createCheckbox(category, depth, checked, isTopParent = false) {
     if (category.subcategories && category.subcategories.length === 0) {
       return (
-        <div key={category._id} style={{marginLeft: 25 * depth + 'px'}}>
+        <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
           <Checkbox
             label={category.name}
             handleCheckboxChange={this.toggleCheckbox}
-            //agencyId={this.props.agencyId}
+            agencyId={this.props.agencyId}
             categoryId={category._id}
             checked={checked}
           />
         </div>
       );
+    } else if (isTopParent) {
+      return (
+        <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
+          <h2 className='underline'>{category.name}</h2>
+        </div>
+      );
     } else {
-      if(isTopParent) {
-        return (
-          <div key={category._id} style={{marginLeft: 25 * depth + 'px'}}>
-            <h2 className='underline'>{category.name}</h2>
-          </div>
-        );
-      } else {
-        return (
-          <div key={category._id} style={{marginLeft: 25 * depth + 'px'}}>
-            <h4 className={`${styles['underline']}`}>{category.name}</h4>
-          </div>
-        );
-      }
+      return (
+        <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
+          <h4 className={`${styles.underline}`}>{category.name}</h4>
+        </div>
+      );
     }
   };
 
-  //Find the appropriate category based off of the category ID
-  findCategory = (categoryId) => {
-    let elementPos = this.props.data.categories.map(function (x) {
-      return x._id;
-    }).indexOf(categoryId);
+  // Find the appropriate category based off of the category ID
+  findCategory(categoryId) {
+    const elementPos = this.props.data.categories.map(x => x._id).indexOf(categoryId);
     return this.props.data.categories[elementPos];
-  };
+  }
 
   render() {
-    this.makeTree();
-    return (
-      <div>
+    if (!this.props.data.categories || this.props.data.categories.length === 0) {
+      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+    } else {
+      if (this.state.created === false) {
+        this.makeTree();
+        this.state.created = true;
+      }
+      return (<div>
         <EligibilityModal
           showModal={this.state.modalOpen}
           onClose={this.toggleModal}
-          //eligibility={{ category: '5a04f8d1f9c010051c0426ce', agency: '5a04d2e3ec140922c08a6717' }}
+          eligibility={{ category: this.state.currentCategory, agency: this.props.agencyId }}
         />
-        {items.map(item => {
-          return item
-        })}
-      </div>
-    );
-  };
+        {this.state.items.map(item => item)}
+      </div>);
+    }
+  }
 }
 
 export default withRouter(connect(mapStateToProps)(AgencyCategoryTree));

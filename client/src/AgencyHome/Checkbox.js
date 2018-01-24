@@ -25,13 +25,13 @@ class Checkbox extends Component {
       <div>
         <label>
           <input
-            type="checkbox"
+            type='checkbox'
             value={this.props.key}
             checked={isChecked}
             onChange={this.toggleCheckboxChange}
           />
 
-          {'\t' + this.props.label}
+          {`\t${this.props.label}`}
         </label>
       </div>
     );
@@ -42,7 +42,7 @@ Checkbox.propTypes = {
   label: PropTypes.string.isRequired,
   handleCheckboxChange: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
-  //agencyId: PropTypes.string.isRequired,
+  // agencyId: PropTypes.string.isRequired,
   categoryId: PropTypes.string.isRequired,
 };
 

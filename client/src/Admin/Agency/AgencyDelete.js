@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dropdown, Button, Loader } from 'semantic-ui-react';
 import { fetchAgenciesAndDropdown, deleteAgencies } from '../../actions/agenciesActions';

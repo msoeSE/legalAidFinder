@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import { Dropdown, Input, Button } from 'semantic-ui-react';
-import Client from '../../Client';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Dropdown, Input, Button, Loader } from 'semantic-ui-react';
+import { fetchAgenciesAndDropdown, modifyAgencies } from '../../actions/agenciesActions';
+
+function mapStateToProps(state) {
+  return { data: state.agencies };
+}
 
 class AgencyModify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dropdown_agencies: '', // Agencies formatted for dropdown
-      full_agencies: '',
       nameVal: '',
       urlVal: '',
       idVal: '',
@@ -21,22 +25,12 @@ class AgencyModify extends Component {
     this.handleEmailAddressChange = this.handleEmailAddressChange.bind(this);
   }
   // Import agencies
-  componentDidMount() {
-    Client.getAgencies()
-      .then((d) => {
-        this.setState({
-          dropdown_agencies: d.agencies.map((a) => {return {key: a._id, value: a._id, text: a.name}}),
-          full_agencies: d.agencies
-        });
-      }, () => {
-        this.setState({
-          requestFailed: true,
-        });
-      });
+  componentWillMount() {
+    this.props.dispatch(fetchAgenciesAndDropdown());
   }
   // Map agencies to dropdown, set state of selected agency
   handleAgency(event, data) {
-    var agency = this.state.full_agencies.find((e) => {return e._id === data.value});
+    var agency = this.props.data.agencies.find((e) => {return e._id === data.value});
     this.setState({ urlVal: agency.url, nameVal: agency.name, idVal: agency._id });
     var array = [];
     agency.emails.forEach((e) => {
@@ -62,10 +56,7 @@ class AgencyModify extends Component {
       emails: this.state.emailVal
     };
 
-    Client.modifyAgencies(data)
-      .then((d) => {
-        console.log(d);
-      });
+    this.props.dispatch(modifyAgencies(data));
   }
   handleEmailAddressChange = (idx) => (event) => {
     let copy = this.state.emailVal.slice();
@@ -87,14 +78,10 @@ class AgencyModify extends Component {
     });
   }
   render() {
-    if (!this.state.dropdown_agencies) {
-      return (<div className='ui segment'>
-        <p>Loading</p>
-        <div className='ui active dimmer'>
-          <div className='ui loader' />
-        </div>
-      </div>);
+    if (this.props.data.agencies.length === 0) {
+      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
+
     return (
       <div>
         <div>
@@ -103,7 +90,7 @@ class AgencyModify extends Component {
               fluid
               className='padding'
               search selection 
-              options={this.state.dropdown_agencies} 
+              options={this.props.data.dropdown} 
               onChange={this.handleAgency} />
             <Input placeholder='Name'
               label='Name'
@@ -122,7 +109,7 @@ class AgencyModify extends Component {
               value={this.state.urlVal} 
               onChange={this.handleInput} />
             {this.state.emailVal.map((email, idx) => (
-              <div key={Math.random(99999999)*(new Date().getMilliseconds())}>
+              <div key={idx}>
                 <Input
                   label='Email'
                   labelPosition='left'
@@ -145,4 +132,4 @@ class AgencyModify extends Component {
   }
 }
 
-export default AgencyModify;
+export default withRouter(connect(mapStateToProps)(AgencyModify));

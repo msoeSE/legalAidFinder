@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Input, Button } from 'semantic-ui-react';
-import Client from '../../Client';
+import { addAgencies } from '../../actions/agenciesActions';
 
 class AgencyAdd extends Component {
   constructor(props) {
@@ -31,10 +33,7 @@ class AgencyAdd extends Component {
         emails: this.state.emails
       };
 
-      Client.postAgencies(data)
-        .then((d) => {
-          console.log(d);
-        });
+      this.props.dispatch(addAgencies(data));
   }
   handleEmailAddressChange = (idx) => (event) => {
     let copy = this.state.emails.slice();
@@ -79,7 +78,7 @@ class AgencyAdd extends Component {
               value={this.state.url}
             />
             {this.state.emails.map((email, idx) => (
-              <div key={Math.random(99999999)*(new Date().getMilliseconds())}>
+              <div key={idx}>
                 <Input
                   label='Email'
                   labelPosition='left'
@@ -102,4 +101,4 @@ class AgencyAdd extends Component {
   }
 }
 
-export default AgencyAdd;
+export default withRouter(connect()(AgencyAdd));

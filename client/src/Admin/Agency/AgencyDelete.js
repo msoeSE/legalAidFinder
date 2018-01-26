@@ -5,7 +5,7 @@ import { Dropdown, Button, Loader } from 'semantic-ui-react';
 import { fetchAgenciesAndDropdown, deleteAgencies } from '../../actions/agenciesActions';
 
 function mapStateToProps(state) {
-  return { agencies: state.agencies, dropdown: state.dropdown };
+  return { data: state.agencies };
 }
 
 class AgencyDelete extends Component {
@@ -31,7 +31,7 @@ class AgencyDelete extends Component {
       this.props.dispatch(deleteAgencies(data));
   }
   render() {
-    if (this.props.agencies.length === 0) {
+    if (this.props.data.agencies.length === 0) {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
 
@@ -44,7 +44,7 @@ class AgencyDelete extends Component {
               className='padding2' 
               search 
               selection 
-              options={this.props.dropdown} 
+              options={this.props.data.dropdown} 
               onChange={this.handleAgencyID} 
             />
             <div className='padding2'>

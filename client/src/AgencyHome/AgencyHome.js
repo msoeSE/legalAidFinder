@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { Tab, Container, Header } from 'semantic-ui-react';
 import AgencyCategoryTree from './AgencyCategoryTree';
+import { connect } from 'react-redux';
+import { Loader } from 'semantic-ui-react';
+import fetchCategories from '../actions/categoriesActions';
+import {withRouter} from "react-router-dom";
+
+function mapStateToProps(state) {
+  return { data: state.categories };
+}
 
 class AgencyHome extends Component {
   constructor(props) {
@@ -11,19 +19,34 @@ class AgencyHome extends Component {
     };
   }
 
+  componentWillMount() {
+    this.props.dispatch(fetchCategories());
+  }
+
   render() {
+    if (this.props.data.categories.length === 0) {
+      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+    }
+
+    const parents = this.props.data.categories.filter(category => category.parent === null);
+
+    const tabs = parents.map((category) => {
+      return (
+      { menuItem: category.name,
+        render: () =>
+          <Tab.Pane><div className='tab-content'>
+            <Container fluid>
+              <Header as='h2' textAlign='center'>Select which categories your agency can provide legal services for:</Header>
+              <AgencyCategoryTree agencyId='5a04d2e3ec140922c08a6713' categoryId={category._id} />
+            </Container>
+          </div></Tab.Pane> });
+    });
+
     const panes = [
       { menuItem: 'Home',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>Agency Name Goes Here</Header>
-          </Container>
-        </div></Tab.Pane> },
-      { menuItem: 'Category',
-        render: () => <Tab.Pane><div className='tab-content'>
-          <Container fluid>
-            <Header as='h2' textAlign='center'>Select which categories your agency can provide legal services for:</Header>
-            <AgencyCategoryTree agencyId='5a04d2e3ec140922c08a6713' />
           </Container>
         </div></Tab.Pane> },
       { menuItem: 'Eligibility',
@@ -32,11 +55,11 @@ class AgencyHome extends Component {
             <Header as='h2'>View Eligibility</Header>
           </Container>
         </div></Tab.Pane> },
-    ];
+    ].concat(tabs);
     return (
       <Tab panes={panes} />
     );
   }
 }
 
-export default AgencyHome;
+export default withRouter(connect(mapStateToProps)(AgencyHome));

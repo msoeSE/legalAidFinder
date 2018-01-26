@@ -9,7 +9,6 @@ import Checkbox from './Checkbox';
 import styles from './AgencyCategoryTree.css';
 import EligibilityModal from '../Eligibility/EligibilityModal';
 
-
 function mapStateToProps(state) {
   return { data: state.categories };
 }
@@ -85,12 +84,15 @@ class AgencyCategoryTree extends Component {
     }
   }
 
-  makeTree() {
-    this.props.data.categories.map((category) => {
-      if (category.parent === null) {
-        this.state.depth = 0;
-        this.traverse(category);
-      }
+  makeTree(categoryId = 0) {
+    let filteredCategories = this.props.data.categories.filter(category => category.parent === null);
+    if (categoryId !== 0) {
+      filteredCategories = this.props.data.categories.filter(category => category._id === categoryId);
+    }
+
+    filteredCategories.map((category) => { // eslint-disable-line array-callback-return
+      this.state.depth = 0;
+      this.traverse(category);
     });
   }
 
@@ -137,22 +139,26 @@ class AgencyCategoryTree extends Component {
   }
 
   render() {
+    this.state.items = [];
+
     if (!this.props.data.categories || this.props.data.categories.length === 0) {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
-    } else {
-      if (this.state.created === false) {
-        this.makeTree();
-        this.state.created = true;
-      }
-      return (<div>
-        <EligibilityModal
-          showModal={this.state.modalOpen}
-          onClose={this.toggleModal}
-          eligibility={{ category: this.state.currentCategory, agency: this.props.agencyId }}
-        />
-        {this.state.items.map(item => item)}
-      </div>);
     }
+
+    if (this.props.categoryId) {
+      this.makeTree(this.props.categoryId);
+    } else {
+      this.makeTree();
+    }
+
+    return (<div>
+      <EligibilityModal
+        showModal={this.state.modalOpen}
+        onClose={this.toggleModal}
+        eligibility={{ category: this.state.currentCategory, agency: this.props.agencyId }}
+      />
+      {this.state.items.map(item => item)}
+    </div>);
   }
 }
 

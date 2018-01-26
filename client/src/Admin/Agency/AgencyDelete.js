@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
-import { Dropdown, Button } from 'semantic-ui-react';
-import Client from '../../Client';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Dropdown, Button, Loader } from 'semantic-ui-react';
+import { fetchAgenciesAndDropdown, deleteAgencies } from '../../actions/agenciesActions';
+
+function mapStateToProps(state) {
+  return { agencies: state.agencies, dropdown: state.dropdown };
+}
 
 class AgencyDelete extends Component {
   constructor(props) {
     super(props);
     this.state = {
       id: '',
-      name: '',
-      agencies: ''
+      name: ''
     };
     this.handleAgencyID = this.handleAgencyID.bind(this);
     this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
   }
-  componentDidMount() {
-    Client.getAgencies()
-      .then((d) => {
-        this.setState({
-          agencies: d.agencies.map((a) => {return {key: a._id, value: a._id, text: a.name}}),
-        });
-      }, () => {
-        this.setState({
-          requestFailed: true,
-        });
-      });
+  componentWillMount() {
+    this.props.dispatch(fetchAgenciesAndDropdown());
   }
   handleAgencyID(event, data) {
     this.setState({ id: data.value });
@@ -32,21 +28,13 @@ class AgencyDelete extends Component {
       const data = {
         id: this.state.id,
       };
-
-      Client.deleteAgencies(data)
-        .then((d) => {
-          console.log(d);
-        });
+      this.props.dispatch(deleteAgencies(data));
   }
   render() {
-    if (!this.state.agencies) {
-      return (<div className='ui segment'>
-        <p>Loading</p>
-        <div className='ui active dimmer'>
-          <div className='ui loader' />
-        </div>
-      </div>);
+    if (this.props.agencies.length === 0) {
+      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
+
     return (
       <div>
         <div>
@@ -56,7 +44,7 @@ class AgencyDelete extends Component {
               className='padding2' 
               search 
               selection 
-              options={this.state.agencies} 
+              options={this.props.dropdown} 
               onChange={this.handleAgencyID} 
             />
             <div className='padding2'>
@@ -69,4 +57,4 @@ class AgencyDelete extends Component {
   }
 }
 
-export default AgencyDelete;
+export default withRouter(connect(mapStateToProps)(AgencyDelete));

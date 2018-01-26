@@ -49,13 +49,16 @@ class AgencyHome extends Component {
             <Header as='h2'>Agency Name Goes Here</Header>
           </Container>
         </div></Tab.Pane> },
+    ].concat(tabs);
+
+    panes.push(
       { menuItem: 'Eligibility',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>View Eligibility</Header>
           </Container>
-        </div></Tab.Pane> },
-    ].concat(tabs);
+        </div></Tab.Pane> });
+
     return (
       <Tab panes={panes} />
     );

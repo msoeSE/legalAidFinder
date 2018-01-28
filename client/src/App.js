@@ -8,7 +8,7 @@ import Login from './Login';
 import Header from './Header';
 import AdminPage from './Admin/AdminPage';
 import CountySelect from './County/CountySelect';
-import CategoryDetail from './CategoryDetail';
+import CategoryDetail from './Categories/CategoryDetail';
 
 class App extends Component {
   render() {

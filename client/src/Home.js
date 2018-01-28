@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CategoryExplorer from './CategoryExplorer';
+import CategoryExplorer from './Categories/CategoryExplorer';
 
 
 class Home extends Component {

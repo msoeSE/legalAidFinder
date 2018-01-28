@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Input, Button } from 'semantic-ui-react';
-import { addAgencies } from '../../actions/agenciesActions';
+import { addAgencies } from '../../Actions/agenciesActions';
 
 class AgencyAdd extends Component {
   constructor(props) {

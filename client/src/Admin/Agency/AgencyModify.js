@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dropdown, Input, Button, Loader } from 'semantic-ui-react';
-import { fetchAgenciesAndDropdown, modifyAgencies } from '../../actions/agenciesActions';
+import { fetchAgenciesAndDropdown, modifyAgencies } from '../../Actions/agenciesActions';
 
 function mapStateToProps(state) {
   return { data: state.agencies };
@@ -92,11 +92,11 @@ class AgencyModify extends Component {
       <div>
         <div>
           <form>
-            <Dropdown placeholder='Select an Agency to edit' 
+            <Dropdown placeholder='Select an Agency to edit'
               fluid
               className='padding'
-              search selection 
-              options={this.props.data.dropdown} 
+              search selection
+              options={this.props.data.dropdown}
               onChange={this.handleAgency} />
             <Input placeholder='Name'
               label='Name'
@@ -106,13 +106,13 @@ class AgencyModify extends Component {
               className='padding'
               value={this.state.nameVal}
               onChange={this.handleInput} />
-            <Input placeholder='URL' 
+            <Input placeholder='URL'
               label='URL'
               labelPosition='left'
               size='big'
               fluid={true}
               className='padding'
-              value={this.state.urlVal} 
+              value={this.state.urlVal}
               onChange={this.handleInput} />
             {this.state.emailVal.map((email, idx) => (
               <div key={idx}>

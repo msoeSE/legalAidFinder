@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dropdown, Button, Loader } from 'semantic-ui-react';
-import { fetchAgenciesAndDropdown, deleteAgencies } from '../../actions/agenciesActions';
+import { fetchAgenciesAndDropdown, deleteAgencies } from '../../Actions/agenciesActions';
 
 function mapStateToProps(state) {
   return { data: state.agencies };

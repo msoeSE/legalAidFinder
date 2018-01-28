@@ -6,7 +6,7 @@ import {
   DELETE_AGENCY,
   UPDATE_AGENCY,
   ADD_AGENCY,
-} from '../Reducers/agenciesReducer';
+} from '../reducers/agenciesReducer';
 
 export function fetchAgencies() {
   return dispatch => Client.getRequest(AGENCIES_ENDPOINT)

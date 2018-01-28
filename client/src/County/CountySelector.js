@@ -1,5 +1,5 @@
 import React from 'react';
-import { fetchCounties, chooseCounty } from '../Actions/countiesActions';
+import { fetchCounties, chooseCounty } from '../actions/countiesActions';
 import {withRouter} from "react-router-dom";
 import { connect } from 'react-redux';
 

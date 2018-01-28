@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dropdown, Button, Loader } from 'semantic-ui-react';
-import { fetchAgenciesAndDropdown, deleteAgencies } from '../../Actions/agenciesActions';
+import { fetchAgenciesAndDropdown, deleteAgencies } from '../../actions/agenciesActions';
 
 function mapStateToProps(state) {
   return { data: state.agencies };
@@ -29,6 +29,7 @@ class AgencyDelete extends Component {
     const data = {
       id: this.state.id,
     };
+    
     this.props.dispatch(deleteAgencies(data)).then(function(res) {
       console.log(res)
     });

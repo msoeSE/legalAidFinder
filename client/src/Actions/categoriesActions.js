@@ -1,5 +1,5 @@
 import Client, { CATEGORIES_ENDPOINT } from '../Client';
-import { FETCH_CATEGORIES_FULFILLED, FETCH_CATEGORIES_REJECTED } from '../Reducers/categoriesReducer';
+import { FETCH_CATEGORIES_FULFILLED, FETCH_CATEGORIES_REJECTED } from '../reducers/categoriesReducer';
 
 export function fetchCategories() {
   return dispatch => Client.getRequest(CATEGORIES_ENDPOINT)

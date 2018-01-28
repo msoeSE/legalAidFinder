@@ -4,7 +4,7 @@ import { GoogleLogin } from 'react-google-login-component';
 import {
   Link,
 } from 'react-router-dom';
-import logo from './Images/logo.png';
+import logo from './images/logo.png';
 
 class Header extends Component {
   render() {

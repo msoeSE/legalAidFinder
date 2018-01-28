@@ -20,15 +20,15 @@ export default function reducer(state = {
       return { ...state, error: action.payload };
     }
     case FETCH_AGENCIES_FULFILLED: {
-      return { ...state, agencies: action.payload };
+      return { ...state, agencies: action.payload, error: null };
     }
     case FETCH_AGENCIES_DROPDOWN_FULFILLED: {
       const agencies_temp = action.payload;
       const dropdown_temp = agencies_temp.map(a => ({ key: a._id, value: a._id, text: a.name }));
-      return { ...state, agencies: agencies_temp, dropdown: dropdown_temp };
+      return { ...state, agencies: agencies_temp, dropdown: dropdown_temp, error: null };
     }
     case ADD_AGENCY: {
-      return { ...state, agencies: [ ...state.agencies, action.payload ] };
+      return { ...state, agencies: [ ...state.agencies, action.payload ], error: null };
     }
     case UPDATE_AGENCY: {
       const { id, name } = action.payload;
@@ -36,10 +36,10 @@ export default function reducer(state = {
       const agencyToUpdate = newAgencies.findIndex(agency => agency._id === id);
       newAgencies[agencyToUpdate] = action.payload;
 
-      return { ...state, agencies: newAgencies };
+      return { ...state, agencies: newAgencies, error: null };
     }
     case DELETE_AGENCY: {
-      return { ...state, agencies: state.agencies.filter(agency => agency._id !== action.payload) };
+      return { ...state, agencies: state.agencies.filter(agency => agency._id !== action.payload), error: null };
     }
   }
 

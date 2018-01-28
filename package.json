@@ -7,7 +7,6 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
-    "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "body-parser": "^1.18.2",
     "create-react-class": "^15.6.2",
@@ -28,8 +27,8 @@
     "react-fontawesome": "^1.6.1",
     "react-google-login": "^3.0.4",
     "react-google-login-component": "^0.9.2",
-    "react-redux": "^5.0.6",
     "react-google-maps": "^9.4.5",
+    "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.1.0",
@@ -46,15 +45,24 @@
     "server": "nodemon server.js --exec babel-node",
     "client": "node start-client.js",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
+    "test": "jest",
     "lint": "eslint ."
   },
   "devDependencies": {
+    "babel-jest": "^22.1.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
     "concurrently": "3.1.0",
+    "enzyme": "^3.3.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "14.1.0",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
-    "eslint-plugin-react": "6.9.0"
+    "eslint-plugin-react": "6.9.0",
+    "expect": "^22.1.0",
+    "jest": "^22.1.4",
+    "redux-mock-store": "^1.5.0"
   }
 }

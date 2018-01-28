@@ -14,10 +14,11 @@
     "react-dom": "15.4.0",
     "semantic-ui": "^2.2.10"
   },
+  "jest": {
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
 }

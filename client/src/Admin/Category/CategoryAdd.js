@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dropdown, Button, Input } from 'semantic-ui-react';
+import { Button, Input } from 'semantic-ui-react';
 import Client from '../../Client';
 
 class CategoryAdd extends Component {

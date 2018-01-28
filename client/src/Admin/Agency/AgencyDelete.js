@@ -29,7 +29,9 @@ class AgencyDelete extends Component {
     const data = {
       id: this.state.id,
     };
-    this.props.dispatch(deleteAgencies(data));
+    this.props.dispatch(deleteAgencies(data)).then(function(res) {
+      console.log(res)
+    });
   }
   render() {
     if (this.props.data.agencies.length === 0) {

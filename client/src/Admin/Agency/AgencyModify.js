@@ -16,6 +16,7 @@ class AgencyModify extends Component {
       urlVal: '',
       idVal: '',
       emailVal: [{ address: '' }],
+      msg: 'hi'
     };
     this.handleAgency = this.handleAgency.bind(this);
     this.handleInput = this.handleInput.bind(this);
@@ -56,7 +57,12 @@ class AgencyModify extends Component {
       emails: this.state.emailVal
     };
 
-    this.props.dispatch(modifyAgencies(data));
+    modifyAgencies(data).then((e) => {console.log(e)})
+    /*this.props.dispatch(modifyAgencies(data)).then((e) => {
+      //alert('Success!');
+      this.setState({ msg: 'Success!' });
+      this.setState({ nameVal: '', urlVal: '', idVal: '', emailVal: [{ address: '' }] });
+    });*/
   }
   handleEmailAddressChange = (idx) => (event) => {
     let copy = this.state.emailVal.slice();
@@ -125,6 +131,7 @@ class AgencyModify extends Component {
             ))}
             <Button color='blue' onClick={this.handleAddEmail} className='padding'>Add Email</Button>
             <Button positive onClick={this.handleSubmitAgency}>Edit Agency</Button>
+            <h2>{this.state.msg}</h2>
           </form>
         </div>
       </div>

@@ -40,8 +40,9 @@ export function addAgency(req, res) {
   newAgency.save((err, saved) => {
     if (err) {
       res.status(500).send(err);
-    }
+    } else {
       res.json({ agency: saved });
+    }
   });
 }
 
@@ -71,7 +72,7 @@ export function getAgency(req, res) {
 export function deleteAgency(req, res) {
   Agencies.remove({ _id: req.body.id }, (err) => {
     if (!err) {
-      res.status(200);
+      res.status(200).send(JSON.stringify(req.body));
     } else {
       res.status(500).send(err);
     }

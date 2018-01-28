@@ -23,7 +23,7 @@ export default function reducer(state = {
         return { ...state, agencies: [ ...state.agencies, action.payload ] };
       }
       case 'UPDATE_AGENCY': {
-        const {id, name} = action.payload;
+        const { id } = action.payload;
         const newAgencies = [...state.agencies];
         const agencyToUpdate = newAgencies.findIndex(agency => agency._id === id)
         newAgencies[agencyToUpdate] = action.payload;

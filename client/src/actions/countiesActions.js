@@ -1,23 +1,15 @@
+import Client, { COUNTY_ENDPOINT } from '../Client';
+
 export function fetchCounties() {
-    return function (dispatch) {
-        return fetch('api/counties', {
-            accept: 'application/json',
-        }).then(parseJSON)
-            .then((response) => {
-                dispatch({ type: 'FETCH_COUNTIES_FULFILLED', payload: response.counties });
-            })
-            .catch((err) => {
-                dispatch({ type: 'FETCH_COUNTIES_REJECTED', payload: err });
-            });
-    };
+  return dispatch => Client.getRequest(COUNTY_ENDPOINT)
+    .then((response) => {
+      dispatch({ type: 'FETCH_COUNTIES_FULFILLED', payload: response.counties });
+    })
+    .catch((err) => {
+      dispatch({ type: 'FETCH_COUNTIES_REJECTED', payload: err });
+    });
 }
 
-export function chooseCounty(county){
-    return function(dispatch){
-      dispatch({type: 'CHOOSE_COUNTY', payload: county});
-    };
-}
-
-function parseJSON(response) {
-    return response.json();
+export function chooseCounty(county) {
+  return dispatch => dispatch({ type: 'CHOOSE_COUNTY', payload: county });
 }

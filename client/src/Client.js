@@ -1,24 +1,53 @@
 /* eslint-disable no-undef */
+
+export const AGENCIES_ENDPOINT = 'agencies';
+export const COUNTY_ENDPOINT = 'counties';
+export const CATEGORIES_ENDPOINT = 'categories';
+
+function getRequest(endpoint, id = null, cb) {
+  let url = `${process.env.PUBLIC_URL}/api/${endpoint}`;
+  if (id) {
+    url += `?id=${id}`;
+  }
+
+  return fetch(url, {
+    accept: 'application/json',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
+function deleteRequest(endpoint, id, cb) {
+  return fetch(`${process.env.PUBLIC_URL}/api/${endpoint}`, {
+    method: 'delete',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(id),
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
+function postRequest(endpoint, data, cb) {
+  return fetch(`${process.env.PUBLIC_URL}/api/${endpoint}`, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
 function getCategories(cb) {
   return fetch('api/categories', {
-    accept: 'application/json',
-  })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb);
-}
-
-function getAgencies(cb) {
-  return fetch('api/agencies', {
-    accept: 'application/json',
-  })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb);
-}
-
-function getCategory(id, cb) {
-  return fetch(`api/categories?id=${id}`, {
     accept: 'application/json',
   })
     .then(checkStatus)
@@ -31,7 +60,7 @@ function deleteCategories(id, cb) {
     method: 'delete',
     headers: {
       'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(id),
   })
@@ -45,49 +74,7 @@ function postCategories(data, cb) {
     method: 'post',
     headers: {
       'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data),
-  })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb);
-}
-
-function postAgencies(data, cb) {
-  return fetch('api/agencies', {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data),
-  })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb);
-}
-
-function deleteAgencies(id, cb) {
-  return fetch('api/agencies', {
-    method: 'delete',
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(id),
-  })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb);
-}
-
-function modifyAgencies(data, cb) {
-  return fetch('api/agencies', {
-    method: 'put',
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   })
@@ -111,7 +98,10 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { getCategories, getAgencies, postAgencies,
-                 deleteAgencies, modifyAgencies, deleteCategories,
-                 postCategories };
+const Client = { getRequest,
+  deleteRequest,
+  postRequest,
+  getCategories,
+  deleteCategories,
+  postCategories };
 export default Client;

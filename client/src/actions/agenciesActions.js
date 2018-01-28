@@ -1,82 +1,51 @@
+import Client, { AGENCIES_ENDPOINT } from '../Client';
+
 export function fetchAgencies() {
-    return dispatch => fetch(`${process.env.PUBLIC_URL}/api/agencies`, {
-      accept: 'application/json',
-    }).then(parseJSON)
-        .then((response) => {
-          dispatch({ type: 'FETCH_AGENCIES_FULFILLED', payload: response.agencies });
-        })
-        .catch((err) => {
-          dispatch({ type: 'REQUEST_REJECTED', payload: err });
-        });
-  }
-
-  export function fetchAgenciesAndDropdown() {
-    return dispatch => fetch(`${process.env.PUBLIC_URL}/api/agencies`, {
-      accept: 'application/json',
-    }).then(parseJSON)
-        .then((response) => {
-          dispatch({ type: 'FETCH_AGENCIES_DROPDOWN_FULFILLED', payload: response.agencies });
-        })
-        .catch((err) => {
-          dispatch({ type: 'REQUEST_REJECTED', payload: err });
-        });
-  }
-
-  export function deleteAgencies(id) {
-    return dispatch => fetch(`${process.env.PUBLIC_URL}/api/agencies`, {
-      method: 'delete',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(id),
+  return dispatch => Client.getRequest(AGENCIES_ENDPOINT)
+    .then((response) => {
+      dispatch({ type: 'FETCH_AGENCIES_FULFILLED', payload: response.agencies });
     })
-      .then(parseJSON)
-        .then((response) => {
-            dispatch({ type: 'DELETE_AGENCY', payload: id });
-        })
-        .catch((err) => {
-            dispatch({ type: 'REQUEST_REJECTED', payload: err });
-        });      
-  }
+    .catch((err) => {
+      dispatch({ type: 'REQUEST_REJECTED', payload: err });
+    });
+}
 
-  export function addAgencies(data) {
-    return dispatch => fetch(`${process.env.PUBLIC_URL}/api/agencies`, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
+export function fetchAgenciesAndDropdown() {
+  return dispatch => Client.getRequest(AGENCIES_ENDPOINT)
+    .then((response) => {
+      dispatch({ type: 'FETCH_AGENCIES_DROPDOWN_FULFILLED', payload: response.agencies });
     })
-      .then(parseJSON)
-        .then((response) => {
-            dispatch({ type: 'ADD_AGENCY', payload: response });
-        })
-        .catch((err) => {
-            dispatch({ type: 'REQUEST_REJECTED', payload: err });
-        });      
-  }
+    .catch((err) => {
+      dispatch({ type: 'REQUEST_REJECTED', payload: err });
+    });
+}
 
-  export function modifyAgencies(data) {
-    return dispatch => fetch(`${process.env.PUBLIC_URL}/api/agencies`, {
-      method: 'put',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
+export function deleteAgencies(id) {
+  return dispatch => Client.deleteRequest(AGENCIES_ENDPOINT, id)
+    .then((response) => {
+      dispatch({ type: 'DELETE_AGENCY', payload: id });
     })
-      .then(parseJSON)
-        .then((response) => {
-            dispatch({ type: 'UPDATE_AGENCY', payload: response });
-        })
-        .catch((err) => {
-            dispatch({ type: 'REQUEST_REJECTED', payload: err });
-        });      
-  }
-  
-  function parseJSON(response) {
-    return response.json();
-  }
-  
+    .catch((err) => {
+      dispatch({ type: 'REQUEST_REJECTED', payload: err });
+    });
+}
+
+export function addAgencies(data) {
+  return dispatch => Client.postRequest(AGENCIES_ENDPOINT, data)
+    .then((response) => {
+      dispatch({ type: 'ADD_AGENCY', payload: response });
+    })
+    .catch((err) => {
+      dispatch({ type: 'REQUEST_REJECTED', payload: err });
+    });
+}
+
+export function modifyAgencies(data) {
+  return dispatch => Client.postRequest(AGENCIES_ENDPOINT, data)
+    .then((response) => {
+      dispatch({ type: 'UPDATE_AGENCY', payload: response });
+    })
+    .catch((err) => {
+      dispatch({ type: 'REQUEST_REJECTED', payload: err });
+    });
+}

@@ -13,7 +13,7 @@ class AgencyDelete extends Component {
     super(props);
     this.state = {
       id: '',
-      name: ''
+      name: '',
     };
     this.handleAgencyID = this.handleAgencyID.bind(this);
     this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
@@ -25,10 +25,11 @@ class AgencyDelete extends Component {
     this.setState({ id: data.value });
   }
   handleSubmitAgency(event) {
-      const data = {
-        id: this.state.id,
-      };
-      this.props.dispatch(deleteAgencies(data));
+    event.preventDefault();
+    const data = {
+      id: this.state.id,
+    };
+    this.props.dispatch(deleteAgencies(data));
   }
   render() {
     if (this.props.data.agencies.length === 0) {
@@ -38,17 +39,17 @@ class AgencyDelete extends Component {
     return (
       <div>
         <div>
-          <form onSubmit={this.handleSubmitAgency}>
-            <Dropdown placeholder='Agency' 
-              fluid={true} size='big' 
-              className='padding2' 
-              search 
-              selection 
-              options={this.props.data.dropdown} 
-              onChange={this.handleAgencyID} 
+          <form>
+            <Dropdown placeholder='Agency'
+              fluid={true} size='big'
+              className='padding2'
+              search
+              selection
+              options={this.props.data.dropdown}
+              onChange={this.handleAgencyID}
             />
             <div className='padding2'>
-              <Button negative type='Submit' value='Submit' className='padding2'>Delete Agency</Button>
+              <Button negative type='Submit' value='Submit' className='padding2' onClick={this.handleSubmitAgency}>Delete Agency</Button>
             </div>
           </form>
         </div>

@@ -29,7 +29,7 @@ export function addAgency(req, res) {
   req.body.emails.forEach((email) => {
     email_array.push(email.address);
   });
-  console.log(email_array)
+
   var newAgency = new Agencies({
     name: req.body.name,
     url: req.body.url,
@@ -69,11 +69,10 @@ export function getAgency(req, res) {
  * @returns void
  */
 export function deleteAgency(req, res) {
-  Agencies.remove({ _id: req.body.id }, function(err) {
+  Agencies.remove({ _id: req.body.id }, (err) => {
     if (!err) {
       res.status(200);
-    }
-    else {
+    } else {
       res.status(500).send(err);
     }
   });
@@ -90,12 +89,12 @@ export function modifyAgency(req, res) {
   req.body.emails.forEach((email) => {
     email_array.push(email.address);
   });
-  Agencies.findOneAndUpdate(req.body.query, 
+  Agencies.findOneAndUpdate(req.body.query,
     { name: req.body.name,
       url: req.body.url,
       emails: email_array
     }, {upsert:true}, function(err, doc){
-    if (err) 
+    if (err)
       return res.send(500, { error: err });
     return res.status(200).send(JSON.stringify(req.body));
   });

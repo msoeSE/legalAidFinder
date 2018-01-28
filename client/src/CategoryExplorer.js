@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Card, Image, Loader, List } from 'semantic-ui-react';
-import fetchCategories from './actions/categoriesActions';
+import { fetchCategories } from './actions/categoriesActions';
 import moneyImg from './images/money.png';
 import crimeImg from './images/crime.png';
 import healthImg from './images/health.png';

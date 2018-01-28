@@ -49,7 +49,7 @@ export function addAgencies(data) {
 }
 
 export function modifyAgencies(data) {
-  return dispatch => Client.postRequest(AGENCIES_ENDPOINT, data)
+  return dispatch => Client.putRequest(AGENCIES_ENDPOINT, data)
     .then((response) => {
       dispatch({ type: UPDATE_AGENCY, payload: response });
     })

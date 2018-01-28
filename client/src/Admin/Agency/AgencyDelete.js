@@ -14,6 +14,7 @@ class AgencyDelete extends Component {
     this.state = {
       id: '',
       name: '',
+      msg: ''
     };
     this.handleAgencyID = this.handleAgencyID.bind(this);
     this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
@@ -22,21 +23,28 @@ class AgencyDelete extends Component {
     this.props.dispatch(fetchAgenciesAndDropdown());
   }
   handleAgencyID(event, data) {
+    this.setState({ msg: '' });
     this.setState({ id: data.value });
   }
   handleSubmitAgency(event) {
     event.preventDefault();
-    const data = {
-      id: this.state.id,
-    };
+    console.log(this.props)
+    if (confirm('Are you sure you want to delete it?')) {
+      const data = {
+        id: this.state.id
+      };
 
-    this.props.dispatch(deleteAgencies(data)).then(() => {
-      if (!this.props.data.error) {
-        // Display success
-      } else {
-        // Display error
-      }
-    });
+      this.props.dispatch(deleteAgencies(data)).then(() => {
+        if (!this.props.data.error) {
+          // Display success
+          this.props.dispatch(fetchAgenciesAndDropdown());
+          this.setState({ msg: 'Successfuly deleted agency.' });
+        } else {
+          // Display error
+          this.setState({ msg: 'Failed to delete agency.' });
+        }
+      });
+    }
   }
   render() {
     if (this.props.data.agencies.length === 0) {
@@ -58,6 +66,7 @@ class AgencyDelete extends Component {
             <div className='padding2'>
               <Button negative type='Submit' value='Submit' className='padding2' onClick={this.handleSubmitAgency}>Delete Agency</Button>
             </div>
+            <h2>{this.state.msg}</h2>
           </form>
         </div>
       </div>

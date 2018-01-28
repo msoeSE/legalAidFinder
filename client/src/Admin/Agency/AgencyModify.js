@@ -16,7 +16,7 @@ class AgencyModify extends Component {
       urlVal: '',
       idVal: '',
       emailVal: [{ address: '' }],
-      msg: 'hi'
+      msg: ''
     };
     this.handleAgency = this.handleAgency.bind(this);
     this.handleInput = this.handleInput.bind(this);
@@ -32,7 +32,7 @@ class AgencyModify extends Component {
   // Map agencies to dropdown, set state of selected agency
   handleAgency(event, data) {
     var agency = this.props.data.agencies.find((e) => {return e._id === data.value});
-    this.setState({ urlVal: agency.url, nameVal: agency.name, idVal: agency._id });
+    this.setState({ urlVal: agency.url, nameVal: agency.name, idVal: agency._id, msg: '' });
     var array = [];
     agency.emails.forEach((e) => {
       if (e !== null)
@@ -43,9 +43,9 @@ class AgencyModify extends Component {
   // Update agency name and value
   handleInput(event, data) {
     if (data.placeholder === 'Name')
-      this.setState({ nameVal: event.target.value });
+      this.setState({ nameVal: event.target.value, msg: '' });
     else
-      this.setState({ urlVal: event.target.value });
+      this.setState({ urlVal: event.target.value, msg: '' });
   }
   // PUT request on submit
   handleSubmitAgency(event) {
@@ -57,30 +57,38 @@ class AgencyModify extends Component {
       emails: this.state.emailVal
     };
 
-    modifyAgencies(data).then((e) => {console.log(e)})
-    /*this.props.dispatch(modifyAgencies(data)).then((e) => {
-      //alert('Success!');
-      this.setState({ msg: 'Success!' });
-      this.setState({ nameVal: '', urlVal: '', idVal: '', emailVal: [{ address: '' }] });
-    });*/
+    this.props.dispatch(modifyAgencies(data)).then(() => {
+        if (!this.props.data.error) {
+          // Display success
+          this.props.dispatch(fetchAgenciesAndDropdown());
+          let message = 'Successfully edited agency: ' + this.state.nameVal;
+          this.setState({ msg: message });
+        } else {
+          // Display error
+          let message = 'Failed to edit agency.';
+          this.setState({ msg: message });
+        }
+    });
   }
   handleEmailAddressChange = (idx) => (event) => {
     let copy = this.state.emailVal.slice();
     let emails = copy.map((email, i) => {
       return (i === idx) ? {...emails, address: event.target.value} : email
     })
-    this.setState({ emailVal: emails });
+    this.setState({ emailVal: emails, msg: '' });
   }
   handleAddEmail(event) {
     event.preventDefault();
     this.setState({
-      emailVal: this.state.emailVal.concat([''])
+      emailVal: this.state.emailVal.concat(['']),
+      msg: ''
     });
   }
   handleRemoveEmail = (idx) => (event) => {
     event.preventDefault();
     this.setState({
-      emailVal: this.state.emailVal.filter((a, eidx) => idx !== eidx)
+      emailVal: this.state.emailVal.filter((a, eidx) => idx !== eidx),
+      msg: ''
     });
   }
   render() {

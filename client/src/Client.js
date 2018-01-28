@@ -46,6 +46,20 @@ function postRequest(endpoint, data, cb) {
     .then(cb);
 }
 
+function putRequest(endpoint, data, cb) {
+  return fetch(`${process.env.PUBLIC_URL}/api/${endpoint}`, {
+    method: 'put',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
 function getCategories(cb) {
   return fetch('api/categories', {
     accept: 'application/json',
@@ -101,6 +115,7 @@ function parseJSON(response) {
 const Client = { getRequest,
   deleteRequest,
   postRequest,
+  putRequest,
   getCategories,
   deleteCategories,
   postCategories };

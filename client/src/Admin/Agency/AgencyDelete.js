@@ -43,6 +43,8 @@ class AgencyDelete extends Component {
           this.setState({ msg: 'Failed to delete agency.' });
         }
       });
+    } else {
+      this.setState({ msg: '' });
     }
   }
   render() {

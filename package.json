@@ -49,7 +49,7 @@
     "lint": "eslint ."
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js"
+    "setupFiles": ["./setupJest.js"]
   },
   "devDependencies": {
     "babel-jest": "^22.1.0",

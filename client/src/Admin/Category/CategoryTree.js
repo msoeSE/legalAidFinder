@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { Input, Button } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { fetchCategories } from '../../actions/categoriesActions';
-import Checkbox from './Checkbox';
-
-// Import styles
-import styles from './CategoryTree.css';
 import CategoryModal from '../Category/CategoryModal';
 
 function mapStateToProps(state) {
@@ -27,6 +23,7 @@ class CategoryTree extends Component {
     };
 
     this.toggleCheckbox = this.toggleCheckbox.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
   componentWillMount() {
@@ -100,7 +97,7 @@ class CategoryTree extends Component {
   toggleCheckbox(agencyId, categoryId, pushAgency) {
     this.setState({
       modalOpen: !this.state.modalOpen,
-      currentCategory: categoryId,
+      // currentCategory: categoryId,
     });
     // this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
   }
@@ -134,7 +131,10 @@ class CategoryTree extends Component {
   }
 
   handleAdd() {
-
+    this.setState({
+      modalOpen: true,
+      // currentCategory: categoryId,
+    });
   }
 
   render() {

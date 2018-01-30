@@ -27,9 +27,9 @@ class AdminPage extends Component {
           <AgencyModify />
         </Container>
         </div></Tab.Pane> },
-      { menuItem: 'Edit Category Tree', render: () => <Tab.Pane><div className='tab-content'>
+      { menuItem: 'Edit Categories', render: () => <Tab.Pane><div className='tab-content'>
         <Container fluid textAlign='center'>
-          <Header as='h2'>Edit the Category Tree</Header>
+          <Header as='h2'>Edit the Categories</Header>
         </Container>
         <CategoryTab />
       </div></Tab.Pane> }

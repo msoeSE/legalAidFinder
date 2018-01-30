@@ -9,9 +9,9 @@ class CategoryModal extends Component {
   }
 
   render() {
-    if (!this.props.showModal || !this.props.eligibility.agency || !this.props.eligibility.category) {
-      return null;
-    }
+    // if (!this.props.showModal) {
+    //   return null;
+    // }
 
     return (
       <div>
@@ -19,7 +19,7 @@ class CategoryModal extends Component {
           <Modal.Header>Add an eligibility constraint:</Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <CategoryCreator eligibility={{ agency: this.props.eligibility.agency, category: this.props.eligibility.category }} />
+              {/* <CategoryCreator eligibility={{ agency: this.props.eligibility.agency, category: this.props.eligibility.category }} /> */}
               <Button primary onClick={this.props.onClose}>
                 Close
               </Button>

@@ -5,7 +5,7 @@ import EligibilityCreator from './EligibilityCreator';
 
 class EligibilityModal extends Component {
   handleAddEligibility(category, agency, key, comparator, value) {
-    //this.props.dispatch(addEligibilityRequest({ category, agency, key, comparator, value }));
+    // this.props.dispatch(addEligibilityRequest({ category, agency, key, comparator, value }));
   }
 
   render() {

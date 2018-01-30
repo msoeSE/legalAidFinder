@@ -3,7 +3,9 @@ import * as EligibilityController from '../controllers/eligibility.controller';
 
 const router = new Router();
 
-// Get all ParentPosts
+// Get all
+router.route('/eligibilities').get(EligibilityController.getAllEligibilities);
+
 router.route('/agency_eligibilities/:_id').get(EligibilityController.getAgencyEligibility);
 
 // Get one category by _id

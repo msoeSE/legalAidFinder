@@ -37,7 +37,7 @@ class AgencyHome extends Component {
           <Tab.Pane><div className='tab-content'>
             <Container fluid>
               <Header as='h2' textAlign='center'>Select which categories your agency can provide legal services for:</Header>
-              <AgencyCategoryTree agencyId='5a04d2e3ec140922c08a6713' categoryId={category._id} />
+              <AgencyCategoryTree agencyId='5a04d2e3ec140922c08a6717' categoryId={category._id} />
             </Container>
           </div></Tab.Pane> });
     });
@@ -52,10 +52,10 @@ class AgencyHome extends Component {
     ].concat(tabs);
 
     panes.push(
-      { menuItem: 'Eligibility',
+      { menuItem: 'Global Eligibility',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
-            <Header as='h2'>View Eligibility</Header>
+            <Header as='h2'>View Global Eligibility</Header>
           </Container>
         </div></Tab.Pane> });
 

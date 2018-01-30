@@ -1,9 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-
-// Import Style
-import styles from './EligibilityCreator.css';
 
 class EligibilityCreator extends React.Component {
   constructor() {
@@ -54,13 +50,5 @@ class EligibilityCreator extends React.Component {
     );
   }
 }
-
-EligibilityCreator.propTypes = {
-  // addEligibility: PropTypes.func.isRequired,
-  eligibility: PropTypes.shape({
-    category: PropTypes.string.isRequired,
-    agency: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 export default EligibilityCreator;

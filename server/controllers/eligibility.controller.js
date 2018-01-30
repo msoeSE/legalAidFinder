@@ -1,6 +1,18 @@
 import mongoose from 'mongoose';
 import Eligibility from '../models/eligibility';
 
+export function getAllEligibilities(req, res) {
+  Eligibility.find()
+    .exec((err, eligibilities) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.json({ eligibilities });
+      }
+    });
+}
+
+
 /**
  * Get all eligibility for an agency
  * @param req

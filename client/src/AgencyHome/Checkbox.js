@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'; // ES6
+import { Checkbox } from 'semantic-ui-react';
+import EligibilityGrid from '../Eligibility/EligibilityGrid';
 
-// Import Style
+export const NEW_ELIGIBILITY = 'NEW_ELIGIBILITY';
+export const VIEW_ELIGIBILITY = 'VIEW_ELIGIBILITY';
 
-class Checkbox extends Component {
+class CategoryCheckbox extends Component {
   state = {
     isChecked: this.props.checked,
   };
 
-  toggleCheckboxChange = () => {
+  toggleCheckboxChange() {
     this.setState(({ isChecked }) => (
       {
         isChecked: !isChecked,
@@ -16,34 +18,26 @@ class Checkbox extends Component {
     ));
 
     this.props.handleCheckboxChange(this.props.agencyId, this.props.categoryId, !this.state.isChecked);
-  };
+  }
+
+  handleButtonClick(type) {
+    let x = type;
+  }
 
   render() {
-    const { label } = this.props;
     const { isChecked } = this.state;
     return (
       <div>
-        <label>
-          <input
-            type='checkbox'
-            value={this.props.key}
-            checked={isChecked}
-            onChange={this.toggleCheckboxChange}
-          />
-
-          {`\t${this.props.label}`}
-        </label>
+        <Checkbox
+          label={this.props.label}
+          value={this.props.key}
+          checked={isChecked}
+          onChange={this.toggleCheckboxChange}
+        />
+        <EligibilityGrid showGrid={isChecked} count={this.props.eligibility.length} handleClick={this.handleButtonClick} />
       </div>
     );
   }
 }
 
-Checkbox.propTypes = {
-  label: PropTypes.string.isRequired,
-  handleCheckboxChange: PropTypes.func.isRequired,
-  checked: PropTypes.bool.isRequired,
-  // agencyId: PropTypes.string.isRequired,
-  categoryId: PropTypes.string.isRequired,
-};
-
-export default Checkbox;
+export default CategoryCheckbox;

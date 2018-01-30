@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Loader } from 'semantic-ui-react';
+import { Loader, Grid, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import fetchCategories from '../actions/categoriesActions';
 import Checkbox from './Checkbox';
 
-// Import styles
-import styles from './AgencyCategoryTree.css';
 import EligibilityModal from '../Eligibility/EligibilityModal';
+import { fetchEligibilities } from "../actions/eligibilityActions";
+import { getEligibilities } from "../reducers/eligibilityReducer";
 
 function mapStateToProps(state) {
-  return { data: state.categories };
+  return { data: state.categories, info: state.eligibility };
 }
 
 class AgencyCategoryTree extends Component {
@@ -26,15 +26,17 @@ class AgencyCategoryTree extends Component {
     };
 
     this.toggleCheckbox = this.toggleCheckbox.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentWillMount() {
     this.props.dispatch(fetchCategories());
+    this.props.dispatch(fetchEligibilities());
   }
 
   // Recursive function that generates the checkboxes
   traverse(category) {
-    if (this.state.items.some(e => e._id === category._id)){
+    if (this.state.items.some(e => e._id === category._id)) {
       return;
     }
 
@@ -96,6 +98,12 @@ class AgencyCategoryTree extends Component {
     });
   }
 
+  toggleModal() {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+  }
+
   toggleCheckbox(agencyId, categoryId, pushAgency) {
     this.setState({
       modalOpen: !this.state.modalOpen,
@@ -114,6 +122,7 @@ class AgencyCategoryTree extends Component {
             agencyId={this.props.agencyId}
             categoryId={category._id}
             checked={checked}
+            eligibility={getEligibilities(this.props.info, this.props.agencyId, category._id)}
           />
         </div>
       );
@@ -126,11 +135,12 @@ class AgencyCategoryTree extends Component {
     } else {
       return (
         <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
-          <h4 className={`${styles.underline}`}>{category.name}</h4>
+          <h4>{category.name}</h4>
+          <Divider />
         </div>
       );
     }
-  };
+  }
 
   // Find the appropriate category based off of the category ID
   findCategory(categoryId) {
@@ -141,7 +151,7 @@ class AgencyCategoryTree extends Component {
   render() {
     this.state.items = [];
 
-    if (!this.props.data.categories || this.props.data.categories.length === 0) {
+    if (!this.props.data.categories || this.props.data.categories.length === 0 || !this.props.info.eligibility || this.props.info.eligibility.length === 0) {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
 

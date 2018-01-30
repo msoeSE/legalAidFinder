@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { Input, Button } from 'semantic-ui-react';
 import { fetchCategories } from '../../actions/categoriesActions';
 import Checkbox from './Checkbox';
 
 // Import styles
 import styles from './CategoryTree.css';
-import EligibilityModal from '../Eligibility/EligibilityModal';
+import CategoryModal from '../Category/CategoryModal';
 
 function mapStateToProps(state) {
   return { data: state.categories };
@@ -108,25 +109,19 @@ class CategoryTree extends Component {
     if (category.subcategories && category.subcategories.length === 0) {
       return (
         <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
-          <Checkbox
-            label={category.name}
-            handleCheckboxChange={this.toggleCheckbox}
-            agencyId={this.props.agencyId}
-            categoryId={category._id}
-            checked={checked}
-          />
+          <Button onClick={this.handleAdd} compact basic color='black' size='small'>{category.name}</Button>
         </div>
       );
     } else if (isTopParent) {
       return (
         <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
-          <h2 className='underline'>{category.name}</h2>
+          <Button onClick={this.handleAdd} compact basic color='black' size='huge'><b><u>{category.name}</u></b></Button>
         </div>
       );
     } else {
       return (
         <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
-          <h4 className={`${styles.underline}`}>{category.name}</h4>
+          <Button onClick={this.handleAdd} compact basic color='black' size='large'><b>{category.name}</b></Button>
         </div>
       );
     }
@@ -136,6 +131,10 @@ class CategoryTree extends Component {
   findCategory(categoryId) {
     const elementPos = this.props.data.categories.map(x => x._id).indexOf(categoryId);
     return this.props.data.categories[elementPos];
+  }
+
+  handleAdd() {
+
   }
 
   render() {
@@ -152,10 +151,10 @@ class CategoryTree extends Component {
     }
 
     return (<div>
-      <EligibilityModal
+      <CategoryModal
         showModal={this.state.modalOpen}
         onClose={this.toggleModal}
-        eligibility={{ category: this.state.currentCategory, agency: this.props.agencyId }}
+        category={this.state.currentCategory}
       />
       {this.state.items.map(item => item)}
     </div>);

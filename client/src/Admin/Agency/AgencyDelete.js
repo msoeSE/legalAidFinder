@@ -28,7 +28,7 @@ class AgencyDelete extends Component {
   }
   handleSubmitAgency(event) {
     event.preventDefault();
-    if (confirm('Are you sure you want to delete it?')) {
+    if (window.confirm('Are you sure you want to delete it?')) {
       const data = {
         id: this.state.id
       };

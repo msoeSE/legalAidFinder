@@ -44,7 +44,7 @@ class CategoryTab extends Component {
                     onChange={this.handleID}
                 />
                 <hr/>
-                <CategoryTree categoryId={this.state.id} />
+                <CategoryTree categoryID={this.state.id} />
             </div>
     )};
 

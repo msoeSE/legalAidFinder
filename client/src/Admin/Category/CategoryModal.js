@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
-import CategoryCreator from './CategoryCreator';
+import CategoryModify from './CategoryModify';
 
 
 class CategoryModal extends Component {
@@ -9,17 +9,17 @@ class CategoryModal extends Component {
   }
 
   render() {
-    if (!this.props.showModal || !this.props.eligibility.agency || !this.props.eligibility.category) {
-      return null;
-    }
+    // if (!this.props.showModal) {
+    //   return null;
+    // }
 
     return (
       <div>
         <Modal open={this.props.showModal}>
-          <Modal.Header>Add an eligibility constraint:</Modal.Header>
+          <Modal.Header>{this.props.category.name}</Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <CategoryCreator eligibility={{ agency: this.props.eligibility.agency, category: this.props.eligibility.category }} />
+              <CategoryModify category={this.props.category}/>
               <Button primary onClick={this.props.onClose}>
                 Close
               </Button>

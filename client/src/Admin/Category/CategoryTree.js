@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { Input, Button } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { fetchCategories } from '../../actions/categoriesActions';
-import Checkbox from './Checkbox';
-
-// Import styles
-import styles from './CategoryTree.css';
 import CategoryModal from '../Category/CategoryModal';
 
 function mapStateToProps(state) {
@@ -23,10 +19,10 @@ class CategoryTree extends Component {
       items: [],
       depth: 0,
       created: false,
-      currentCategory: null,
+      currentCategory: '',
     };
-
-    this.toggleCheckbox = this.toggleCheckbox.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentWillMount() {
@@ -85,10 +81,10 @@ class CategoryTree extends Component {
     }
   }
 
-  makeTree(categoryId = 0) {
+  makeTree(categoryID = 0) {
     let filteredCategories = this.props.data.categories.filter(category => category.parent === null);
-    if (categoryId !== 0) {
-      filteredCategories = this.props.data.categories.filter(category => category._id === categoryId);
+    if (categoryID !== 0) {
+      filteredCategories = this.props.data.categories.filter(category => category._id === categoryID);
     }
 
     filteredCategories.map((category) => { // eslint-disable-line array-callback-return
@@ -97,44 +93,45 @@ class CategoryTree extends Component {
     });
   }
 
-  toggleCheckbox(agencyId, categoryId, pushAgency) {
-    this.setState({
-      modalOpen: !this.state.modalOpen,
-      currentCategory: categoryId,
-    });
-    // this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
-  }
-
   createCheckbox(category, depth, checked, isTopParent = false) {
     if (category.subcategories && category.subcategories.length === 0) {
       return (
         <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
-          <Button onClick={this.handleAdd} compact basic color='black' size='small'>{category.name}</Button>
+          <Button onClick={this.openModal} compact basic color='brown' size='small' id={category._id}><b>{category.name}</b></Button>
         </div>
       );
     } else if (isTopParent) {
       return (
         <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
-          <Button onClick={this.handleAdd} compact basic color='black' size='huge'><b><u>{category.name}</u></b></Button>
+          <Button onClick={this.openModal} compact basic color='black' size='huge' id={category._id}><b><u>{category.name}</u></b></Button>
         </div>
       );
     } else {
       return (
         <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
-          <Button onClick={this.handleAdd} compact basic color='black' size='large'><b>{category.name}</b></Button>
+          <Button onClick={this.openModal} compact basic color='black' size='large' id={category._id}><b>{category.name}</b></Button>
         </div>
       );
     }
   };
 
   // Find the appropriate category based off of the category ID
-  findCategory(categoryId) {
-    const elementPos = this.props.data.categories.map(x => x._id).indexOf(categoryId);
+  findCategory(categoryID) {
+    const elementPos = this.props.data.categories.map(x => x._id).indexOf(categoryID);
     return this.props.data.categories[elementPos];
   }
 
-  handleAdd() {
+  openModal(event, data) {
+    let category = this.findCategory(data.id);
+    console.log(category)
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+      currentCategory: category,
+    });
+  }
 
+  closeModal() {
+    this.setState({ modalOpen: !this.state.modalOpen });
   }
 
   render() {
@@ -144,8 +141,8 @@ class CategoryTree extends Component {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
 
-    if (this.props.categoryId) {
-      this.makeTree(this.props.categoryId);
+    if (this.props.categoryID) {
+      this.makeTree(this.props.categoryID);
     } else {
       this.makeTree();
     }
@@ -153,7 +150,7 @@ class CategoryTree extends Component {
     return (<div>
       <CategoryModal
         showModal={this.state.modalOpen}
-        onClose={this.toggleModal}
+        onClose={this.closeModal}
         category={this.state.currentCategory}
       />
       {this.state.items.map(item => item)}

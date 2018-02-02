@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Dropdown, Button, Input } from 'semantic-ui-react';
-import Client from '../../Client';
+import { modifyCategories, fetchCategoriesAndFullDropdown } from '../../actions/categoriesActions';
+
+function mapStateToProps(state) {
+  return { data: state.categories };
+}
 
 class CategoryModify extends Component {
   constructor(props) {
@@ -9,44 +15,54 @@ class CategoryModify extends Component {
       idVal: '',
       nameVal: '',
       parentVal: '',
-      categories: '',
-      full_categories: '',
       subcategories: [{ id: '', name: '' }],
+      msg: ''
     };
+    this.populateInputs();
     this.handleAgencyName = this.handleAgencyName.bind(this);
     this.handleAgencyURL = this.handleAgencyURL.bind(this);
-    this.handleCategoryID = this.handleCategoryID.bind(this);
+    //this.handleCategoryID = this.handleCategoryID.bind(this);
     this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
     this.handleAddEmail = this.handleAddEmail.bind(this);
     this.handleRemoveEmail = this.handleRemoveEmail.bind(this);
     this.handleEmailAddressChange = this.handleEmailAddressChange.bind(this);
   }
-  componentDidMount() {
-    Client.getCategories()
-      .then((d) => {
-        this.setState({
-          categories: d.categories.map((c) => {return {key: c._id, value: c._id, text: c.name}}),
-          full_categories: d.categories
-        });
-      }, () => {
-        this.setState({
-          requestFailed: true,
-        });
-      });
+  componentWillMount() {
+    this.props.dispatch(fetchCategoriesAndFullDropdown());
   }
-  handleCategoryID(event, data) {
-    this.setState({ id: data.value });
-    var category = this.state.full_categories.find((e) => {return e._id === data.value});
-    this.setState({ nameVal: category.name, idVal: category._id });
+  componentDidMount() {
+    var category = this.props.category;
+    let parent = '';
     if (category.parent)
-      this.setState({ parentVal: category.parent.name });
+      parent = category.parent.name;
     var array = [];
     category.subcategories.forEach((e) => {
       if (e !== null)
         array.push({ id: e._id, name: e.name });
     });
-    this.setState({ subcategories: array });
+    this.setState({ 
+      idVal: category._id,
+      nameVal: category.name,
+      parentVal: parent,
+      subcategories: array
+    });
   }
+  populateInputs() {
+    
+  }
+  // handleCategoryID(event, data) {
+  //   this.setState({ id: data.value });
+  //   var category = this.props.data.categories.find((e) => {return e._id === data.value});
+  //   this.setState({ nameVal: category.name, idVal: category._id });
+  //   if (category.parent)
+  //     this.setState({ parentVal: category.parent.name });
+  //   var array = [];
+  //   category.subcategories.forEach((e) => {
+  //     if (e !== null)
+  //       array.push({ id: e._id, name: e.name });
+  //   });
+  //   this.setState({ subcategories: array });
+  // }
   handleAgencyName(event) {
     this.setState({ name: event.target.value });
   }
@@ -62,10 +78,23 @@ class CategoryModify extends Component {
       };
       console.log(data);
 
-      Client.postAgencies(data)
-        .then((d) => {
-          console.log(d);
-        });
+      this.props.dispatch(modifyCategories(data)).then(() => {
+        if (!this.props.data.error) {
+          // Display success
+          this.props.dispatch(fetchCategoriesAndFullDropdown());
+          let message = 'Successfully edited category: ' + this.state.nameVal;
+          this.setState({ msg: message });
+        } else {
+          // Display error
+          let message = 'Failed to edit category.';
+          this.setState({ msg: message });
+        }
+      });
+
+      // Client.postAgencies(data)
+      //   .then((d) => {
+      //     console.log(d);
+      //   });
   }
   handleEmailAddressChange = (idx) => (event) => {
     let copy = this.state.subcategories.slice();
@@ -91,14 +120,14 @@ class CategoryModify extends Component {
       <div>
         <div>
           <form>
-            <Dropdown placeholder='Category' 
+            {/* <Dropdown placeholder='Category' 
               fluid={true} size='big' 
               className='padding2' 
               search 
               selection 
-              options={this.state.categories} 
+              options={this.props.data.dropdown} 
               onChange={this.handleCategoryID} 
-            />
+            /> */}
             <Input placeholder='Name'
               label='Name'
               labelPosition='left'
@@ -118,7 +147,7 @@ class CategoryModify extends Component {
               value={this.state.parentVal}
             />
             {this.state.subcategories.map((category, idx) => (
-              <div key={Math.random(99999999)*(new Date().getMilliseconds())}>
+              <div key={idx}>
                 <Input
                   label='Child'
                   labelPosition='left'
@@ -134,6 +163,7 @@ class CategoryModify extends Component {
             ))}
             <Button color='blue' onClick={this.handleAddEmail} className='padding'>Add Subcategory</Button>
             <Button positive onClick={this.handleSubmitAgency}>Edit Category</Button>
+            <h2>{this.state.msg}</h2>
           </form>
         </div>
       </div>
@@ -141,4 +171,4 @@ class CategoryModify extends Component {
   }
 }
 
-export default CategoryModify;
+export default withRouter(connect(mapStateToProps)(CategoryModify));

@@ -172,8 +172,7 @@ export function addCategories(req, res) {
   req.body.agencies.forEach((a) => {
     agencies_array.push(a.id);
   });
-  console.log(subcategory_array)
-  console.log(agencies_array)
+
   var newCategory = new Categories({
     name: req.body.name,
     parent: req.body.parent,
@@ -187,5 +186,45 @@ export function addCategories(req, res) {
       res.status(500).send(err);
     }
       res.json({ category: saved });
+  });
+}
+
+/**
+ * Modify a category
+ * @param req
+ * @param res
+ * @returns void
+ */
+export function modifyCategory(req, res) {
+  req.body.subcategories.forEach((sub) => {
+    // Update new parent for subcategory
+    Categories.findOneAndUpdate({ _id: sub._id },
+      {
+        name: sub.name,
+        parent: sub.new_parent
+      }, {upsert:true}, function(err,doc){
+        if(err)
+          console.log('error')
+        console.log('success')
+      });
+    // Remove from parent subcategory array
+    Categories.findOneAndUpdate({ _id: sub.parent._id },
+      {
+        name: sub.parent.name,
+        subcategories: sub.parent.subcategories
+      }, {upsert:true}, function(err,doc){
+        if(err)
+          console.log('error')
+        console.log('success')
+      });
+  });
+  // Update subcategories and name for selected category
+  Categories.findOneAndUpdate(req.body.query,
+    { name: req.body.name,
+      subcategories: req.body.subcategories
+    }, {upsert:true}, function(err, doc){
+    if (err)
+      return res.send(500, { error: err });
+    return res.status(200).send(JSON.stringify(req.body));
   });
 }

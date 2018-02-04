@@ -123,7 +123,6 @@ class CategoryTree extends Component {
 
   openModal(event, data) {
     let category = this.findCategory(data.id);
-    console.log(category)
     this.setState({
       modalOpen: !this.state.modalOpen,
       currentCategory: category,

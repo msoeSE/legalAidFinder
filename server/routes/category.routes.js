@@ -14,6 +14,9 @@ router.route('/categories/:_id').get(CategoryController.getCategory);
 router.route('/categories').post(CategoryController.addCategory);
 
 // Add a new Category
+router.route('/categories').put(CategoryController.modifyCategory);
+
+// Add a new Category
 router.route('/categories2').post(CategoryController.addCategories);
 
 // Edit an existing Category

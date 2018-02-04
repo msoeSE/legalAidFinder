@@ -15,7 +15,7 @@ class AgencyModify extends Component {
       nameVal: '',
       urlVal: '',
       idVal: '',
-      emailVal: [{ address: '' }],
+      emailVal: [{ address: '', name: "" }],
       msg: ''
     };
     this.handleAgency = this.handleAgency.bind(this);
@@ -73,19 +73,20 @@ class AgencyModify extends Component {
   handleEmailAddressChange = (idx) => (event) => {
     let copy = this.state.emailVal.slice();
     let emails = copy.map((email, i) => {
-      return (i === idx) ? {...emails, address: event.target.value} : email
+      return (i === idx) ? {...emails, address: event.target.value, name: ''} : email
     })
     this.setState({ emailVal: emails, msg: '' });
   }
   handleAddEmail(event) {
     event.preventDefault();
     this.setState({
-      emailVal: this.state.emailVal.concat(['']),
+      emailVal: this.state.emailVal.concat([{ address: '' }]),
       msg: ''
     });
   }
   handleRemoveEmail = (idx) => (event) => {
     event.preventDefault();
+    console.log(idx);
     this.setState({
       emailVal: this.state.emailVal.filter((a, eidx) => idx !== eidx),
       msg: ''

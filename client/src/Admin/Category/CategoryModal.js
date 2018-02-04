@@ -4,15 +4,7 @@ import CategoryModify from './CategoryModify';
 
 
 class CategoryModal extends Component {
-  handleAddEligibility(category, agency, key, comparator, value) {
-    //this.props.dispatch(addEligibilityRequest({ category, agency, key, comparator, value }));
-  }
-
   render() {
-    // if (!this.props.showModal) {
-    //   return null;
-    // }
-
     return (
       <div>
         <Modal open={this.props.showModal}>

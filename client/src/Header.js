@@ -1,59 +1,52 @@
 import React, { Component } from 'react';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import GoogleLogin from 'react-google-login';
 import {
   Link,
 } from 'react-router-dom';
 import logo from './Images/logo.png';
-import Client from './Client';
+import { fetchAgencies } from "./Actions/agenciesActions";
+import { setUser, clearUser } from "./Actions/userActions";
+
+function mapStateToProps(state) {
+  return { data: state.agencies, user: state.user };
+}
 
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      user: {
-        name: "",
-        email: ""
-      },
-      agencies: [],
-      requestFailed: false
-    };
+
     this.handleGoogleSuccess = this.handleGoogleSuccess.bind(this);
     this.handleGoogleFailure = this.handleGoogleFailure.bind(this);
   }
-  componentDidMount() {
-    Client.getRequest('agencies')
-      .then((d) => {
-        this.setState({
-          agencies: d.agencies,
-        });
-      }, () => {
-        this.setState({
-          requestFailed: true,
-        });
-      });
+
+  componentWillMount() {
+    this.props.dispatch(fetchAgencies());
   }
 
   handleGoogleSuccess(response) {
-    this.setState({user: {
-        name : response.profileObj.givenName,
-        email: response.profileObj.email
-      }});
+    let name = response.profileObj.givenName;
+    let email = response.profileObj.email;
+
     console.log(response.profileObj);
-    console.log(this.state.agencies);
+    console.log(this.props.data.agencies);
     let emailFound = false;
-    let userEmail = this.state.user.email; // temp fix - "this" was undefined in loop below
-    let agency = this.state.agencies.find(function(a) {
-      a.emails.forEach(function(e) {
-        if (e === userEmail && !emailFound) {
+
+    let agency = this.props.data.agencies.find((a) => {
+      a.emails.forEach((e) => {
+        if (e === email && !emailFound) {
           emailFound = true;
         }
       });
       return emailFound;
     });
+
+    if (agency) {
+      this.props.dispatch(setUser(email, agency, false));
+    }
+
     console.log(agency);
-    // Re-direct page based on agency ID
-    //window.location.assign('/agency');
   }
 
   handleGoogleFailure(response) {
@@ -62,7 +55,7 @@ class Header extends Component {
 
   render() {
     let login;
-    if (!this.state.user.email) {
+    if (!this.props.user.email) {
       login = <GoogleLogin
         className='ui inverted button login-btn'
         clientId="226894844991-9nnlc8m846japmn3u85j4bkk0h4nfd6d.apps.googleusercontent.com"
@@ -71,7 +64,7 @@ class Header extends Component {
         onFailure={this.handleGoogleFailure}
       />;
     } else {
-      login = <h3 className='welcome-msg'>Welcome, {this.state.user.name}!</h3>
+      login = <h3 className='welcome-msg'>Welcome, {this.props.user.agency.name}!</h3>;
     }
     return (
       <div className='app-header'>
@@ -82,6 +75,10 @@ class Header extends Component {
               Wisconsin Legal Aid Finder
             </h1>
           </Link>
+          { this.props.user.email ?
+            <Button as={Link} to={`agency/${this.props.user.agency._id}`}>Go to agency page</Button> :
+            null
+          }
           {login}
         </div>
       </div>
@@ -89,7 +86,7 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default connect(mapStateToProps)(Header);
 
 class IconText extends Component {
   render() {

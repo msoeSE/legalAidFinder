@@ -39,7 +39,7 @@ class CategoryTree extends Component {
     if (category.agencies && category.agencies.length > 0) {
       let contains = false;
       category.agencies.forEach((agency) => {
-        if (agency._id === this.props.agencyId) {
+        if (agency._id === this.props.agency) {
           contains = true;
         }
       });

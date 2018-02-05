@@ -5,15 +5,15 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Card, Image, Loader, List } from 'semantic-ui-react';
-import { fetchCategories } from '../actions/categoriesActions';
-import moneyImg from '../images/money.png';
-import crimeImg from '../images/crime.png';
-import healthImg from '../images/health.png';
-import homeImg from '../images/home.png';
-import immImg from '../images/immigration.png';
-import schoolImg from '../images/school.png';
-import workImg from '../images/work.png';
-import famImg from '../images/family.png';
+import { fetchCategories } from '../Actions/categoriesActions';
+import moneyImg from '../Images/money.png';
+import crimeImg from '../Images/crime.png';
+import healthImg from '../Images/health.png';
+import homeImg from '../Images/home.png';
+import immImg from '../Images/immigration.png';
+import schoolImg from '../Images/school.png';
+import workImg from '../Images/work.png';
+import famImg from '../Images/family.png';
 
 function mapStateToProps(state) {
   return { data: state.categories };

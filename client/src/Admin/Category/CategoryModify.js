@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dropdown, Button, Input } from 'semantic-ui-react';
-import { modifyCategories, fetchCategoriesAndFullDropdown } from '../../actions/categoriesActions';
+import { modifyCategories, fetchCategoriesAndFullDropdown } from '../../Actions/categoriesActions';
 
 function mapStateToProps(state) {
   return { data: state.categories };
@@ -27,14 +27,14 @@ class CategoryModify extends Component {
     let parent = '';
     if (category.parent)
       parent = category.parent.name;
-    
+
     var array = [];
     category.subcategories.forEach((e) => {
       if (e !== null)
         array.push({ id: e._id, name: e.name, disabled: true });
     });
 
-    this.setState({ 
+    this.setState({
       idVal: category._id,
       nameVal: category.name,
       parentVal: parent,
@@ -45,7 +45,7 @@ class CategoryModify extends Component {
     this.setState({ nameVal: event.target.value, msg: '' });
   }
   /* For each subcategory, determine new parent (current category)
-     and also remove from parent subcategory array to update reference */ 
+     and also remove from parent subcategory array to update reference */
   updateSubArray() {
     let full_subs = [];
     this.state.subcategories.forEach((e) => {
@@ -63,7 +63,7 @@ class CategoryModify extends Component {
   }
   submitEditCategory(event) {
       event.preventDefault();
-      
+
       const data = {
         query: { _id : this.state.idVal },
         name: this.state.nameVal,
@@ -120,8 +120,8 @@ class CategoryModify extends Component {
             <hr/>
             {this.state.subcategories.map((category, idx) => (
               <div key={idx}>
-                <Dropdown placeholder='Category'  fluid={true} size='big' 
-                  className='large text' search selection  options={this.props.data.dropdown} 
+                <Dropdown placeholder='Category'  fluid={true} size='big'
+                  className='large text' search selection  options={this.props.data.dropdown}
                   onChange={this.subcategoryChange(idx).bind(this)} // eslint-disable-next-line
                   placeholder={category.name} disabled={category.disabled}
                 />

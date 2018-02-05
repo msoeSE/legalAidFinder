@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Input, Button, Dropdown } from 'semantic-ui-react';
-import { addCategories, fetchCategoriesAndFullDropdown } from '../../actions/categoriesActions';
+import { addCategories, fetchCategoriesAndFullDropdown } from '../../Actions/categoriesActions';
 
 function mapStateToProps(state) {
   return { data: state.categories };
@@ -52,8 +52,8 @@ class CategoryAdd extends Component {
               size='big' fluid={true} className='padding'
               onChange={this.categoryName.bind(this)} value={this.state.name}
             />
-            <Dropdown placeholder='Category'  fluid={true} size='big' 
-              className='large text' search selection  options={this.props.data.dropdown} 
+            <Dropdown placeholder='Category'  fluid={true} size='big'
+              className='large text' search selection  options={this.props.data.dropdown}
               onChange={this.parentChange.bind(this)} // eslint-disable-next-line
               placeholder="Select a parent category"
             />

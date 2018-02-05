@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dropdown, Button, Loader } from 'semantic-ui-react';
-import { fetchCategoriesAndFullDropdown, deleteCategories } from '../../actions/categoriesActions';
+import { fetchCategoriesAndFullDropdown, deleteCategories } from '../../Actions/categoriesActions';
 
 function mapStateToProps(state) {
   return { data: state.categories };
@@ -51,11 +51,11 @@ class CategoryDelete extends Component {
         <div align="center">
           <form>
             <Dropdown placeholder='Select a Category to delete'
-              fluid={true} size='big' className='padding2' search selection 
+              fluid={true} size='big' className='padding2' search selection
               options={this.props.data.dropdown} onChange={this.categoryID.bind(this)}
             />
             <div className='padding2'>
-              <Button negative type='Submit' value='Submit' className='padding2' 
+              <Button negative type='Submit' value='Submit' className='padding2'
                 onClick={this.submitCategory.bind(this)}>Delete Category</Button>
             </div>
             <h2>{this.state.msg}</h2>

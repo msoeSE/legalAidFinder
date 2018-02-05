@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Loader, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { fetchCategoriesAndDropdown } from '../../actions/categoriesActions';
+import { fetchCategoriesAndDropdown } from '../../Actions/categoriesActions';
 import CategoryTree from './CategoryTree';
 
 function mapStateToProps(state) {
@@ -46,7 +46,7 @@ class CategoryTab extends Component {
             </div>
     )};
 
-    return (    
+    return (
         <div>
             <Dropdown placeholder='Select an Category to edit'
                 fluid
@@ -57,7 +57,7 @@ class CategoryTab extends Component {
             />
         </div>
     )};
-    
+
 }
 
 export default withRouter(connect(mapStateToProps)(CategoryTab));

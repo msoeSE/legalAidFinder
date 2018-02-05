@@ -1,12 +1,12 @@
 import Client, { CATEGORIES_ENDPOINT } from '../Client';
 import { FETCH_CATEGORIES_FULFILLED,
-         FETCH_CATEGORIES_REJECTED, 
+         FETCH_CATEGORIES_REJECTED,
          FETCH_CATEGORIES_DROPDOWN_FULFILLED,
          REQUEST_REJECTED,
-         UPDATE_CATEGORY, 
+         UPDATE_CATEGORY,
          FETCH_CATEGORIES_FULL_DROPDOWN_FULFILLED,
          ADD_CATEGORY,
-         DELETE_CATEGORY} from '../reducers/categoriesReducer';
+         DELETE_CATEGORY} from '../Reducers/categoriesReducer';
 
 export function fetchCategories() {
   return dispatch => Client.getRequest(CATEGORIES_ENDPOINT)

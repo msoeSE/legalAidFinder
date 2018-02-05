@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
-import { fetchCategories } from '../../actions/categoriesActions';
+import { fetchCategories } from '../../Actions/categoriesActions';
 import CategoryModal from '../Category/CategoryModal';
 
 function mapStateToProps(state) {

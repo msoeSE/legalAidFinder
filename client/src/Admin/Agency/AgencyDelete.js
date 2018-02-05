@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dropdown, Button, Loader } from 'semantic-ui-react';
-import { fetchAgenciesAndDropdown, deleteAgencies } from '../../actions/agenciesActions';
+import { fetchAgenciesAndDropdown, deleteAgencies } from '../../Actions/agenciesActions';
 
 function mapStateToProps(state) {
   return { data: state.agencies };
@@ -52,11 +52,11 @@ class AgencyDelete extends Component {
         <div align="center">
           <form>
             <Dropdown placeholder='Select an Agency to delete'
-              fluid={true} size='big' className='padding2' search selection 
+              fluid={true} size='big' className='padding2' search selection
               options={this.props.data.dropdown} onChange={this.agencyID.bind(this)}
             />
             <div className='padding2'>
-              <Button negative type='Submit' value='Submit' className='padding2' 
+              <Button negative type='Submit' value='Submit' className='padding2'
                 onClick={this.submitAgency.bind(this)}>Delete Agency</Button>
             </div>
             <h2>{this.state.msg}</h2>

@@ -18,18 +18,10 @@ class AgencyModify extends Component {
       emailVal: [{ address: '', name: "" }],
       msg: ''
     };
-    this.handleAgency = this.handleAgency.bind(this);
-    this.handleInput = this.handleInput.bind(this);
-    this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
-    this.handleAddEmail = this.handleAddEmail.bind(this);
-    this.handleRemoveEmail = this.handleRemoveEmail.bind(this);
-    this.handleEmailAddressChange = this.handleEmailAddressChange.bind(this);
   }
-  // Import agencies
   componentWillMount() {
     this.props.dispatch(fetchAgenciesAndDropdown());
   }
-  // Map agencies to dropdown, set state of selected agency
   handleAgency(event, data) {
     var agency = this.props.data.agencies.find((e) => {return e._id === data.value});
     this.setState({ urlVal: agency.url, nameVal: agency.name, idVal: agency._id, msg: '' });
@@ -40,14 +32,12 @@ class AgencyModify extends Component {
     });
     this.setState({ emailVal: array });
   }
-  // Update agency name and value
   handleInput(event, data) {
     if (data.placeholder === 'Name')
       this.setState({ nameVal: event.target.value, msg: '' });
     else
       this.setState({ urlVal: event.target.value, msg: '' });
   }
-  // PUT request on submit
   handleSubmitAgency(event) {
     event.preventDefault();
     const data = {
@@ -59,12 +49,10 @@ class AgencyModify extends Component {
 
     this.props.dispatch(modifyAgencies(data)).then(() => {
         if (!this.props.data.error) {
-          // Display success
           this.props.dispatch(fetchAgenciesAndDropdown());
           let message = 'Successfully edited agency: ' + this.state.nameVal;
           this.setState({ msg: message });
         } else {
-          // Display error
           let message = 'Failed to edit agency.';
           this.setState({ msg: message });
         }
@@ -86,7 +74,6 @@ class AgencyModify extends Component {
   }
   handleRemoveEmail = (idx) => (event) => {
     event.preventDefault();
-    console.log(idx);
     this.setState({
       emailVal: this.state.emailVal.filter((a, eidx) => idx !== eidx),
       msg: ''
@@ -101,45 +88,29 @@ class AgencyModify extends Component {
       <div>
         <div>
           <form>
-            <Dropdown placeholder='Select an Agency to edit'
-              fluid
-              className='padding'
-              search selection
+            <Dropdown placeholder='Select an Agency to edit' fluid
+              className='padding' search selection
               options={this.props.data.dropdown}
-              onChange={this.handleAgency} />
-            <Input placeholder='Name'
-              label='Name'
-              labelPosition='left'
-              size='big'
-              fluid={true}
-              className='padding'
+              onChange={this.handleAgency.bind(this)} />
+            <Input placeholder='Name' label='Name' labelPosition='left'
+              size='big' fluid={true} className='padding'
               value={this.state.nameVal}
-              onChange={this.handleInput} />
-            <Input placeholder='URL'
-              label='URL'
-              labelPosition='left'
-              size='big'
-              fluid={true}
-              className='padding'
+              onChange={this.handleInput.bind(this)} />
+            <Input placeholder='URL' label='URL' abelPosition='left'
+              size='big' fluid={true} className='padding'
               value={this.state.urlVal}
-              onChange={this.handleInput} />
+              onChange={this.handleInput.bind(this)} />
             {this.state.emailVal.map((email, idx) => (
               <div key={idx}>
-                <Input
-                  label='Email'
-                  labelPosition='left'
-                  size='big'
-                  type="text"
-                  placeholder={`Email #${idx + 1} address`}
-                  value={email.address}
-                  className='padding'
-                  onChange={this.handleEmailAddressChange(idx)}
+                <Input label='Email' labelPosition='left' size='big' type="text"
+                  placeholder={`Email #${idx + 1} address`} value={email.address}
+                  className='padding' onChange={this.handleEmailAddressChange(idx).bind(this)}
                 />
-                <Button negative onClick={this.handleRemoveEmail(idx)} className="padding" >-</Button>
+                <Button negative onClick={this.handleRemoveEmail(idx).bind(this)} className="padding" >-</Button>
               </div>
             ))}
-            <Button color='blue' onClick={this.handleAddEmail} className='padding'>Add Email</Button>
-            <Button positive onClick={this.handleSubmitAgency}>Edit Agency</Button>
+            <Button color='blue' onClick={this.handleAddEmail.bind(this)} className='padding'>Add Email</Button>
+            <Button positive onClick={this.handleSubmitAgency.bind(this)}>Edit Agency</Button>
             <h2>{this.state.msg}</h2>
           </form>
         </div>

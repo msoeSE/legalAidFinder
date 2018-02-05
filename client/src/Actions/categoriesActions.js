@@ -4,7 +4,9 @@ import { FETCH_CATEGORIES_FULFILLED,
          FETCH_CATEGORIES_DROPDOWN_FULFILLED,
          REQUEST_REJECTED,
          UPDATE_CATEGORY, 
-         FETCH_CATEGORIES_FULL_DROPDOWN_FULFILLED} from '../reducers/categoriesReducer';
+         FETCH_CATEGORIES_FULL_DROPDOWN_FULFILLED,
+         ADD_CATEGORY,
+         DELETE_CATEGORY} from '../reducers/categoriesReducer';
 
 export function fetchCategories() {
   return dispatch => Client.getRequest(CATEGORIES_ENDPOINT)
@@ -40,6 +42,26 @@ export function modifyCategories(data) {
   return dispatch => Client.putRequest(CATEGORIES_ENDPOINT, data)
     .then((response) => {
       dispatch({ type: UPDATE_CATEGORY, payload: response });
+    })
+    .catch((err) => {
+      dispatch({ type: REQUEST_REJECTED, payload: err });
+    });
+}
+
+export function addCategories(data) {
+  return dispatch => Client.postRequest(CATEGORIES_ENDPOINT, data)
+    .then((response) => {
+      dispatch({ type: ADD_CATEGORY, payload: response });
+    })
+    .catch((err) => {
+      dispatch({ type: REQUEST_REJECTED, payload: err });
+    });
+}
+
+export function deleteCategories(id) {
+  return dispatch => Client.deleteRequest(CATEGORIES_ENDPOINT, id)
+    .then((response) => {
+      dispatch({ type: DELETE_CATEGORY, payload: id });
     })
     .catch((err) => {
       dispatch({ type: REQUEST_REJECTED, payload: err });

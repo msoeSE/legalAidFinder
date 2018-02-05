@@ -42,23 +42,25 @@ class CategoryModify extends Component {
     });
   }
   categoryName(event) {
-    this.setState({ nameVal: event.target.value });
-  }
-  updateSubArray() {
-    let full_subs = [];
-    this.state.subcategories.forEach((e) => {
-      let sub = this.props.data.categories.find((sub) => e.id === sub._id);
-      sub.new_parent = this.props.category;
-      if (sub.new_parent._id !== sub.parent._id) {
-        let i = sub.parent.subcategories.indexOf(sub._id);
-        sub.parent.subcategories.splice(i, 1);
-      }
-      full_subs.push(sub); 
-    });
-    return full_subs;
+    this.setState({ nameVal: event.target.value, msg: '' });
   }
   /* For each subcategory, determine new parent (current category)
      and also remove from parent subcategory array to update reference */ 
+  updateSubArray() {
+    let full_subs = [];
+    this.state.subcategories.forEach((e) => {
+        let sub = this.props.data.categories.find((sub) => e.id === sub._id);
+        if (sub && sub.parent) {
+          sub.new_parent = this.props.category;
+          if (sub.new_parent._id !== sub.parent._id) {
+            let i = sub.parent.subcategories.indexOf(sub._id);
+            sub.parent.subcategories.splice(i, 1);
+          }
+          full_subs.push(sub);
+        }
+    });
+    return full_subs;
+  }
   submitEditCategory(event) {
       event.preventDefault();
       
@@ -66,9 +68,7 @@ class CategoryModify extends Component {
         query: { _id : this.state.idVal },
         name: this.state.nameVal,
         subcategories: this.updateSubArray(),
-        // parent_subs: this.updateParentSubArray()
       };
-      //console.log(this.updateParentSubArray());
 
       this.props.dispatch(modifyCategories(data)).then((response) => {
         if (!this.props.data.error) {
@@ -87,18 +87,20 @@ class CategoryModify extends Component {
     let subs = copy.map((sub, i) => {
       return (i === idx) ? {...subs, id: category._id, name: category.name} : sub
     })
-    this.setState({ subcategories: subs });
+    this.setState({ subcategories: subs, msg: '' });
   }
   existingSubcategory(event) {
     event.preventDefault();
     this.setState({
-      subcategories: this.state.subcategories.concat([{ id: '', name: '', disabled: false }])
+      subcategories: this.state.subcategories.concat([{ id: '', name: '', disabled: false }]),
+      msg: ''
     });
   }
   removeSubcategory = (idx) => (event) => {
     event.preventDefault();
     this.setState({
-      subcategories: this.state.subcategories.filter((a, eidx) => idx !== eidx)
+      subcategories: this.state.subcategories.filter((a, eidx) => idx !== eidx),
+      msg: ''
     })
   }
   render() {
@@ -115,6 +117,7 @@ class CategoryModify extends Component {
               size='big' fluid={true} className='padding' disabled
               value={this.state.parentVal}
             />
+            <hr/>
             {this.state.subcategories.map((category, idx) => (
               <div key={idx}>
                 <Dropdown placeholder='Category'  fluid={true} size='big' 
@@ -125,6 +128,7 @@ class CategoryModify extends Component {
                 <Button negative onClick={this.removeSubcategory(idx).bind(this)} className="padding" >Remove Subcategory</Button>
               </div>
             ))}
+            <hr/>
             <Button color='blue' onClick={this.existingSubcategory.bind(this)} className='padding'>Add Subcategory</Button>
             <Button positive onClick={this.submitEditCategory.bind(this)}>Apply Changes</Button>
             <h2>{this.state.msg}</h2>

@@ -26,7 +26,7 @@ router.route('/categories/addAgency').post(CategoryController.addAgencyToCategor
 router.route('/categories/:_id').delete(CategoryController.deleteCategory);
 
 // Delete a category
-router.route('/categories2').delete(CategoryController.deleteCategories);
+router.route('/categories').delete(CategoryController.deleteCategory);
 
 // Get all ParentPosts
 router.route('/agencies').get(AgencyController.getAgencies);

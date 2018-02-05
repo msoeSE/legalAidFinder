@@ -16,17 +16,14 @@ class AgencyDelete extends Component {
       name: '',
       msg: ''
     };
-    this.handleAgencyID = this.handleAgencyID.bind(this);
-    this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
   }
   componentWillMount() {
     this.props.dispatch(fetchAgenciesAndDropdown());
   }
-  handleAgencyID(event, data) {
-    this.setState({ msg: '' });
-    this.setState({ id: data.value });
+  agencyID(event, data) {
+    this.setState({ id: data.value, msg: '' });
   }
-  handleSubmitAgency(event) {
+  submitAgency(event) {
     event.preventDefault();
     if (window.confirm('Are you sure you want to delete it?')) {
       const data = {
@@ -35,11 +32,9 @@ class AgencyDelete extends Component {
 
       this.props.dispatch(deleteAgencies(data)).then(() => {
         if (!this.props.data.error) {
-          // Display success
           this.props.dispatch(fetchAgenciesAndDropdown());
           this.setState({ msg: 'Successfuly deleted agency.' });
         } else {
-          // Display error
           this.setState({ msg: 'Failed to delete agency.' });
         }
       });
@@ -54,18 +49,15 @@ class AgencyDelete extends Component {
 
     return (
       <div>
-        <div>
+        <div align="center">
           <form>
-            <Dropdown placeholder='Agency'
-              fluid={true} size='big'
-              className='padding2'
-              search
-              selection
-              options={this.props.data.dropdown}
-              onChange={this.handleAgencyID}
+            <Dropdown placeholder='Select an Agency to delete'
+              fluid={true} size='big' className='padding2' search selection 
+              options={this.props.data.dropdown} onChange={this.agencyID.bind(this)}
             />
             <div className='padding2'>
-              <Button negative type='Submit' value='Submit' className='padding2' onClick={this.handleSubmitAgency}>Delete Agency</Button>
+              <Button negative type='Submit' value='Submit' className='padding2' 
+                onClick={this.submitAgency.bind(this)}>Delete Agency</Button>
             </div>
             <h2>{this.state.msg}</h2>
           </form>

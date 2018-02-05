@@ -1,5 +1,6 @@
 import Categories from '../models/categories';
 import agencies from '../models/agencies';
+var mongoose = require('mongoose');
 
 /**
  * Get all parent categories
@@ -40,28 +41,27 @@ export function getCategories(req, res) {
  * @returns void
  */
 export function addCategory(req, res) {
-  if (!req.body.category.name) {
-    res.status(403).end();
-  }
-  // TODO: Check??
-  const newCategory = new Categories(req.body.category);
+  var newCategory = new Categories({
+    name: req.body.name,
+    _id: mongoose.Types.ObjectId(),
+    parent: req.body.parent
+  });
 
-  // Let's sanitize inputs
-  //newCategory.name = sanitizeHtml(newCategory.name);
-
-  Categories.findOne({ name: req.body.category.parent }).exec((err, parent) => {
+  newCategory.save((err, saved) => {
     if (err) {
       res.status(500).send(err);
-    }
-
-    newCategory.parent = parent.id;
-
-    newCategory.save((err2, saved) => {
-      if (err2) {
-        res.status(500).send(err2);
-      }
+    } else {
+      let subs = req.body.parent.subcategories;
+      subs.push(saved);
+      Categories.findOneAndUpdate({ _id: req.body.parent._id },
+      {
+        name: req.body.parent.name,
+        subcategories: subs
+      });
+      console.log(subs)
+      console.log(req.body.parent._id)
       res.json({ category: saved });
-    });
+    }
   });
 }
 
@@ -122,36 +122,17 @@ export function getCategory(req, res) {
     });
 }
 
-/**
- * Delete a category
- * @param req
- * @param res
- * @returns void
- */
-export function deleteCategory(req, res) {
-  Categories.findById(req.params.category._id).exec((err, category) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-
-    category.remove(() => {
-      res.status(200).end();
-    });
-  });
-}
-
   /**
  * Delete an category
  * @param req
  * @param res
  * @returns void
  */
-export function deleteCategories(req, res) {
-  Categories.remove({ _id: req.body.id }, function(err) {
+export function deleteCategory(req, res) {
+  Categories.remove({ _id: req.body.id }, (err) => {
     if (!err) {
-      res.status(200);
-    }
-    else {
+      res.status(200).send(JSON.stringify(req.body));
+    } else {
       res.status(500).send(err);
     }
   });
@@ -202,21 +183,13 @@ export function modifyCategory(req, res) {
       {
         name: sub.name,
         parent: sub.new_parent
-      }, {upsert:true}, function(err,doc){
-        if(err)
-          console.log('error')
-        console.log('success')
       });
     // Remove from parent subcategory array
     Categories.findOneAndUpdate({ _id: sub.parent._id },
       {
         name: sub.parent.name,
         subcategories: sub.parent.subcategories
-      }, {upsert:true}, function(err,doc){
-        if(err)
-          console.log('error')
-        console.log('success')
-      });
+      }, {upsert:true});
   });
   // Update subcategories and name for selected category
   Categories.findOneAndUpdate(req.body.query,

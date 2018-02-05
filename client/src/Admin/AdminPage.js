@@ -4,7 +4,8 @@ import AgencyAdd from './Agency/AgencyAdd';
 import AgencyDelete from './Agency/AgencyDelete';
 import AgencyModify from './Agency/AgencyModify';
 import CategoryTab from './Category/CategoryTab';
-import CategoryTree from './Category/CategoryTree';
+import CategoryAdd from './Category/CategoryAdd';
+import CategoryDelete from './Category/CategoryDelete';
 
 class AdminPage extends Component {
   render() {
@@ -27,7 +28,19 @@ class AdminPage extends Component {
           <AgencyModify />
         </Container>
         </div></Tab.Pane> },
-      { menuItem: 'Edit Categories', render: () => <Tab.Pane><div className='tab-content'>
+      { menuItem: 'Add Category', render: () => <Tab.Pane><div className='tab-content'>
+        <Container fluid textAlign='center'>
+          <Header as='h2'>Add a Category</Header>
+        </Container>
+        <CategoryAdd />
+      </div></Tab.Pane> },
+      { menuItem: 'Delete Category', render: () => <Tab.Pane><div className='tab-content'>
+        <Container fluid textAlign='center'>
+          <Header as='h2'>Delete a Category</Header>
+        </Container>
+        <CategoryDelete />
+      </div></Tab.Pane> },
+      { menuItem: 'Edit Category', render: () => <Tab.Pane><div className='tab-content'>
         <Container fluid textAlign='center'>
           <Header as='h2'>Edit the Categories</Header>
         </Container>

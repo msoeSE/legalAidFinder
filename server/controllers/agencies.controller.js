@@ -1,4 +1,5 @@
 import Agencies from '../models/agencies';
+var mongoose = require('mongoose');
 
 /**
  * Get all agencies
@@ -24,7 +25,6 @@ export function getAgencies(req, res) {
  * @returns void
  */
 export function addAgency(req, res) {
-  var mongoose = require('mongoose');
   var email_array = []
   req.body.emails.forEach((email) => {
     email_array.push(email.address);

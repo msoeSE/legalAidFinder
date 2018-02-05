@@ -30,13 +30,11 @@ class CategoryTab extends Component {
     if (!this.props.data.categories || this.props.data.categories.length === 0) {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
-    //            <CategoryTree agencyId='5a04d2e3ec140922c08a6713' categoryId={this.state.id} />
 
-    //return (<CategoryTab />)
     if (this.state.id) {
         return (
             <div>
-                <Dropdown placeholder='Select an Category to edit'
+                <Dropdown placeholder='Select a Category to edit'
                     fluid
                     className='padding'
                     search selection

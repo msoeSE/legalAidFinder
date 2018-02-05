@@ -4,7 +4,6 @@ import {
   Switch,
 } from 'react-router-dom';
 import Home from './Home';
-import Login from './Login';
 import Header from './Header';
 import AdminPage from './Admin/AdminPage';
 import CountySelect from './County/CountySelect';
@@ -18,7 +17,6 @@ class App extends Component {
         <div className='content'>
           <Switch>
             <Route exact path='/' component={Home} />
-            <Route path='/login' component={Login} />
             <Route path='/admin' component={AdminPage} />
             <Route path='/category/:id' component={CategoryDetail} />
             <Route path='/counties' component={CountySelect} />

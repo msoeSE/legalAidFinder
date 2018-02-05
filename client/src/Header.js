@@ -1,13 +1,71 @@
 import React, { Component } from 'react';
-import { Icon } from 'semantic-ui-react';
-import { GoogleLogin } from 'react-google-login-component';
+import { Icon, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import GoogleLogin from 'react-google-login';
 import {
   Link,
 } from 'react-router-dom';
-import logo from './logo.png';
+import logo from './Images/logo.png';
+import { fetchAgencies } from "./Actions/agenciesActions";
+import { setUser, clearUser } from "./Actions/userActions";
+
+function mapStateToProps(state) {
+  return { data: state.agencies, user: state.user };
+}
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleGoogleSuccess = this.handleGoogleSuccess.bind(this);
+    this.handleGoogleFailure = this.handleGoogleFailure.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.dispatch(fetchAgencies());
+  }
+
+  handleGoogleSuccess(response) {
+    let name = response.profileObj.givenName;
+    let email = response.profileObj.email;
+
+    console.log(response.profileObj);
+    console.log(this.props.data.agencies);
+    let emailFound = false;
+
+    let agency = this.props.data.agencies.find((a) => {
+      a.emails.forEach((e) => {
+        if (e === email && !emailFound) {
+          emailFound = true;
+        }
+      });
+      return emailFound;
+    });
+
+    if (agency) {
+      this.props.dispatch(setUser(email, agency, false));
+    }
+
+    console.log(agency);
+  }
+
+  handleGoogleFailure(response) {
+    // TO DO! Handle failure
+  }
+
   render() {
+    let login;
+    if (!this.props.user.email) {
+      login = <GoogleLogin
+        className='ui inverted button login-btn'
+        clientId="226894844991-9nnlc8m846japmn3u85j4bkk0h4nfd6d.apps.googleusercontent.com"
+        buttonText={<IconText />}
+        onSuccess={this.handleGoogleSuccess}
+        onFailure={this.handleGoogleFailure}
+      />;
+    } else {
+      login = <h3 className='welcome-msg'>Welcome, {this.props.user.agency.name}!</h3>;
+    }
     return (
       <div className='app-header'>
         <div className='header-content'>
@@ -17,21 +75,18 @@ class Header extends Component {
               Wisconsin Legal Aid Finder
             </h1>
           </Link>
-          <Link to='/login'>
-              <GoogleLogin socialId="226894844991-9nnlc8m846japmn3u85j4bkk0h4nfd6d.apps.googleusercontent.com"
-                     className="ui inverted button header-login"
-                     scope="profile"
-                     fetchBasicProfile={false}
-                     responseHandler={this.responseGoogle}
-                     buttonText={<IconText />}/>
-          </Link>
+          { this.props.user.email ?
+            <Button as={Link} to={`agency/${this.props.user.agency._id}`}>Go to agency page</Button> :
+            null
+          }
+          {login}
         </div>
       </div>
     );
   }
 }
 
-export default Header;
+export default connect(mapStateToProps)(Header);
 
 class IconText extends Component {
   render() {

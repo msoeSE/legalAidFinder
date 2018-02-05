@@ -16,13 +16,15 @@ class EligibilityModal extends Component {
     return (
       <div>
         <Modal open={this.props.showModal}>
-          <Modal.Header>Add an eligibility constraint:</Modal.Header>
+          <Modal.Header>
+            Add an eligibility constraint:
+            <Button floated='right' negative onClick={this.props.onClose}>
+              Cancel
+            </Button>
+          </Modal.Header>
           <Modal.Content>
             <Modal.Description>
               <EligibilityCreator eligibility={{ agency: this.props.eligibility.agency, category: this.props.eligibility.category }} />
-              <Button primary onClick={this.props.onClose}>
-                Close
-              </Button>
             </Modal.Description>
           </Modal.Content>
         </Modal>

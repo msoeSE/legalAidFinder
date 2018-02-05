@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Loader, Grid, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import fetchCategories from '../actions/categoriesActions';
-import Checkbox from './Checkbox';
+import Checkbox from './CategoryCheckbox';
 
 import EligibilityModal from '../Eligibility/EligibilityModal';
 import { fetchEligibilities } from "../actions/eligibilityActions";
@@ -25,8 +25,9 @@ class AgencyCategoryTree extends Component {
       currentCategory: null,
     };
 
-    this.toggleCheckbox = this.toggleCheckbox.bind(this);
+    this.updateAgencyCategory = this.updateAgencyCategory.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.editEligibility = this.editEligibility.bind(this);
   }
 
   componentWillMount() {
@@ -104,12 +105,15 @@ class AgencyCategoryTree extends Component {
     });
   }
 
-  toggleCheckbox(agencyId, categoryId, pushAgency) {
+  updateAgencyCategory(agencyId, categoryId, pushAgency) {
+    // this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
+  }
+
+  editEligibility(categoryId) {
     this.setState({
       modalOpen: !this.state.modalOpen,
       currentCategory: categoryId,
     });
-    // this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
   }
 
   createCheckbox(category, depth, checked, isTopParent = false) {
@@ -118,7 +122,8 @@ class AgencyCategoryTree extends Component {
         <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
           <Checkbox
             label={category.name}
-            handleCheckboxChange={this.toggleCheckbox}
+            handleCheckboxChange={this.updateAgencyCategory}
+            handleEditEligibility={this.editEligibility}
             agencyId={this.props.agencyId}
             categoryId={category._id}
             checked={checked}

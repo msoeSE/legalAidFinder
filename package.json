@@ -45,7 +45,7 @@
     "server": "nodemon server.js --exec babel-node",
     "client": "node start-client.js",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
-    "e2e" : "nightwatch -e chrome",
+    "e2e": "nightwatch -e chrome",
     "test": "jest",
     "lint": "eslint ."
   },
@@ -76,6 +76,6 @@
     "jest": "^22.1.4",
     "jest-enzyme": "^4.0.2",
     "nightwatch": "^0.9.19",
-    "redux-mock-store": "^1.5.0",
+    "redux-mock-store": "^1.5.0"
   }
 }

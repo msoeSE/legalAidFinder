@@ -13,11 +13,4 @@ describe('<CountySelector />', function () {
                 <CountySelector store={store} />
             ).length).toEqual(1);
     });
-
-    it('renders a select box', () => {
-        expect(
-            shallow(
-                <CountySelector />
-            ).find('select').length).toEqual(1);
-    });
 });

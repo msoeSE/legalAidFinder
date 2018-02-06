@@ -76,7 +76,11 @@ class Header extends Component {
             </h1>
           </Link>
           { this.props.user.email ?
-            <Button as={Link} to={`agency/${this.props.user.agency._id}`}>Go to agency page</Button> :
+            <Button as={Link} to={'agency'}>Go to agency page</Button> :
+            null
+          }
+          { this.props.user.admin ?
+            <Button as={Link} to={'admin'}>Go to Admin page</Button> :
             null
           }
           {login}

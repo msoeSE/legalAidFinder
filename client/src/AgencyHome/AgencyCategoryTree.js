@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Loader, Grid, Divider } from 'semantic-ui-react';
+import { Loader, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import fetchCategories from '../actions/categoriesActions';
+import { fetchCategories } from '../Actions/categoriesActions';
 import Checkbox from './CategoryCheckbox';
 
 import EligibilityModal from '../Eligibility/EligibilityModal';
-import { fetchEligibilities } from "../actions/eligibilityActions";
-import { getEligibilities } from "../reducers/eligibilityReducer";
+import { fetchEligibilities } from '../Actions/eligibilityActions';
+import { getEligibilities } from '../Reducers/eligibilityReducer';
 
 function mapStateToProps(state) {
   return { data: state.categories, info: state.eligibility };

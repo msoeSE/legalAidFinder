@@ -28,8 +28,8 @@
     "react-fontawesome": "^1.6.1",
     "react-google-login": "^3.0.4",
     "react-google-login-component": "^0.9.2",
-    "react-redux": "^5.0.6",
     "react-google-maps": "^9.4.5",
+    "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.1.0",
@@ -43,11 +43,13 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start:debug": "concurrently \"npm run server:debug\" \"npm run client\"",
     "start:prod": "concurrently \"npm run server:prod\" \"npm run client:prod\"",
     "server": "nodemon server.js --exec babel-node",
     "client": "node start-client.js",
     "server:prod": "NODE_ENV=production nodemon server.js --exec babel-node",
     "client:prod": "NODE_ENV=production node start-client.js",
+    "server:debug": "nodemon %NODE_DEBUG_OPTION% server.js --exec babel-node",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
     "lint": "eslint ."
   },

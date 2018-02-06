@@ -61,3 +61,18 @@ body {
 .county-select-div{
     margin: 5px;
 }
+
+.large.text {
+    font-size: 2rem;
+    margin: 5px;
+ }
+
+ .default.text {
+    color: black !important;
+    opacity: 1 !important;
+ }
+
+ .ui.disabled.dropdown, 
+ .ui.dropdown .menu>.disabled.item {
+     opacity: .6 !important;
+ }

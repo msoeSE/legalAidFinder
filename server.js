@@ -30,6 +30,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(Express.static('client/build'));
 }
 
+app.use(bodyParser({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true })); // Parses urlencoded bodies
 app.use(bodyParser.json()); // Send JSON responses
 

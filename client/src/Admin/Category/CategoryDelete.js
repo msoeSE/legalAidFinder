@@ -1,67 +1,64 @@
 import React, { Component } from 'react';
-import { Dropdown, Button } from 'semantic-ui-react';
-import Client from '../../Client';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Dropdown, Button, Loader } from 'semantic-ui-react';
+import { fetchCategoriesAndFullDropdown, deleteCategories } from '../../Actions/categoriesActions';
+
+function mapStateToProps(state) {
+  return { data: state.categories };
+}
 
 class CategoryDelete extends Component {
   constructor(props) {
     super(props);
     this.state = {
       id: '',
-      name: '',
-      categories: ''
+      msg: ''
     };
-    this.handleCategoryID = this.handleCategoryID.bind(this);
-    this.handleSubmitCategory = this.handleSubmitCategory.bind(this);
   }
-  componentDidMount() {
-    Client.getCategories()
-      .then((d) => {
-        this.setState({
-          categories: d.categories.map((c) => {return {key: c._id, value: c._id, text: c.name}}),
-        });
-      }, () => {
-        this.setState({
-          requestFailed: true,
-        });
-      });
+  componentWillMount() {
+    this.props.dispatch(fetchCategoriesAndFullDropdown());
   }
-  handleCategoryID(event, data) {
-    this.setState({ id: data.value });
+  categoryID(event, data) {
+    this.setState({ id: data.value, msg: '' });
   }
-  handleSubmitCategory(event) {
-      event.preventDefault();
+  submitCategory(event) {
+    event.preventDefault();
+    if (window.confirm('Are you sure you want to delete it?')) {
       const data = {
-        id: this.state.id,
+        id: this.state.id
       };
-      Client.deleteCategories(data)
-        .then((d) => {
-          console.log(d);
-        });
+
+      this.props.dispatch(deleteCategories(data)).then(() => {
+        if (!this.props.data.error) {
+          this.props.dispatch(fetchCategoriesAndFullDropdown());
+          this.setState({ msg: 'Successfuly deleted category.' });
+        } else {
+          this.setState({ msg: 'Failed to delete category.' });
+        }
+      });
+    } else {
+      this.setState({ msg: '' });
+    }
   }
   render() {
-    if (!this.state.categories) {
-      return (<div className='ui segment'>
-        <p>Loading</p>
-        <div className='ui active dimmer'>
-          <div className='ui loader' />
-        </div>
-      </div>);
+    if (this.props.data.categories.length === 0) {
+      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
+
     return (
       <div>
-        <div>
+        <div align="center">
           <form>
-            <Dropdown placeholder='Category' 
-              fluid={true} size='big' 
-              className='padding2' 
-              search 
-              selection 
-              options={this.state.categories} 
-              onChange={this.handleCategoryID} 
+            <Dropdown placeholder='Select a Category to delete'
+              fluid={true} size='big' className='padding2' search selection
+              options={this.props.data.dropdown} onChange={this.categoryID.bind(this)}
             />
             <div className='padding2'>
-              <Button negative onClick={this.handleSubmitCategory} className='padding2'>Delete Category</Button>
+              <Button negative type='Submit' value='Submit' className='padding2'
+                onClick={this.submitCategory.bind(this)}>Delete Category</Button>
             </div>
+            <h2>{this.state.msg}</h2>
           </form>
         </div>
       </div>
@@ -69,4 +66,4 @@ class CategoryDelete extends Component {
   }
 }
 
-export default CategoryDelete;
+export default withRouter(connect(mapStateToProps)(CategoryDelete));

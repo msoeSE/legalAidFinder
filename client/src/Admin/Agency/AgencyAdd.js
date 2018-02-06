@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Input, Button } from 'semantic-ui-react';
-import Client from '../../Client';
+import { addAgencies } from '../../Actions/agenciesActions';
+
+function mapStateToProps(state) {
+  return { data: state.agencies };
+}
 
 class AgencyAdd extends Component {
   constructor(props) {
@@ -10,20 +16,14 @@ class AgencyAdd extends Component {
       url: '',
       emails: [{ address: '' }],
     };
-    this.handleAgencyName = this.handleAgencyName.bind(this);
-    this.handleAgencyURL = this.handleAgencyURL.bind(this);
-    this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
-    this.handleAddEmail = this.handleAddEmail.bind(this);
-    this.handleRemoveEmail = this.handleRemoveEmail.bind(this);
-    this.handleEmailAddressChange = this.handleEmailAddressChange.bind(this);
   }
-  handleAgencyName(event) {
-    this.setState({ name: event.target.value });
+  agencyName(event) {
+    this.setState({ name: event.target.value, msg: '' });
   }
-  handleAgencyURL(event) {
-      this.setState({ url: event.target.value });
+  agencyURL(event) {
+      this.setState({ url: event.target.value, msg: '' });
   }
-  handleSubmitAgency(event) {
+  submitAgency(event) {
       event.preventDefault();
       const data = {
         name: this.state.name,
@@ -31,28 +31,35 @@ class AgencyAdd extends Component {
         emails: this.state.emails
       };
 
-      Client.postAgencies(data)
-        .then((d) => {
-          console.log(d);
-        });
+      this.props.dispatch(addAgencies(data)).then(() => {
+        if (!this.props.data.error) {
+          let message = 'Successfully created agency: ' + this.state.name;
+          this.setState({ msg: message, name: '', url: '', emails: [{ address: '' }] })
+        } else {
+          let message = this.state.name !== '' ? 'Failed to create agency: ' + this.state.name : 'Failed to create agency.';
+          this.setState({ msg: message });
+        }
+      });;
   }
-  handleEmailAddressChange = (idx) => (event) => {
+  emailAddressChange = (idx) => (event) => {
     let copy = this.state.emails.slice();
     let emails = copy.map((email, i) => {
       return (i === idx) ? {...email, address: event.target.value} : email
     })
-    this.setState({ emails: emails });
+    this.setState({ emails: emails, msg: '' });
   }
-  handleAddEmail(event) {
+  addEmail(event) {
     event.preventDefault();
     this.setState({
-      emails: this.state.emails.concat([{ address: '' }])
+      emails: this.state.emails.concat([{ address: '' }]),
+      msg: ''
     });
   }
-  handleRemoveEmail = (idx) => (event) => {
+  removeEmail = (idx) => (event) => {
     event.preventDefault();
     this.setState({
-      emails: this.state.emails.filter((a, eidx) => idx !== eidx)
+      emails: this.state.emails.filter((a, eidx) => idx !== eidx),
+      msg: ''
     });
   }
   render() {
@@ -60,41 +67,27 @@ class AgencyAdd extends Component {
       <div>
         <div>
           <form>
-            <Input placeholder='Name'
-              label='Name '
-              labelPosition='left'
-              size='big'
-              fluid={true}
-              className='padding'
-              onChange={this.handleAgencyName}
-              value={this.state.name}
+            <Input placeholder='Name' label='Name ' labelPosition='left'
+              size='big' fluid={true} className='padding'
+              onChange={this.agencyName.bind(this)} value={this.state.name}
             />
-            <Input placeholder='URL'
-              label='URL'
-              labelPosition='left'
-              size='big'
-              fluid={true}
-              className='padding'
-              onChange={this.handleAgencyURL}
-              value={this.state.url}
+            <Input placeholder='URL' label='URL' labelPosition='left'
+              size='big' fluid={true} className='padding'
+              onChange={this.agencyURL.bind(this)} value={this.state.url}
             />
             {this.state.emails.map((email, idx) => (
-              <div key={Math.random(99999999)*(new Date().getMilliseconds())}>
-                <Input
-                  label='Email'
-                  labelPosition='left'
-                  size='big'
-                  type="text"
-                  placeholder={`Email #${idx + 1} address`}
-                  value={email.address}
-                  className='padding'
-                  onChange={this.handleEmailAddressChange(idx)}
+              <div key={idx}>
+                <Input label='Email' labelPosition='left' size='big'
+                  type="text" placeholder={`Email #${idx + 1} address`}
+                  value={email.address} className='padding'
+                  onChange={this.emailAddressChange(idx).bind(this)}
                 />
-                <Button negative onClick={this.handleRemoveEmail(idx)} className="padding" >-</Button>
+                <Button negative onClick={this.removeEmail(idx).bind(this)} className="padding" >-</Button>
               </div>
             ))}
-            <Button color='blue' onClick={this.handleAddEmail} className='padding'>Add Email</Button>
-            <Button positive onClick={this.handleSubmitAgency}>Add Agency</Button>
+            <Button color='blue' onClick={this.addEmail.bind(this)} className='padding'>Add Email</Button>
+            <Button positive onClick={this.submitAgency.bind(this)}>Add Agency</Button>
+            <h2>{this.state.msg}</h2>
           </form>
         </div>
       </div>
@@ -102,4 +95,4 @@ class AgencyAdd extends Component {
   }
 }
 
-export default AgencyAdd;
+export default withRouter(connect(mapStateToProps)(AgencyAdd));

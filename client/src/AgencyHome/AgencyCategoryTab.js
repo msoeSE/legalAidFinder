@@ -3,14 +3,13 @@ import { withRouter } from 'react-router-dom';
 import { Loader, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchCategoriesAndDropdown } from '../Actions/categoriesActions';
-import CategoryTree from './AgencyCategoryTree';
-import {fetchCategories} from "../Actions/categoriesActions";
+import AgencyCategoryTree from './AgencyCategoryTree';
 
 function mapStateToProps(state) {
-  return { data: state.categories };
+  return { data: state.categories, user: state.user };
 }
 
-class CategoryTab extends Component {
+class AgencyCategoryTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +19,7 @@ class CategoryTab extends Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(fetchCategories());
+    this.props.dispatch(fetchCategoriesAndDropdown());
   }
 
   handleID(event, data) {
@@ -32,8 +31,6 @@ class CategoryTab extends Component {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
 
-    let parents = this.props.data.categories.filter(cat => cat.parent === null);
-
     if (this.state.id) {
       return (
         <div>
@@ -42,26 +39,27 @@ class CategoryTab extends Component {
             fluid
             className='padding'
             search selection
-            options={parents}
+            options={this.props.data.dropdown}
             onChange={this.handleID}
           />
-          < categoryID={this.state.id} />
+          <AgencyCategoryTree agencyId={this.props.user.agency._id} categoryId={this.state.id} />
         </div>
       );
     }
 
     return (
-        <div>
-            <Dropdown placeholder='Select an Category to edit'
-                fluid
-                className='padding'
-                search selection
-                options={this.props.data.dropdown}
-                onChange={this.handleID}
-            />
-        </div>
-    )};
-
+      <div>
+        <Dropdown
+          placeholder='Select an Category to edit'
+          fluid
+          className='padding'
+          search selection
+          options={this.props.data.dropdown}
+          onChange={this.handleID}
+        />
+      </div>
+    );
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(CategoryTab));
+export default withRouter(connect(mapStateToProps)(AgencyCategoryTab));

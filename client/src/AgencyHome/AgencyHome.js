@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tab, Container, Header, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
-import AgencyCategoryTree from './AgencyCategoryTree';
+import AgencyCategoryTab from './AgencyCategoryTab';
 import { fetchCategories } from '../Actions/categoriesActions';
 
 
@@ -34,18 +34,6 @@ class AgencyHome extends Component {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
 
-    const parents = this.props.data.categories.filter(category => category.parent === null);
-
-    const tabs = parents.map(category => (
-      { menuItem: category.name,
-        render: () =>
-          <Tab.Pane><div className='tab-content'>
-            <Container fluid>
-              <Header as='h2' textAlign='center'>Select which categories your agency can provide legal services for:</Header>
-              <AgencyCategoryTree agencyId={this.props.user.agency._id} categoryId={category._id} />
-            </Container>
-          </div></Tab.Pane> }));
-
     const panes = [
       { menuItem: 'Home',
         render: () => <Tab.Pane><div className='tab-content'>
@@ -53,15 +41,24 @@ class AgencyHome extends Component {
             <Header as='h2'>Welcome {this.props.user.agency.name}!</Header>
           </Container>
         </div></Tab.Pane> },
-    ].concat(tabs);
-
-    panes.push(
+      { menuItem: 'Categories',
+        render: () =>
+          <Tab.Pane><div className='tab-content'>
+            <Container fluid>
+              <Header as='h2' textAlign='center'>Select which categories your agency can provide legal services for:</Header>
+              <AgencyCategoryTab />
+            </Container>
+          </div></Tab.Pane> },
       { menuItem: 'Global Eligibility',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>View Global Eligibility</Header>
           </Container>
-        </div></Tab.Pane> });
+        </div></Tab.Pane> },
+    ];
+
+    panes.push(
+      );
 
     return (
       <Tab panes={panes} />

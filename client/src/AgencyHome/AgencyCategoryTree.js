@@ -106,7 +106,9 @@ class AgencyCategoryTree extends Component {
   }
 
   updateAgencyCategory(agencyId, categoryId, pushAgency) {
-    this.props.dispatch(addAgencyToCategories(agencyId, categoryId, pushAgency));
+    this.props.dispatch(addAgencyToCategories(agencyId, categoryId, pushAgency)).then(() => {
+      this.props.dispatch(fetchCategories());
+    });
   }
 
   editEligibility(categoryId) {

@@ -74,7 +74,6 @@ export function addAgencyToCategories(agencyId, categoryId, pushAgency) {
   return dispatch => Client.postRequest(ADD_AGENCY_TO_CATEGORY, { agencyId, categoryId, pushAgency })
     .then((response) => {
       dispatch({ type: ADD_AGENCY_TO_CATEGORY_SUCCESS, payload: response });
-      fetchCategories();
     })
     .catch((err) => {
       dispatch({ type: REQUEST_REJECTED, payload: err });

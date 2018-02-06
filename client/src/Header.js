@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Icon } from 'semantic-ui-react';
-import { GoogleLogin } from 'react-google-login-component';
 import {
   Link,
 } from 'react-router-dom';
-import logo from './logo.png';
+import logo from './Images/logo.png';
 
 class Header extends Component {
   render() {
@@ -17,14 +15,6 @@ class Header extends Component {
               Wisconsin Legal Aid Finder
             </h1>
           </Link>
-          <Link to='/login'>
-              <GoogleLogin socialId="226894844991-9nnlc8m846japmn3u85j4bkk0h4nfd6d.apps.googleusercontent.com"
-                     className="ui inverted button header-login"
-                     scope="profile"
-                     fetchBasicProfile={false}
-                     responseHandler={this.responseGoogle}
-                     buttonText={<IconText />}/>
-          </Link>
         </div>
       </div>
     );
@@ -32,13 +22,3 @@ class Header extends Component {
 }
 
 export default Header;
-
-class IconText extends Component {
-  render() {
-    return (
-      <div>
-        <Icon name='google' size='large' className='button-text' /> Agency Login
-      </div>
-    );
-  }
-}

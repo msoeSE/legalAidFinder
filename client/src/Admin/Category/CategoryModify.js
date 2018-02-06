@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Dropdown, Button, Input } from 'semantic-ui-react';
-import Client from '../../Client';
+import { modifyCategories, fetchCategoriesAndFullDropdown } from '../../Actions/categoriesActions';
+
+function mapStateToProps(state) {
+  return { data: state.categories };
+}
 
 class CategoryModify extends Component {
   constructor(props) {
@@ -9,129 +15,123 @@ class CategoryModify extends Component {
       idVal: '',
       nameVal: '',
       parentVal: '',
-      categories: '',
-      full_categories: '',
-      subcategories: [{ id: '', name: '' }],
+      subcategories: [{ id: '', name: '', disabled: true }],
+      msg: ''
     };
-    this.handleAgencyName = this.handleAgencyName.bind(this);
-    this.handleAgencyURL = this.handleAgencyURL.bind(this);
-    this.handleCategoryID = this.handleCategoryID.bind(this);
-    this.handleSubmitAgency = this.handleSubmitAgency.bind(this);
-    this.handleAddEmail = this.handleAddEmail.bind(this);
-    this.handleRemoveEmail = this.handleRemoveEmail.bind(this);
-    this.handleEmailAddressChange = this.handleEmailAddressChange.bind(this);
+  }
+  componentWillMount() {
+    this.props.dispatch(fetchCategoriesAndFullDropdown());
   }
   componentDidMount() {
-    Client.getCategories()
-      .then((d) => {
-        this.setState({
-          categories: d.categories.map((c) => {return {key: c._id, value: c._id, text: c.name}}),
-          full_categories: d.categories
-        });
-      }, () => {
-        this.setState({
-          requestFailed: true,
-        });
-      });
-  }
-  handleCategoryID(event, data) {
-    this.setState({ id: data.value });
-    var category = this.state.full_categories.find((e) => {return e._id === data.value});
-    this.setState({ nameVal: category.name, idVal: category._id, parentVal: category.parent.name });
+    var category = this.props.category;
+    let parent = '';
+    if (category.parent)
+      parent = category.parent.name;
+
     var array = [];
     category.subcategories.forEach((e) => {
       if (e !== null)
-        array.push({ id: e._id, name: e.name });
+        array.push({ id: e._id, name: e.name, disabled: true });
     });
-    this.setState({ subcategories: array });
-  }
-  handleAgencyName(event) {
-    this.setState({ name: event.target.value });
-  }
-  handleAgencyURL(event) {
-    this.setState({ url: event.target.value });
-  }
-  handleSubmitAgency(event) {
-      event.preventDefault();
-      const data = {
-        name: this.state.name,
-        url: this.state.url,
-        subcategories: this.state.subcategories
-      };
-      console.log(data);
 
-      Client.postAgencies(data)
-        .then((d) => {
-          console.log(d);
-        });
+    this.setState({
+      idVal: category._id,
+      nameVal: category.name,
+      parentVal: parent,
+      subcategories: array
+    });
   }
-  handleEmailAddressChange = (idx) => (event) => {
+  categoryName(event) {
+    this.setState({ nameVal: event.target.value, msg: '' });
+  }
+  /* For each subcategory, determine new parent (current category)
+     and also remove from parent subcategory array to update reference */
+  updateSubArray() {
+    let full_subs = [];
+    this.state.subcategories.forEach((e) => {
+        let sub = this.props.data.categories.find((sub) => e.id === sub._id);
+        if (sub && sub.parent) {
+          sub.new_parent = this.props.category;
+          if (sub.new_parent._id !== sub.parent._id) {
+            let i = sub.parent.subcategories.indexOf(sub._id);
+            sub.parent.subcategories.splice(i, 1);
+          }
+          full_subs.push(sub);
+        }
+    });
+    return full_subs;
+  }
+  submitEditCategory(event) {
+      event.preventDefault();
+
+      const data = {
+        query: { _id : this.state.idVal },
+        name: this.state.nameVal,
+        subcategories: this.updateSubArray(),
+      };
+
+      this.props.dispatch(modifyCategories(data)).then((response) => {
+        if (!this.props.data.error) {
+          this.props.dispatch(fetchCategoriesAndFullDropdown());
+          let message = 'Successfully edited category: ' + this.state.nameVal;
+          this.setState({ msg: message });
+        } else {
+          let message = 'Failed to edit category.';
+          this.setState({ msg: message });
+        }
+      });
+  }
+  subcategoryChange = (idx) => (event, data) => {
+    var category = this.props.data.categories.find((e) => {return e._id === data.value});
     let copy = this.state.subcategories.slice();
-    let subcategories = copy.map((subcategory, i) => {
-      return (i === idx) ? {...subcategory, id: event.target.value} : subcategory
+    let subs = copy.map((sub, i) => {
+      return (i === idx) ? {...subs, id: category._id, name: category.name} : sub
     })
-    this.setState({ subcategories: subcategories });
+    this.setState({ subcategories: subs, msg: '' });
   }
-  handleAddEmail(event) {
+  existingSubcategory(event) {
     event.preventDefault();
     this.setState({
-      subcategories: this.state.subcategories.concat([{ id: '', name: '' }])
+      subcategories: this.state.subcategories.concat([{ id: '', name: '', disabled: false }]),
+      msg: ''
     });
   }
-  handleRemoveEmail = (idx) => (event) => {
+  removeSubcategory = (idx) => (event) => {
     event.preventDefault();
     this.setState({
-      subcategories: this.state.subcategories.filter((a, eidx) => idx !== eidx)
-    });
+      subcategories: this.state.subcategories.filter((a, eidx) => idx !== eidx),
+      msg: ''
+    })
   }
   render() {
     return (
-      <div>
+      <div align="center">
         <div>
           <form>
-            <Dropdown placeholder='Category' 
-              fluid={true} size='big' 
-              className='padding2' 
-              search 
-              selection 
-              options={this.state.categories} 
-              onChange={this.handleCategoryID} 
-            />
-            <Input placeholder='Name'
-              label='Name'
-              labelPosition='left'
-              size='big'
-              fluid={true}
-              className='padding'
-              onChange={this.handleAgencyName}
+            <Input placeholder='Name' label='Name' labelPosition='left'
+              size='big' fluid={true} className='padding'
+              onChange={this.categoryName.bind(this)}
               value={this.state.nameVal}
             />
-            <Input placeholder='Parent'
-              label='Parent'
-              labelPosition='left'
-              size='big'
-              fluid={true}
-              className='padding'
-              onChange={this.handleAgencyName}
+            <Input placeholder='Parent' label='Parent' labelPosition='left'
+              size='big' fluid={true} className='padding' disabled
               value={this.state.parentVal}
             />
+            <hr/>
             {this.state.subcategories.map((category, idx) => (
-              <div key={Math.random(99999999)*(new Date().getMilliseconds())}>
-                <Input
-                  label='Child'
-                  labelPosition='left'
-                  size='big'
-                  type="text"
-                  placeholder={`Subcategory #${idx + 1}`}
-                  value={category.name}
-                  className='padding'
-                  onChange={this.handleEmailAddressChange(idx)}
+              <div key={idx}>
+                <Dropdown placeholder='Category'  fluid={true} size='big'
+                  className='large text' search selection  options={this.props.data.dropdown}
+                  onChange={this.subcategoryChange(idx).bind(this)} // eslint-disable-next-line
+                  placeholder={category.name} disabled={category.disabled}
                 />
-                <Button negative onClick={this.handleRemoveEmail(idx)} className="padding" >-</Button>
+                <Button negative onClick={this.removeSubcategory(idx).bind(this)} className="padding" >Remove Subcategory</Button>
               </div>
             ))}
-            <Button color='blue' onClick={this.handleAddEmail} className='padding'>Add Subcategory</Button>
-            <Button positive onClick={this.handleSubmitAgency}>Edit Category</Button>
+            <hr/>
+            <Button color='blue' onClick={this.existingSubcategory.bind(this)} className='padding'>Add Subcategory</Button>
+            <Button positive onClick={this.submitEditCategory.bind(this)}>Apply Changes</Button>
+            <h2>{this.state.msg}</h2>
           </form>
         </div>
       </div>
@@ -139,4 +139,4 @@ class CategoryModify extends Component {
   }
 }
 
-export default CategoryModify;
+export default withRouter(connect(mapStateToProps)(CategoryModify));

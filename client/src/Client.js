@@ -6,6 +6,7 @@ export const CATEGORIES_ENDPOINT = 'categories';
 export const ADD_AGENCY_TO_CATEGORY = 'categories/addAgency';
 export const ADD_ELIGIBILITY = 'eligibility';
 export const ELIGIBILITIES_ENDPOINT = 'eligibilities';
+export const ADMINS_ENDPOINT = 'admins';
 
 function getRequest(endpoint, id = null, cb) {
   let url = `${process.env.PUBLIC_URL}/api/${endpoint}`;

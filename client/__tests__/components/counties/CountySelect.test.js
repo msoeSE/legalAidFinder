@@ -6,24 +6,13 @@ import {shallow, mount} from 'enzyme';
 
 const mockStore = configureMockStore();
 
-describe('CountySelect', () => {
-
-    it('# has a page wrapper', () => {
+describe('<CountySelect />', function () {
+    it('renders without exploding', () => {
         const store = mockStore({chosenCounty: ""});
-        const wrapper = shallow(<CountySelect store={store}/>);
-        expect(wrapper).toMatchSnapshot();
+        expect(
+            shallow(
+                <CountySelect store={store} />
+            ).length).toEqual(1);
     });
 
-    it('# renders a page', () => {
-
-        const component = (
-            <CountySelect
-
-            />
-        );
-
-        // test rendering
-        const wrapper = shallow(component);
-        expect(wrapper).toMatchSnapshot();
-    });
 });

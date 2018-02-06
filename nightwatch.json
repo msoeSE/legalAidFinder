@@ -1,5 +1,5 @@
 {
-  "src_folders" : ["tests"],
+  "src_folders" : ["./client/__tests__/ui"],
   "output_folder" : "reports",
   "custom_commands_path" : "",
   "custom_assertions_path" : "",
@@ -8,7 +8,7 @@
 
   "selenium" : {
     "start_process" : true,
-    "server_path" : "node_modules/selenium-standalone/.selenium/selenium-server/3.6.0-server.jar",
+    "server_path" : "selenium-server-standalone-3.9.0.jar",
     "log_path" : "log",
     "port" : 4445,
     "cli_args" : {
@@ -41,7 +41,8 @@
         "browserName": "chrome",
         "chromeOptions" : {
           "args" : ["headless"]
-        }
+        },
+        "marionette" : false
       }
     },
 

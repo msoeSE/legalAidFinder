@@ -20,9 +20,10 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
-    this.handleGoogleSuccess = this.handleGoogleSuccess.bind(this);
-    this.handleGoogleFailure = this.handleGoogleFailure.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+    this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
+    this.handleLoginFailure = this.handleLoginFailure.bind(this);
+    this.handleLogoutSuccess = this.handleLogoutSuccess.bind(this);
+    this.handleLogoutFailure = this.handleLogoutFailure.bind(this);
   }
 
   componentWillMount() {
@@ -30,7 +31,7 @@ class Header extends Component {
     this.props.dispatch(fetchAdmins());
   }
 
-  handleGoogleSuccess(response) {
+  handleLoginSuccess(response) {
     let email = response.profileObj.email;
     let emailFound = false;
 
@@ -54,11 +55,15 @@ class Header extends Component {
     }
   }
 
-  handleGoogleFailure(response) {
+  handleLoginFailure(response) {
     // TO DO! Handle failure
   }
 
-  handleLogout(response) {
+  handleLogoutSuccess(response) {
+    this.props.dispatch(clearUser());
+  }
+
+  handleLogoutFailure(response) {
     this.props.dispatch(clearUser());
   }
 
@@ -69,16 +74,17 @@ class Header extends Component {
       login = <GoogleLogin
         className='ui inverted button login-btn'
         clientId="226894844991-9nnlc8m846japmn3u85j4bkk0h4nfd6d.apps.googleusercontent.com"
-        buttonText={<IconText text="Agency Login" />}
-        onSuccess={this.handleGoogleSuccess}
-        onFailure={this.handleGoogleFailure}
+        buttonText={<IconText text="Agency/Admin Login" />}
+        onSuccess={this.handleLoginSuccess}
+        onFailure={this.handleLogoutFailure}
       />;
     } else {
       logout = <GoogleLogout
         className='ui inverted button logout-btn'
         clientId="226894844991-9nnlc8m846japmn3u85j4bkk0h4nfd6d.apps.googleusercontent.com"
         buttonText="Logout"
-        onSuccess={this.handleLogout}
+        onSuccess={this.handleLogoutSuccess}
+        onFailure={this.handleLogoutFailure}
       >
       </GoogleLogout>
     }
@@ -93,12 +99,12 @@ class Header extends Component {
           </Link>
           {login}
           {logout}
-          { this.props.user.agency ?
-            <Button className='ui inverted button header-btn' as={Link} to={'agency'}>Agency Home</Button> :
-            null
-          }
           { this.props.user.admin ?
             <Button className='ui inverted button header-btn' as={Link} to={'admin'}>Admin Home</Button> :
+            null
+          }
+          { this.props.user.agency ?
+            <Button className='ui inverted button header-btn' as={Link} to={'agency'}>Agency Home</Button> :
             null
           }
         </div>

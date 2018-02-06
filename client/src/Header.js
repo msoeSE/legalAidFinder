@@ -10,6 +10,7 @@ import logo from './Images/logo.png';
 import { fetchAgencies } from './Actions/agenciesActions';
 import { setUser, clearUser } from './Actions/userActions';
 import { fetchAdmins } from './Actions/adminsActions';
+import './Header.css';
 
 function mapStateToProps(state) {
   return { agencyData: state.agencies, user: state.user, adminData: state.admins };
@@ -90,16 +91,16 @@ class Header extends Component {
               Wisconsin Legal Aid Finder
             </h1>
           </Link>
+          {login}
+          {logout}
           { this.props.user.agency ?
-            <Button className='ui inverted button' as={Link} to={'agency'}>Agency Home</Button> :
+            <Button className='ui inverted button header-btn' as={Link} to={'agency'}>Agency Home</Button> :
             null
           }
           { this.props.user.admin ?
-            <Button className='ui inverted button' as={Link} to={'admin'}>Admin Home</Button> :
+            <Button className='ui inverted button header-btn' as={Link} to={'admin'}>Admin Home</Button> :
             null
           }
-          {login}
-          {logout}
         </div>
       </div>
     );

@@ -45,8 +45,6 @@ class Header extends Component {
     if (agency) {
       this.props.dispatch(setUser(email, agency, false));
     }
-
-    console.log(agency);
   }
 
   handleGoogleFailure(response) {
@@ -76,7 +74,7 @@ class Header extends Component {
             </h1>
           </Link>
           { this.props.user.email ?
-            <Button as={Link} to={'agency'}>Go to agency page</Button> :
+            <Button as={Link} to={'agency'}>Go to Agency page</Button> :
             null
           }
           { this.props.user.admin ?

@@ -1,5 +1,4 @@
 import Admins from '../models/admins';
-var mongoose = require('mongoose');
 
 /**
  * Get all admins
@@ -8,7 +7,7 @@ var mongoose = require('mongoose');
  * @returns void
  */
 export function getAdmins(req, res) {
-  Admins.find() // { parent: { $exists: false } }
+  Admins.find()
     .populate('admins')
     .exec((err, admins) => {
       if (err) {

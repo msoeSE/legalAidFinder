@@ -3,6 +3,7 @@
 export const AGENCIES_ENDPOINT = 'agencies';
 export const COUNTY_ENDPOINT = 'counties';
 export const CATEGORIES_ENDPOINT = 'categories';
+export const ADMINS_ENDPOINT = 'admins';
 
 function getRequest(endpoint, id = null, cb) {
   let url = `${process.env.PUBLIC_URL}/api/${endpoint}`;

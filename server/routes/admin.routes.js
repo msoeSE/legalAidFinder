@@ -6,3 +6,4 @@ const router = new Router();
 router.route('/admins').get(AdminsController.getAdmins);
 
 export default router;
+

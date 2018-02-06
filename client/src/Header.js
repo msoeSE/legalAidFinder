@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { Icon, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import Client from './Client';
 import GoogleLogin from 'react-google-login';
 import {
   Link,
 } from 'react-router-dom';
 import logo from './Images/logo.png';
-import { fetchAgencies } from "./Actions/agenciesActions";
-import { setUser, clearUser } from "./Actions/userActions";
+import { fetchAgencies } from './Actions/agenciesActions';
+import { setUser, clearUser } from './Actions/userActions';
+import { fetchAdmins } from './Actions/adminsActions';
 
 function mapStateToProps(state) {
-  return { data: state.agencies, user: state.user };
+  return { agencyData: state.agencies, user: state.user, adminData: state.admins };
 }
 
 class Header extends Component {
@@ -23,6 +25,7 @@ class Header extends Component {
 
   componentWillMount() {
     this.props.dispatch(fetchAgencies());
+    this.props.dispatch(fetchAdmins());
   }
 
   handleGoogleSuccess(response) {
@@ -30,10 +33,11 @@ class Header extends Component {
     let email = response.profileObj.email;
 
     console.log(response.profileObj);
-    console.log(this.props.data.agencies);
+    console.log(this.props.agencyData.agencies);
+    console.log(this.props.adminData.admins);
     let emailFound = false;
 
-    let agency = this.props.data.agencies.find((a) => {
+    let agency = this.props.agencyData.agencies.find((a) => {
       a.emails.forEach((e) => {
         if (e === email && !emailFound) {
           emailFound = true;
@@ -42,9 +46,16 @@ class Header extends Component {
       return emailFound;
     });
 
-    if (agency) {
-      this.props.dispatch(setUser(email, agency, false));
+    let isAdmin = this.props.adminData.admins.find((a) => {
+      if (email === a.email) {
+        return true;
+      }
+    });
+    
+    if (agency || isAdmin) {
+      this.props.dispatch(setUser(email, agency, isAdmin));
     }
+
   }
 
   handleGoogleFailure(response) {
@@ -74,11 +85,11 @@ class Header extends Component {
             </h1>
           </Link>
           { this.props.user.email ?
-            <Button as={Link} to={'agency'}>Go to Agency page</Button> :
+            <Button as={Link} to={'agency'}>Agency Home</Button> :
             null
           }
           { this.props.user.admin ?
-            <Button as={Link} to={'admin'}>Go to Admin page</Button> :
+            <Button as={Link} to={'admin'}>Admin Home</Button> :
             null
           }
           {login}

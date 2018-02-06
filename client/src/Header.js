@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Icon, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import Client from './Client';
 import GoogleLogin from 'react-google-login';
+import GoogleLogout from 'react-google-login';
 import {
   Link,
 } from 'react-router-dom';
@@ -21,6 +21,7 @@ class Header extends Component {
 
     this.handleGoogleSuccess = this.handleGoogleSuccess.bind(this);
     this.handleGoogleFailure = this.handleGoogleFailure.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   componentWillMount() {
@@ -29,12 +30,7 @@ class Header extends Component {
   }
 
   handleGoogleSuccess(response) {
-    let name = response.profileObj.givenName;
     let email = response.profileObj.email;
-
-    console.log(response.profileObj);
-    console.log(this.props.agencyData.agencies);
-    console.log(this.props.adminData.admins);
     let emailFound = false;
 
     let agency = this.props.agencyData.agencies.find((a) => {
@@ -51,29 +47,39 @@ class Header extends Component {
         return true;
       }
     });
-    
-    if (agency || isAdmin) {
-      this.props.dispatch(setUser(email, agency, isAdmin));
-    }
 
+    if (agency || isAdmin) {
+      this.props.dispatch(setUser(response.profileObj.givenName, response.profileObj.familyName, email, agency, isAdmin));
+    }
   }
 
   handleGoogleFailure(response) {
     // TO DO! Handle failure
   }
 
+  handleLogout(response) {
+    this.props.dispatch(clearUser());
+  }
+
   render() {
     let login;
+    let logout;
     if (!this.props.user.email) {
       login = <GoogleLogin
         className='ui inverted button login-btn'
         clientId="226894844991-9nnlc8m846japmn3u85j4bkk0h4nfd6d.apps.googleusercontent.com"
-        buttonText={<IconText />}
+        buttonText={<IconText text="Agency Login" />}
         onSuccess={this.handleGoogleSuccess}
         onFailure={this.handleGoogleFailure}
       />;
     } else {
-      login = <h3 className='welcome-msg'>Welcome, {this.props.user.agency.name}!</h3>;
+      logout = <GoogleLogout
+        className='ui inverted button logout-btn'
+        clientId="226894844991-9nnlc8m846japmn3u85j4bkk0h4nfd6d.apps.googleusercontent.com"
+        buttonText="Logout"
+        onSuccess={this.handleLogout}
+      >
+      </GoogleLogout>
     }
     return (
       <div className='app-header'>
@@ -84,15 +90,16 @@ class Header extends Component {
               Wisconsin Legal Aid Finder
             </h1>
           </Link>
-          { this.props.user.email ?
-            <Button as={Link} to={'agency'}>Agency Home</Button> :
+          { this.props.user.agency ?
+            <Button className='ui inverted button' as={Link} to={'agency'}>Agency Home</Button> :
             null
           }
           { this.props.user.admin ?
-            <Button as={Link} to={'admin'}>Admin Home</Button> :
+            <Button className='ui inverted button' as={Link} to={'admin'}>Admin Home</Button> :
             null
           }
           {login}
+          {logout}
         </div>
       </div>
     );
@@ -105,7 +112,7 @@ class IconText extends Component {
   render() {
     return (
       <div>
-        <Icon name='google' size='large' className='button-text' /> Agency Login
+        <Icon name='google' size='large' className='button-text' />{this.props.text}
       </div>
     );
   }

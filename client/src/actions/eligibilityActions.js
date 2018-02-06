@@ -1,16 +1,26 @@
+import Client, { ELIGIBILITIES_ENDPOINT, ADD_ELIGIBILITY } from './../Client';
+import {
+  ADD_ELIGIBILITIES,
+  FETCH_ELIGIBILITY_FULFILLED,
+  FETCH_ELIGIBILITY_REJECTED,
+} from '../Reducers/eligibilityReducer';
+
 export function fetchEligibilities() {
-  return dispatch => fetch(`${process.env.PUBLIC_URL}api/eligibilities`, {
-    accept: 'application/json',
-  }).then(parseJSON)
+  return dispatch => Client.getRequest(ELIGIBILITIES_ENDPOINT)
     .then((response) => {
-      dispatch({ type: 'FETCH_ELIGIBILITY_FULFILLED', payload: response.eligibilities });
+      dispatch({ type: FETCH_ELIGIBILITY_FULFILLED, payload: response.eligibilities });
     })
     .catch((err) => {
-      dispatch({ type: 'FETCH_ELIGIBILITY_REJECTED', payload: err });
+      dispatch({ type: FETCH_ELIGIBILITY_REJECTED, payload: err });
     });
 }
 
-
-function parseJSON(response) {
-  return response.json();
+export function postEligibilities(data) {
+  return dispatch => Client.postRequest(ADD_ELIGIBILITY, data)
+    .then((response) => {
+      dispatch({ type: ADD_ELIGIBILITIES, payload: response.eligibilities });
+    })
+    .catch((err) => {
+      dispatch({ type: FETCH_ELIGIBILITY_REJECTED, payload: err });
+    });
 }

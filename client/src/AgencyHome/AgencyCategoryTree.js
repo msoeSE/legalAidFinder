@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Loader, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { fetchCategories } from '../Actions/categoriesActions';
+import { fetchCategories, addAgencyToCategories } from '../Actions/categoriesActions';
 import Checkbox from './CategoryCheckbox';
 
 import EligibilityModal from '../Eligibility/EligibilityModal';
@@ -106,7 +106,7 @@ class AgencyCategoryTree extends Component {
   }
 
   updateAgencyCategory(agencyId, categoryId, pushAgency) {
-    // this.props.dispatch(addOrRemoveAgencyFromCategoryRequest(agencyId, categoryId, pushAgency));
+    this.props.dispatch(addAgencyToCategories(agencyId, categoryId, pushAgency));
   }
 
   editEligibility(categoryId) {

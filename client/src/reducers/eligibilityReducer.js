@@ -1,7 +1,7 @@
 export const FETCH_ELIGIBILITY = 'FETCH_ELIGIBILITY';
 export const FETCH_ELIGIBILITY_REJECTED = 'FETCH_ELIGIBILITY_REJECTED';
 export const FETCH_ELIGIBILITY_FULFILLED = 'FETCH_ELIGIBILITY_FULFILLED';
-export const ADD_ELIGIBILITY = 'ADD_ELIGIBILITY';
+export const ADD_ELIGIBILITIES = 'ADD_ELIGIBILITIES';
 export const DELETE_ELIGIBILITY = 'DELETE_ELIGIBILITY';
 
 export default function reducer(state = {
@@ -9,19 +9,19 @@ export default function reducer(state = {
   error: null,
 }, action) {
   switch (action.type) {
-    case 'FETCH_ELIGIBILITY': {
+    case FETCH_ELIGIBILITY: {
       return { ...state };
     }
-    case 'FETCH_ELIGIBILITY_REJECTED': {
+    case FETCH_ELIGIBILITY_REJECTED: {
       return { ...state, error: action.payload};
     }
-    case 'FETCH_ELIGIBILITY_FULFILLED': {
+    case FETCH_ELIGIBILITY_FULFILLED: {
       return { ...state, eligibility: action.payload };
     }
-    case 'ADD_ELIGIBILITY': {
-      return { ...state, eligibility: action.eligibility };
+    case ADD_ELIGIBILITIES: {
+      return { ...state, eligibility: [ ...state.eligibility, action.payload ] };
     }
-    case 'DELETE_ELIGIBILITY':
+    case DELETE_ELIGIBILITY:
       return { ...state, eligibility: this.eligibility.filter(e => e._id !== action._id) };
   }
   return state;

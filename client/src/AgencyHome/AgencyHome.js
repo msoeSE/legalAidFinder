@@ -50,7 +50,7 @@ class AgencyHome extends Component {
       { menuItem: 'Home',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
-            <Header as='h2'>Agency Name Goes Here</Header>
+            <Header as='h2'>Welcome {this.props.user.agency.name}!</Header>
           </Container>
         </div></Tab.Pane> },
     ].concat(tabs);

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Tab, Container, Header } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import AgencyAdd from './Agency/AgencyAdd';
 import AgencyDelete from './Agency/AgencyDelete';
 import AgencyModify from './Agency/AgencyModify';
@@ -7,8 +9,18 @@ import CategoryTab from './Category/CategoryTab';
 import CategoryAdd from './Category/CategoryAdd';
 import CategoryDelete from './Category/CategoryDelete';
 
+function mapStateToProps(state) {
+  return { data: state.categories, user: state.user };
+}
+
 class AdminPage extends Component {
   render() {
+    if (!this.props.user.email || !this.props.user.admin) {
+      return (
+        <Redirect to='/' />
+      );
+    }
+
     const panes = [
       { menuItem: 'Add Agency', render: () => <Tab.Pane><div className='tab-content'>
         <Container fluid textAlign='center'>
@@ -55,4 +67,4 @@ class AdminPage extends Component {
   }
 }
 
-export default AdminPage;
+export default connect(mapStateToProps)(AdminPage);

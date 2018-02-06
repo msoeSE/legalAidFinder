@@ -43,5 +43,12 @@ describe('Counties Reducer', () =>{
         })).toEqual({ ...DEFAULT_STATE, fetching: false, error: errorPayload});
     });
 
+    it('can choose a county and save to the state', () => {
+        const chosenCounty = "Milwaukee";
+        expect(reducer(undefined, {
+            type: 'CHOOSE_COUNTY',
+            payload: chosenCounty
+        })).toEqual({ ...DEFAULT_STATE, chosenCounty: chosenCounty});
+    });
 
 });

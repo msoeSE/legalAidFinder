@@ -19,9 +19,9 @@ export default function reducer(state = {
       return { ...state, categories: [ ...state.categories, action.payload ] };
     }
     case 'UPDATE_CATEGORY': {
-      const {id, name} = action.payload;
+      const {_id, name} = action.payload;
       const newCategories = [...state.categories];
-      const categoryToUpdate = newCategories.findIndex(category => category._id === id)
+      const categoryToUpdate = newCategories.findIndex(category => category._id === _id)
       newCategories[categoryToUpdate] = action.payload;
 
       return { ...state, categories: newCategories };

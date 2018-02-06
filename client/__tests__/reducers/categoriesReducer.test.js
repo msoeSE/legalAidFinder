@@ -42,5 +42,36 @@ describe('Categories Reducer', () =>{
         })).toEqual({ ...DEFAULT_STATE, fetching: false, error: errorPayload});
     });
 
+    it('can add a category', () => {
+        const newCategory = ['Health'];
+        expect(reducer(undefined, {
+            type: 'ADD_CATEGORY',
+            payload: newCategory
+        })).toEqual({ ...DEFAULT_STATE, categories: [...DEFAULT_STATE.categories, newCategory] });
+    });
+
+    it('can update a category', () => {
+        const updatedCategory = {name: "Health", _id: 0};
+        const categories = [{name: "Not Health", _id: 0}, {name: "Law", _id: 1}];
+        const expectedCategories = [{name: "Health", _id: 0}, {name: "Law", _id: 1}];
+        DEFAULT_STATE.categories = categories;
+
+        expect(reducer(DEFAULT_STATE, {
+            type: 'UPDATE_CATEGORY',
+            payload: updatedCategory
+        })).toEqual({ ...DEFAULT_STATE, categories: expectedCategories });
+    });
+
+    it('can delete a category', () => {
+        const categoryToDelete = {name: "Health", _id: 0};
+        const categories = [{name: "Health", _id: 0}, {name: "Law", _id: 1}];
+        DEFAULT_STATE.categories = categories;
+
+        expect(reducer(DEFAULT_STATE, {
+            type: 'DELETE_CATEGORY',
+            payload: categoryToDelete._id
+        })).toEqual({ ...DEFAULT_STATE, categories: [{name: "Law", _id: 1}] });
+    });
+
 
 });

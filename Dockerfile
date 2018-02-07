@@ -1,15 +1,18 @@
+# base image
 FROM node
 
-RUN mkdir -p /usr/src/app
+# set working directory
+RUN mkdir /usr/src/app
+ADD . /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package.json /usr/src/app
-RUN npm install
-COPY . /usr/src/app
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-ENV NODE_ENV production
+# install and cache app dependencies
+ADD package.json /usr/src/app/package.json
+RUN npm install --silent
+RUN npm install react-scripts@1.1.0 -g --silent
 
-EXPOSE 8000
-
-CMD npm run-script build && npm run-script build:server && npm run start:prod
-
+# start app
+CMD ["npm", "start"]

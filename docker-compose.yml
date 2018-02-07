@@ -1,15 +1,16 @@
-db:
-  image: mongo
-  ports:
-   - "27017:27017"
-web:
-  build: .
-  links:
-   - db
-  ports:
-   - "8000:8000"
-  volumes:
-   - .:/usr/src/app/
-  environment:
-   NODE_ENV: production
+version: '3.3'
 
+services:
+
+  laf:
+    container_name: laf
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+    ports:
+      - '3000:3000'
+      - '3001:3001'
+    environment:
+      - NODE_ENV=development

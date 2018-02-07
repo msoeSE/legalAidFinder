@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as CategoryController from '../controllers/categories.controller';
 import * as AgencyController from '../controllers/agencies.controller';
+
 const router = new Router();
 
 // Get all ParentPosts
@@ -12,8 +13,20 @@ router.route('/categories/:_id').get(CategoryController.getCategory);
 // Add a new Category
 router.route('/categories').post(CategoryController.addCategory);
 
+// Add a new Category
+router.route('/categories').put(CategoryController.modifyCategory);
+
+// Add a new Category
+router.route('/categories2').post(CategoryController.addCategories);
+
+// Edit an existing Category
+router.route('/categories/addAgency').post(CategoryController.addAgencyToCategory);
+
 // Delete a category by cuid
 router.route('/categories/:_id').delete(CategoryController.deleteCategory);
+
+// Delete a category
+router.route('/categories').delete(CategoryController.deleteCategory);
 
 // Get all ParentPosts
 router.route('/agencies').get(AgencyController.getAgencies);

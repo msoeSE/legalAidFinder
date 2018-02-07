@@ -4,6 +4,16 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.babelrc
+docker.txt
+terraform*
+.terraform
+docker.sh
+docker.py
+.gitignore
+laf-ec2.tf
+provision.sh
+package-lock.json
 
 .idea/
 
@@ -65,3 +75,7 @@ typings/
 
 # next.js build output
 .next
+
+.terraform/*
+terraform*
+docker.txt

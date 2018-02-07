@@ -1,18 +1,9 @@
 {
-  "name": "lookup-client",
+  "name": "laf-react-app",
   "version": "0.1.0",
-  "private": true,
   "proxy": "http://localhost:3001/",
   "devDependencies": {
-    "enzyme": "2.4.1",
-    "react-addons-test-utils": "15.4.0",
-    "react-scripts": "0.8.5"
-  },
-  "dependencies": {
-    "babel-plugin-transform-class-properties": "6.22.0",
-    "react": "15.4.0",
-    "react-dom": "15.4.0",
-    "semantic-ui": "^2.2.10"
+    "react-scripts": "^1.1.0"
   },
   "jest": {
   },

@@ -1,4 +1,4 @@
-import reducer from '../../src/reducers/countiesReducer';
+import reducer from '../../src/Reducers/countiesReducer';
 
 
 const DEFAULT_STATE = {

@@ -1,4 +1,4 @@
-import reducer from '../../src/reducers/categoriesReducer';
+import reducer from '../../src/Reducers/categoriesReducer';
 
 
 const DEFAULT_STATE = {

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Button } from 'semantic-ui-react';
+import { postEligibilities } from '../Actions/eligibilityActions';
 
 const COMPARATORS = {
   GREATERorEQUAL: '≥',
@@ -9,7 +10,7 @@ const COMPARATORS = {
   EQUAL: '=',
 };
 
-class EligibilityCreator extends React.Component {
+class EligibilityCreator extends Component {
   constructor() {
     super();
     this.state = {
@@ -24,7 +25,9 @@ class EligibilityCreator extends React.Component {
   }
 
   submitEligibility() {
-    //   this.props.addEligibility(this.props.eligibility.category, this.props.eligibility.agency, this.state.keyValue, this.state.comparatorValue, valueRef.value).then(() => {
+    this.props.dispatch(postEligibilities(this.state.data)).then(() => {
+      alert('Successful');
+    });
   }
 
   addEligibility(event) {
@@ -34,24 +37,28 @@ class EligibilityCreator extends React.Component {
     });
   }
 
-  removeEligibility = (idx) => (event) => {
+  removeEligibility = idx => (event) => {
     event.preventDefault();
     this.setState({
       data: this.state.data.filter((a, eidx) => idx !== eidx),
     });
   };
 
-  handleKeyChange(idx) {
+  handleKeyChange = idx => (event) => {
+    const x = this.state.data.find((a, index) => idx !== index);
+    x.keyValue = event.target.value;
+    this.state.data.find((a, index) => idx !== index)
+  };
 
-  }
+  handleComparatorChange = idx => (event) => {
+    const x = this.state.data.find((a, index) => idx !== index);
+    x.comparatorValue = event.target.value;
+  };
 
-  handleComparatorChange(idx) {
-
-  }
-
-  handleValueChange(idx) {
-
-  }
+  handleValueChange = idx => (event) => {
+    const x = this.state.data.find((a, index) => idx !== index);
+    x.value = event.target.value;
+  };
 
   render() {
     return (

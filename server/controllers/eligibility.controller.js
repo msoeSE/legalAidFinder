@@ -58,7 +58,7 @@ export function addEligibility(req, res) {
             if (error) {
               res.status(500).send(err);
             }
-            res.json({ newEligibility });
+            res.json({ eligibilities: newEligibility });
             return true;
           });
         } else {

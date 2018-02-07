@@ -13,7 +13,6 @@ function getRequest(endpoint, id = null, cb) {
   if (id) {
     url += `?id=${id}`;
   }
-
   return fetch(url, {
     accept: 'application/json',
   })
@@ -85,4 +84,5 @@ const Client = {
   postRequest,
   putRequest,
 };
+
 export default Client;

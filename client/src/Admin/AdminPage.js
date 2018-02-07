@@ -58,7 +58,7 @@ class AdminPage extends Component {
         </Container>
         <CategoryTab />
       </div></Tab.Pane> }
-    ]
+    ];
     return (
       <div>
         <Tab panes={panes} />

@@ -41,7 +41,7 @@ export function getCategories(req, res) {
  * @returns void
  */
 export function addCategory(req, res) {
-  const newCategory = new Categories({
+  var newCategory = new Categories({
     name: req.body.name,
     _id: mongoose.Types.ObjectId(),
     parent: req.body.parent,
@@ -51,16 +51,17 @@ export function addCategory(req, res) {
     if (err) {
       res.status(500).send(err);
     } else {
-      const subs = req.body.parent.subcategories;
+      let subs = req.body.parent.subcategories;
       subs.push(saved);
       Categories.findOneAndUpdate({ _id: req.body.parent._id },
-        {
-          name: req.body.parent.name,
-          subcategories: subs,
-        });
-      console.log(subs);
-      console.log(req.body.parent._id);
-      res.json({ category: saved });
+      {
+        name: req.body.parent.name,
+        subcategories: subs
+      }, {upsert:true}, function(err, doc){
+        if (err)
+          return res.send(500, { error: err });
+        return res.status(200).send(JSON.stringify(req.body));
+      });
     }
   });
 }

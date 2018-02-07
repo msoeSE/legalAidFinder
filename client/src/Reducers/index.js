@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-
 import agencies from './agenciesReducer';
 import categories from './categoriesReducer';
 import counties from './countiesReducer';

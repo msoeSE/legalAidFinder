@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 const agenciesSchema = new Schema({
   _id: { type: Schema.Types.ObjectId },
   name: { type: 'String', required: true },
-  categories: [{ type: Schema.Types.ObjectId, ref: 'import_categories' }],
+  emails: [{ type: Schema.Types.String }],
+  counties: [{type: Schema.Types.String}],
   url: { type: 'String', required: true },
 });
 
-export default mongoose.model('import_agencies', agenciesSchema);
+export default mongoose.model('agencies', agenciesSchema);

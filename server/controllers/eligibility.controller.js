@@ -1,6 +1,18 @@
 import mongoose from 'mongoose';
 import Eligibility from '../models/eligibility';
 
+export function getAllEligibilities(req, res) {
+  Eligibility.find()
+    .exec((err, eligibilities) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.json({ eligibilities });
+      }
+    });
+}
+
+
 /**
  * Get all eligibility for an agency
  * @param req
@@ -25,47 +37,44 @@ export function getAgencyEligibility(req, res) {
  * @returns void
  */
 export function addEligibility(req, res) {
-  if (!req.body.category || !req.body.agency || !req.body.key || !req.body.comparator || !req.body.value) {
+  if (!req.body.agencyId || !req.body.categoryId || !req.body.data || req.body.data.length === 0) {
     res.status(403).end();
   }
 
-  const newKCV = {
-    key: req.body.key,
-    comparator: req.body.comparator,
-    value: req.body.value,
-  };
-
-  Eligibility.findOne({ agency: req.body.agency, category: req.body.category })
-    .exec((err, eligibility) => {
+  Eligibility.findOne({ agency: req.body.agencyId, category: req.body.categoryId })
+    .exec((err, elig) => {
       if (err) {
         res.status(500).send(err);
       } else {
-        if (eligibility === null) {
+        if (elig === null) {
           const newEligibility = new Eligibility({
             _id: new mongoose.Types.ObjectId(),
-            agency: req.body.agency,
-            category: req.body.category,
-            key_comparator_value: newKCV,
+            agency: req.body.agencyId,
+            category: req.body.categoryId,
+            key_comparator_value: req.body.data,
           });
 
           newEligibility.save((error) => {
             if (error) {
-              return error;
+              res.status(500).send(err);
             }
-            res.json({ newEligibility });
+            res.json({ eligibilities: newEligibility });
             return true;
           });
         } else {
-          eligibility.key_comparator_value.push(newKCV);
-          eligibility.save((error) => {
+          elig.key_comparator_value = req.body.data;
+
+          elig.save((error, x) => {
             if (error) {
-              return error;
+              res.status(500).send(err);
             }
-            res.json({ eligibility });
+            res.json({ eligibilities: x });
+            return true;
           });
         }
       }
-    });
+    }
+  );
 }
 
 /**

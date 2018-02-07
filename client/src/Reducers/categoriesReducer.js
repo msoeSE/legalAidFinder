@@ -7,7 +7,7 @@ export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 export const DELETE_CATEGORY = 'DELETE_CATEGORY';
 export const REQUEST_REJECTED = 'REQUEST_REJECTED';
 export const FETCH_CATEGORIES_FULL_DROPDOWN_FULFILLED = 'FETCH_CATEGORIES_FULL_DROPDOWN_FULFILLED';
-
+export const ADD_AGENCY_TO_CATEGORY_SUCCESS = 'ADD_AGENCY_TO_CATEGORY_SUCCESS';
 
 export default function reducer(state = {
   categories: [],
@@ -51,6 +51,9 @@ export default function reducer(state = {
     }
     case DELETE_CATEGORY: {
       return { ...state, categories: state.categories.filter(category => category._id !== action.payload) };
+    }
+    case ADD_AGENCY_TO_CATEGORY_SUCCESS: {
+      return { ...state, categories: [ ...state.categories, action.payload ], error: null };
     }
   }
 

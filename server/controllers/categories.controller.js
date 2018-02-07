@@ -1,6 +1,6 @@
 import Categories from '../models/categories';
 import agencies from '../models/agencies';
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 /**
  * Get all parent categories
@@ -44,7 +44,7 @@ export function addCategory(req, res) {
   var newCategory = new Categories({
     name: req.body.name,
     _id: mongoose.Types.ObjectId(),
-    parent: req.body.parent
+    parent: req.body.parent,
   });
 
   newCategory.save((err, saved) => {
@@ -76,16 +76,16 @@ export function addAgencyToCategory(req, res) {
     res.status(403).end();
   }
 
-  Categories.findById(req.body.categoryId, function (err, category) {
+  Categories.findById(req.body.categoryId, (err, category) => {
     if (err) return handleError(err);
 
-    if (req.body.pushAgency){
+    if (req.body.pushAgency) {
       category.agencies.addToSet(req.body.agencyId);
     } else {
       category.agencies.pull(req.body.agencyId);
     }
 
-    category.save(function (err, saved) {
+    category.save((err, saved) => {
       if (err) return handleError(err);
       res.send(saved);
     });
@@ -146,28 +146,28 @@ export function deleteCategory(req, res) {
  * @returns void
  */
 export function addCategories(req, res) {
-  var subcategory_array = []
+  const subcategory_array = [];
   req.body.subcategories.forEach((s) => {
     subcategory_array.push(s.id);
   });
-  var agencies_array = []
+  const agencies_array = [];
   req.body.agencies.forEach((a) => {
     agencies_array.push(a.id);
   });
 
-  var newCategory = new Categories({
+  const newCategory = new Categories({
     name: req.body.name,
     parent: req.body.parent,
     subcategories: subcategory_array,
     agencies: agencies_array,
-    _id: mongoose.Types.ObjectId()
+    _id: mongoose.Types.ObjectId(),
   });
 
   newCategory.save((err, saved) => {
     if (err) {
       res.status(500).send(err);
     }
-      res.json({ category: saved });
+    res.json({ category: saved });
   });
 }
 
@@ -183,22 +183,21 @@ export function modifyCategory(req, res) {
     Categories.findOneAndUpdate({ _id: sub._id },
       {
         name: sub.name,
-        parent: sub.new_parent
+        parent: sub.new_parent,
       });
     // Remove from parent subcategory array
     Categories.findOneAndUpdate({ _id: sub.parent._id },
       {
         name: sub.parent.name,
-        subcategories: sub.parent.subcategories
-      }, {upsert:true});
+        subcategories: sub.parent.subcategories,
+      }, { upsert: true });
   });
   // Update subcategories and name for selected category
   Categories.findOneAndUpdate(req.body.query,
     { name: req.body.name,
-      subcategories: req.body.subcategories
-    }, {upsert:true}, function(err, doc){
-    if (err)
-      return res.send(500, { error: err });
-    return res.status(200).send(JSON.stringify(req.body));
-  });
+      subcategories: req.body.subcategories,
+    }, { upsert: true }, (err, doc) => {
+      if (err) { return res.send(500, { error: err }); }
+      return res.status(200).send(JSON.stringify(req.body));
+    });
 }

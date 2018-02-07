@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Item, Loader, List, Segment, Divider, Card } from 'semantic-ui-react';
+import { Loader, List, Divider, Card } from 'semantic-ui-react';
 import { fetchCategories } from '../Actions/categoriesActions';
-import AgencyMap from '../County/AgencyMap.js';
+import AgencyMap from '../County/AgencyMap';
 
 
 function mapStateToProps(state) {

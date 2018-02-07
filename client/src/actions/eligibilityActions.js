@@ -15,8 +15,8 @@ export function fetchEligibilities() {
     });
 }
 
-export function postEligibilities(data) {
-  return dispatch => Client.postRequest(ADD_ELIGIBILITY, data)
+export function postEligibilities(agencyId, categoryId, data) {
+  return dispatch => Client.postRequest(ADD_ELIGIBILITY, { agencyId, categoryId, data })
     .then((response) => {
       dispatch({ type: ADD_ELIGIBILITIES, payload: response.eligibilities });
     })

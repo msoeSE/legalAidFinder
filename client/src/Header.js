@@ -1,5 +1,9 @@
+/**
+ * Documentation for the react-google-login npm package: https://www.npmjs.com/package/react-google-login
+ */
+
 import React, { Component } from 'react';
-import { Icon, Button } from 'semantic-ui-react';
+import { Icon, Button, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import GoogleLogin from 'react-google-login';
 import GoogleLogout from 'react-google-login';
@@ -20,10 +24,17 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      showAlert: false,
+      alertTitle: "",
+      alertMsg: ""
+    };
+
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
     this.handleLoginFailure = this.handleLoginFailure.bind(this);
     this.handleLogoutSuccess = this.handleLogoutSuccess.bind(this);
     this.handleLogoutFailure = this.handleLogoutFailure.bind(this);
+    this.alertClose = this.alertClose.bind(this);
   }
 
   componentWillMount() {
@@ -52,19 +63,45 @@ class Header extends Component {
 
     if (agency || isAdmin) {
       this.props.dispatch(setUser(response.profileObj.givenName, response.profileObj.familyName, email, agency, isAdmin));
+    } else { // No match in DB so log user out
+      this.setState({
+        showAlert: true,
+        alertTitle: "Login Error",
+        alertMsg: "Email provided does not belong to an Agency or an Admin."
+      });
+      let auth2 = window.gapi.auth2.getAuthInstance();
+      auth2.signOut();
+      this.props.dispatch(clearUser());
     }
   }
 
   handleLoginFailure(response) {
-    // TO DO! Handle failure
+    this.setState({
+      showAlert: true,
+      alertTitle: "Login Error",
+      alertMsg: "Google was unable to log user in."
+    });
   }
 
   handleLogoutSuccess(response) {
+    let auth2 = window.gapi.auth2.getAuthInstance();
+    auth2.signOut();
     this.props.dispatch(clearUser());
   }
 
   handleLogoutFailure(response) {
     this.props.dispatch(clearUser());
+    this.setState({
+      showAlert: true,
+      alertTitle: "Logout Error",
+      alertMsg: "Google was unable to log user out."
+    });
+  }
+
+  alertClose() {
+    this.setState({
+      showAlert: false
+    });
   }
 
   render() {
@@ -91,6 +128,22 @@ class Header extends Component {
     return (
       <div className='app-header'>
         <div className='header-content'>
+          <div>
+            <Modal open={this.state.showAlert}>
+              <Modal.Header>
+                {this.state.alertTitle}
+              </Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  {this.state.alertMsg}
+                  <Button floated='right' negative onClick={this.alertClose}>
+                    Ok
+                  </Button>
+                </Modal.Description>
+              </Modal.Content>
+            </Modal>
+          </div>
+
           <Link to='/' >
             <h1 className='ui header header-title'>
               <img className='ui image' src={logo} alt='logo' />

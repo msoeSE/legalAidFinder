@@ -13,16 +13,16 @@ export default function reducer(state = {
       return { ...state };
     }
     case FETCH_ELIGIBILITY_REJECTED: {
-      return { ...state, error: action.payload};
+      return { ...state, error: action.payload };
     }
     case FETCH_ELIGIBILITY_FULFILLED: {
-      return { ...state, eligibility: action.payload };
+      return { ...state, eligibility: action.payload, error: null };
     }
     case ADD_ELIGIBILITIES: {
-      return { ...state, eligibility: [ ...state.eligibility, action.payload ] };
+      return { ...state, eligibility: [ ...state.eligibility, action.payload ], error: null };
     }
     case DELETE_ELIGIBILITY:
-      return { ...state, eligibility: this.eligibility.filter(e => e._id !== action._id) };
+      return { ...state, eligibility: this.eligibility.filter(e => e._id !== action._id), error: null };
   }
   return state;
 }

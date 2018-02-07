@@ -37,53 +37,44 @@ export function getAgencyEligibility(req, res) {
  * @returns void
  */
 export function addEligibility(req, res) {
-  if (!req.body.eligibilities || req.body.eligibilities.length === 0) {
+  if (!req.body.agencyId || !req.body.categoryId || !req.body.data || req.body.data.length === 0) {
     res.status(403).end();
   }
 
-  this.req.body.eligibilities.map((eligibility) => {
-    if (!req.body.category || !req.body.agency || !req.body.key || !req.body.comparator || !req.body.value) {
-      res.status(403).end();
-    }
+  Eligibility.findOne({ agency: req.body.agencyId, category: req.body.categoryId })
+    .exec((err, elig) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        if (elig === null) {
+          const newEligibility = new Eligibility({
+            _id: new mongoose.Types.ObjectId(),
+            agency: req.body.agencyId,
+            category: req.body.categoryId,
+            key_comparator_value: req.body.data,
+          });
 
-    const newKCV = {
-      key: eligibility.key,
-      comparator: eligibility.comparator,
-      value: eligibility.value,
-    };
-
-    Eligibility.findOne({ agency: eligibility.agency, category: eligibility.category })
-      .exec((err, elig) => {
-        if (err) {
-          res.status(500).send(err);
+          newEligibility.save((error) => {
+            if (error) {
+              res.status(500).send(err);
+            }
+            res.json({ newEligibility });
+            return true;
+          });
         } else {
-          if (elig === null) {
-            const newEligibility = new Eligibility({
-              _id: new mongoose.Types.ObjectId(),
-              agency: req.body.agency,
-              category: req.body.category,
-              key_comparator_value: newKCV,
-            });
+          elig.key_comparator_value = req.body.data;
 
-            newEligibility.save((error) => {
-              if (error) {
-                return error;
-              }
-              res.json({ newEligibility });
-              return true;
-            });
-          } else {
-            eligibility.key_comparator_value.push(newKCV);
-            eligibility.save((error) => {
-              if (error) {
-                return error;
-              }
-              res.json({ eligibility });
-            });
-          }
+          elig.save((error, x) => {
+            if (error) {
+              res.status(500).send(err);
+            }
+            res.json({ eligibilities: x });
+            return true;
+          });
         }
-      });
-  });
+      }
+    }
+  );
 }
 
 /**

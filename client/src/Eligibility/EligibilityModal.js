@@ -4,7 +4,7 @@ import EligibilityCreator from './EligibilityCreator';
 
 class EligibilityModal extends Component {
   render() {
-    if (!this.props.showModal || !this.props.eligibility.agency || !this.props.eligibility.category) {
+    if (!this.props.showModal || !this.props.agency || !this.props.category) {
       return null;
     }
 
@@ -19,7 +19,7 @@ class EligibilityModal extends Component {
           </Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <EligibilityCreator eligibility={{ agency: this.props.eligibility.agency, category: this.props.eligibility.category }} />
+              <EligibilityCreator onSubmitted={this.props.onClose} agencyId={this.props.agency} categoryId={this.props.category} eligibilities={this.props.eligibilities} />
             </Modal.Description>
           </Modal.Content>
         </Modal>

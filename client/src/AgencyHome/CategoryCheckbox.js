@@ -29,6 +29,9 @@ class CategoryCheckbox extends Component {
 
   render() {
     const { isChecked } = this.state;
+
+    const num = this.props.eligibility ? this.props.eligibility.key_comparator_value.length : 0;
+
     return (
       <div>
         <Checkbox
@@ -38,7 +41,7 @@ class CategoryCheckbox extends Component {
           onChange={this.toggleCheckboxChange}
         />
         {this.state.isChecked ?
-          <Button size='mini' style={{ marginLeft: '3px' }} content={`Edit Eligibility: ${this.props.eligibility.length}`} icon='edit' labelPosition='right' onClick={this.editButtonClicked} />
+          <Button size='mini' style={{ marginLeft: '3px' }} content={`Edit Eligibility: ${num}`} icon='edit' labelPosition='right' onClick={this.editButtonClicked} />
           : null
         }
       </div>

@@ -7,7 +7,7 @@ import Checkbox from './CategoryCheckbox';
 
 import EligibilityModal from '../Eligibility/EligibilityModal';
 import { fetchEligibilities } from '../Actions/eligibilityActions';
-import { getEligibilities } from '../Reducers/eligibilityReducer';
+import {getEligibilities, getEligibility} from '../Reducers/eligibilityReducer';
 
 function mapStateToProps(state) {
   return { data: state.categories, info: state.eligibility };
@@ -129,7 +129,7 @@ class AgencyCategoryTree extends Component {
             agencyId={this.props.agencyId}
             categoryId={category._id}
             checked={checked}
-            eligibility={getEligibilities(this.props.info, this.props.agencyId, category._id)}
+            eligibility={getEligibility(this.props.info, this.props.agencyId, category._id)}
           />
         </div>
       );
@@ -172,7 +172,9 @@ class AgencyCategoryTree extends Component {
       <EligibilityModal
         showModal={this.state.modalOpen}
         onClose={this.toggleModal}
-        eligibility={{ category: this.state.currentCategory, agency: this.props.agencyId }}
+        eligibilities={getEligibility(this.props.info, this.props.agencyId, this.state.currentCategory)}
+        category={this.state.currentCategory}
+        agency={this.props.agencyId}
       />
       {this.state.items.map(item => item)}
     </div>);

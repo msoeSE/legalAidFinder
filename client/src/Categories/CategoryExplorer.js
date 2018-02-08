@@ -32,7 +32,7 @@ class CategoryExplorer extends Component {
     return (
       <div className='card-holder'>
         <h2>Select a category that corresponds with your legal issue:</h2>
-        <Card.Group itemsPerRow={4} reversed='mobile vertically'>
+        <Card.Group itemsPerRow={4} stackable={true}>
           {
             this.props.data.categories.map((category) =>
               category.parent === null ?

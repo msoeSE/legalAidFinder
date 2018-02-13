@@ -48,7 +48,7 @@ class CategoryTab extends Component {
 
     return (
         <div>
-            <Dropdown placeholder='Select an Category to edit'
+            <Dropdown placeholder='Select a Category to edit'
                 fluid
                 className='padding'
                 search selection

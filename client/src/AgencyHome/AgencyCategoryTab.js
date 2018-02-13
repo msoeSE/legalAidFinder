@@ -50,7 +50,7 @@ class AgencyCategoryTab extends Component {
     return (
       <div>
         <Dropdown
-          placeholder='Select an Category to edit'
+          placeholder='Select a Category to edit'
           fluid
           className='padding'
           search selection

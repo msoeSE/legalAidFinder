@@ -67,7 +67,7 @@ class CategoryDetail extends Component {
                             <Card.Content>
                               <Card.Header>{agency.name}</Card.Header>
                               <Card.Meta>
-                                        Click to go to this agencies website!
+                                        Click to go to this agency's website!
                                     </Card.Meta>
                             </Card.Content>
                           </Card>));

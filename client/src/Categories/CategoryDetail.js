@@ -62,15 +62,15 @@ class CategoryDetail extends Component {
               }
               if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
                 return (
-                        currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).map(agency =>
-                          <Card fluid color='blue' href={agency.url}>
-                            <Card.Content>
-                              <Card.Header>{agency.name}</Card.Header>
-                              <Card.Meta>
-                                        Click to go to this agency's website!
-                                    </Card.Meta>
-                            </Card.Content>
-                          </Card>));
+                  currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).map(agency =>
+                    <Card fluid color='blue' href={agency.url}>
+                      <Card.Content>
+                        <Card.Header>{agency.name}</Card.Header>
+                        <Card.Meta>
+                          Click to go to this agency's website!
+                        </Card.Meta>
+                      </Card.Content>
+                    </Card>));
               } else {
                 return (
                   currentCategory.subcategories.map(subcat =>

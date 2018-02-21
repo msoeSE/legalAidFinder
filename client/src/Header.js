@@ -153,11 +153,11 @@ class Header extends Component {
           {login}
           {logout}
           { this.props.user.admin ?
-            <Button className='ui inverted button header-btn' as={Link} to={'admin'}>Admin Home</Button> :
+            <Button className='ui inverted button header-btn' as={Link} to={'/admin'}>Admin Home</Button> :
             null
           }
           { this.props.user.agency ?
-            <Button className='ui inverted button header-btn' as={Link} to={'agency'}>Agency Home</Button> :
+            <Button className='ui inverted button header-btn' as={Link} to={'/agency'}>Agency Home</Button> :
             null
           }
         </div>

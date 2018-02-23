@@ -9,6 +9,7 @@
     "babel-eslint": "^8.2.1",
     "babel-preset-stage-2": "^6.24.1",
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "create-react-class": "^15.6.3",
     "express": "4.13.3",
     "font-awesome": "^4.7.0",

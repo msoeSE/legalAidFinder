@@ -1,7 +1,6 @@
 {
   "name": "laf-react-app",
   "version": "0.1.0",
-  "proxy": "http://localhost:3001/",
   "devDependencies": {
     "react-scripts": "^1.1.0"
   },

@@ -14,7 +14,7 @@ import {
 export function fetchCategories() {
   return dispatch => Client.getRequest(CATEGORIES_ENDPOINT)
     .then((response) => {
-      dispatch({ type: FETCH_CATEGORIES_FULFILLED, payload: response.categories });
+      dispatch({ type: FETCH_CATEGORIES_FULFILLED, payload: response });
     })
     .catch((err) => {
       dispatch({ type: FETCH_CATEGORIES_REJECTED, payload: err });

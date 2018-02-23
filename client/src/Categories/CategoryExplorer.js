@@ -26,7 +26,7 @@ class CategoryExplorer extends Component {
 
   render() {
     if (this.props.data.categories.length === 0) {
-      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+      return (<div align="center" class="lds-css ng-scope"><div class="lds-magnify"><div><div><div></div><div></div></div></div></div><h2>Finding agencies that can help...</h2></div>);
     }
 
     return (

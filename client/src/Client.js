@@ -1,20 +1,25 @@
 /* eslint-disable no-undef */
 
-export const AGENCIES_ENDPOINT = 'agencies';
-export const COUNTY_ENDPOINT = 'counties';
-export const CATEGORIES_ENDPOINT = 'categories';
+export const AGENCIES_ENDPOINT = 'agency';
+export const COUNTY_ENDPOINT = 'county';
+export const CATEGORIES_ENDPOINT = 'category';
 export const ADD_AGENCY_TO_CATEGORY = 'categories/addAgency';
 export const ADD_ELIGIBILITY = 'eligibility';
-export const ELIGIBILITIES_ENDPOINT = 'eligibilities';
-export const ADMINS_ENDPOINT = 'admins';
+export const ELIGIBILITIES_ENDPOINT = 'eligibility';
+export const ADMINS_ENDPOINT = 'admin';
 
 function getRequest(endpoint, id = null, cb) {
-  let url = `${process.env.PUBLIC_URL}/api/${endpoint}`;
+  let url = 'https://2w9jnw76hh.execute-api.us-east-1.amazonaws.com/dev/' + endpoint;
   if (id) {
     url += `?id=${id}`;
   }
   return fetch(url, {
     accept: 'application/json',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    // mode: 'cors'
   })
     .then(checkStatus)
     .then(parseJSON)

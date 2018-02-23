@@ -14,6 +14,7 @@ import immImg from '../Images/immigration.png';
 import schoolImg from '../Images/school.png';
 import workImg from '../Images/work.png';
 import famImg from '../Images/family.png';
+import MagnifyLoader from '../Helpers/MagnifyLoader';
 
 function mapStateToProps(state) {
   return { data: state.categories };
@@ -26,7 +27,7 @@ class CategoryExplorer extends Component {
 
   render() {
     if (this.props.data.categories.length === 0) {
-      return (<div align="center" class="lds-css ng-scope"><div class="lds-magnify"><div><div><div></div><div></div></div></div></div><h2>Finding agencies that can help...</h2></div>);
+      return (<MagnifyLoader label="Finding agencies that can help..." />);
     }
 
     return (

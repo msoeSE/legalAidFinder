@@ -77,6 +77,8 @@ body {
      opacity: .6 !important;
  }
 
+
+ 
 @keyframes lds-magnify {
     0% {
       -webkit-transform: translate(2px, 2px);
@@ -123,8 +125,8 @@ body {
     transform-origin: 100px 100px;
   }
   .lds-magnify > div > div {
-    -webkit-animation: lds-magnify 3.4s linear infinite;
-    animation: lds-magnify 3.4s linear infinite;
+    -webkit-animation: lds-magnify 2s linear infinite;
+    animation: lds-magnify 2s linear infinite;
     position: absolute;
   }
   .lds-magnify > div > div div:nth-child(1) {

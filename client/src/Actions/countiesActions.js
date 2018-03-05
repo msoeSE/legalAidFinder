@@ -4,7 +4,7 @@ import { FETCH_COUNTIES_FULFILLED, FETCH_COUNTIES_REJECTED } from '../Reducers/c
 export function fetchCounties() {
   return dispatch => Client.getRequest(COUNTY_ENDPOINT)
     .then((response) => {
-      dispatch({ type: FETCH_COUNTIES_FULFILLED, payload: response.counties });
+      dispatch({ type: FETCH_COUNTIES_FULFILLED, payload: response });
     })
     .catch((err) => {
       dispatch({ type: FETCH_COUNTIES_REJECTED, payload: err });

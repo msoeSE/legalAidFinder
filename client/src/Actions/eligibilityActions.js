@@ -8,7 +8,7 @@ import {
 export function fetchEligibilities() {
   return dispatch => Client.getRequest(ELIGIBILITIES_ENDPOINT)
     .then((response) => {
-      dispatch({ type: FETCH_ELIGIBILITY_FULFILLED, payload: response.eligibilities });
+      dispatch({ type: FETCH_ELIGIBILITY_FULFILLED, payload: response });
     })
     .catch((err) => {
       dispatch({ type: FETCH_ELIGIBILITY_REJECTED, payload: err });

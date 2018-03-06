@@ -21,6 +21,31 @@ class CategoryDetail extends Component {
     return category.map(subcat => <List.Item>{subcat.name}</List.Item>);
   }
 
+  filterAgencies(agencies, eligibilities){
+
+    var validAgencies = [];
+
+    agencies.forEach(function(agency) {
+
+      var valid = true;
+
+      eligibilities.forEach(function(eligibility){
+
+        // TODO: Check user input against eligibility threshold
+          //     If the input is NOT valid, make valid = false
+
+      });
+
+      if(valid) {
+          validAgencies.add(agency);
+      }
+
+  });
+
+    // TODO: Update store here with valid agencies
+
+  }
+
   render() {
     if (this.props.data.categories.length === 0) {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);

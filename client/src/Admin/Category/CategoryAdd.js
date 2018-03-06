@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Input, Button, Dropdown } from 'semantic-ui-react';
+import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import { addCategories, fetchCategoriesAndFullDropdown } from '../../Actions/categoriesActions';
 
 function mapStateToProps(state) {
@@ -44,6 +45,10 @@ class CategoryAdd extends Component {
       });;
   }
   render() {
+    if (!this.props.data.dropdown) {
+      return (<MagnifyLoader label="Loading categories..." />);
+    }
+
     return (
       <div>
         <div align="center">

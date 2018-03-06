@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Dropdown, Button, Loader } from 'semantic-ui-react';
+import { Dropdown, Button } from 'semantic-ui-react';
+import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import { fetchAgenciesAndDropdown, deleteAgencies } from '../../Actions/agenciesActions';
 
 function mapStateToProps(state) {
@@ -43,8 +44,8 @@ class AgencyDelete extends Component {
     }
   }
   render() {
-    if (this.props.data.agencies.length === 0) {
-      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+    if (!this.props.data.dropdown) {
+      return (<MagnifyLoader label="Loading agencies..." />);
     }
 
     return (

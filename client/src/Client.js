@@ -7,9 +7,10 @@ export const ADD_AGENCY_TO_CATEGORY = 'categories/addAgency';
 export const ADD_ELIGIBILITY = 'eligibility';
 export const ELIGIBILITIES_ENDPOINT = 'eligibility';
 export const ADMINS_ENDPOINT = 'admin';
+const LAMBDA_URL = 'https://2w9jnw76hh.execute-api.us-east-1.amazonaws.com/dev/';
 
 function getRequest(endpoint, id = null, cb) {
-  let url = 'https://2w9jnw76hh.execute-api.us-east-1.amazonaws.com/dev/' + endpoint;
+  let url = LAMBDA_URL + endpoint;
   if (id) {
     url += `?id=${id}`;
   }
@@ -27,7 +28,8 @@ function getRequest(endpoint, id = null, cb) {
 }
 
 function deleteRequest(endpoint, id, cb) {
-  return fetch(`${process.env.PUBLIC_URL}/api/${endpoint}`, {
+  let url = LAMBDA_URL + endpoint;
+  return fetch(url, {
     method: 'delete',
     headers: {
       'Accept': 'application/json, text/plain, */*',
@@ -41,7 +43,8 @@ function deleteRequest(endpoint, id, cb) {
 }
 
 function postRequest(endpoint, data, cb) {
-  return fetch(`${process.env.PUBLIC_URL}/api/${endpoint}`, {
+  let url = LAMBDA_URL + endpoint;
+  return fetch(url, {
     method: 'post',
     headers: {
       'Accept': 'application/json, text/plain, */*',
@@ -55,7 +58,8 @@ function postRequest(endpoint, data, cb) {
 }
 
 function putRequest(endpoint, data, cb) {
-  return fetch(`${process.env.PUBLIC_URL}/api/${endpoint}`, {
+  let url = LAMBDA_URL + endpoint;
+  return fetch(url, {
     method: 'put',
     headers: {
       'Accept': 'application/json, text/plain, */*',

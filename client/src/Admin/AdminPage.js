@@ -57,6 +57,12 @@ class AdminPage extends Component {
           <Header as='h2'>Edit the Categories</Header>
         </Container>
         <CategoryTab />
+      </div></Tab.Pane> },
+      { menuItem: 'Edit Eligibility', render: () => <Tab.Pane><div className='tab-content'>
+        <Container fluid textAlign='center'>
+          <Header as='h2'>Edit Elgibility Criterion</Header>
+        </Container>
+        <CategoryTab />
       </div></Tab.Pane> }
     ];
     return (

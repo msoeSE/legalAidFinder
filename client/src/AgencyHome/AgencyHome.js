@@ -3,8 +3,8 @@ import { Tab, Container, Header, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import AgencyCategoryTab from './AgencyCategoryTab';
+import AgencyDisplay from './AgencyDisplay';
 import { fetchCategories } from '../Actions/categoriesActions';
-
 
 function mapStateToProps(state) {
   return { data: state.categories, user: state.user };
@@ -39,6 +39,7 @@ class AgencyHome extends Component {
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>Welcome {this.props.user.agency.name}!</Header>
+            <AgencyDisplay />
           </Container>
         </div></Tab.Pane> },
       { menuItem: 'Categories',

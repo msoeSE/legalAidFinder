@@ -28,7 +28,7 @@ class AgencyAdd extends Component {
       const data = {
         name: this.state.name,
         url: this.state.url,
-        emails: this.state.emails
+        emails: this.state.emails,
       };
 
       this.props.dispatch(addAgencies(data)).then(() => {
@@ -39,7 +39,7 @@ class AgencyAdd extends Component {
           let message = this.state.name !== '' ? 'Failed to create agency: ' + this.state.name : 'Failed to create agency.';
           this.setState({ msg: message });
         }
-      });;
+      });
   }
   emailAddressChange = (idx) => (event) => {
     let copy = this.state.emails.slice();

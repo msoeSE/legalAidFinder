@@ -14,7 +14,7 @@ export function getAgencies(req, res) {
       if (err) {
         res.status(500).send(err);
       }
-      res.json({ agencies });
+      res.json({agencies});
     });
 }
 
@@ -25,13 +25,19 @@ export function getAgencies(req, res) {
  * @returns void
  */
 export function addAgency(req, res) {
-  var email_array = []
+  var email_array = [];
+  var hours_operation_array = [];
+
   req.body.emails.forEach((email) => {
     email_array.push(email.address);
+  });
+  req.body.operation.forEach((operations) => {
+    hours_operation_array.push(operations.hours);
   });
 
   var newAgency = new Agencies({
     name: req.body.name,
+    phone: req.body.phone,
     url: req.body.url,
     emails: email_array,
     _id: mongoose.Types.ObjectId()
@@ -86,14 +92,23 @@ export function deleteAgency(req, res) {
  * @returns void
  */
 export function modifyAgency(req, res) {
-  var email_array = []
+  var email_array = [];
+  var hours_operation_array = [];
+
   req.body.emails.forEach((email) => {
     email_array.push(email.address);
   });
+  req.body.operation.forEach((operations) => {
+    hours_operation_array.push(operations.hours);
+  });
+
+  req.body.
   Agencies.findOneAndUpdate(req.body.query,
     { name: req.body.name,
+      phone: req.body.phone,
       url: req.body.url,
-      emails: email_array
+      emails: email_array,
+      operation: hours_operation_array
     }, {upsert:true}, function(err, doc){
     if (err)
       return res.send(500, { error: err });

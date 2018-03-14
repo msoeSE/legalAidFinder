@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Loader, List, Divider, Card } from 'semantic-ui-react';
+import { Loader, List, Divider, Card, Button } from 'semantic-ui-react';
 import { fetchCategories } from '../Actions/categoriesActions';
 import AgencyMap from '../County/AgencyMap';
 
@@ -14,6 +14,11 @@ class CategoryDetail extends Component {
   componentWillMount() {
     if (!this.props.data.fetched && this.props.data.categories.length === 0) {
       this.props.dispatch(fetchCategories());
+
+
+
+        // Agency 1 needs age greater than 20, agency 2 needs greater than 25
+        // Input is 21
     }
   }
 
@@ -21,28 +26,64 @@ class CategoryDetail extends Component {
     return category.map(subcat => <List.Item>{subcat.name}</List.Item>);
   }
 
-  filterAgencies(agencies, eligibilities){
+  filterAgencies(){
+
+      var mockAgencies = [{name : "Agency1", _id : 1}, {name : "Agency2", _id : 2}];
+
+
+
+      var mockEligibilities = [{
+          agency: 1,
+          key_comparator_value: [{key: "Age", comparator: ">", value: "20", input: "21"}]
+      },
+          {agency: 2, key_comparator_value: [{key: "Age", comparator: ">", value: "25", input: "21"}]}];
 
     var validAgencies = [];
 
-    agencies.forEach(function(agency) {
+
+    // this.state.agencies.forEach
+    mockAgencies.forEach(function(agency) {
 
       var valid = true;
 
-      eligibilities.forEach(function(eligibility){
+      mockEligibilities.forEach(function(eligibility){
 
         // TODO: Check user input against eligibility threshold
           //     If the input is NOT valid, make valid = false
+          switch(eligibility.key_comparator_value.comparator){
+              case '>':
+                if(eligibility.key_comparator_value.input <= eligibility.key_comparator_value.value){
+                  valid = false;
+                }
+                  break;
+              case '<':
+                  if(eligibility.key_comparator_value.input >= eligibility.key_comparator_value.value){
+                      valid = false;
+                  }
+                  break;
+              case '=':
+                  if(eligibility.key_comparator_value.input != eligibility.key_comparator_value.value){
+                      valid = false;
+                  }
+                  break;
+              default:
+                valid = false;
+                  break;
+          }
 
       });
 
       if(valid) {
+        console.log(agency.name);
           validAgencies.add(agency);
       }
-
   });
 
     // TODO: Update store here with valid agencies
+
+      const currentCategory = this.props.data.categories.filter(cat => cat._id === this.props.match.params.id)[0];
+      currentCategory.agencies = validAgencies;
+      // this.setState({filteredAgencies: validAgencies});
 
   }
 
@@ -53,6 +94,8 @@ class CategoryDetail extends Component {
 
     if (this.props.match.params.id && this.props.data.categories) {
       const currentCategory = this.props.data.categories.filter(cat => cat._id === this.props.match.params.id)[0];
+
+      // action to add current category to store
 
       if (!currentCategory) {
         return 'ERROR - Could not find subcategory';
@@ -95,7 +138,8 @@ class CategoryDetail extends Component {
                           Click to go to this agency's website!
                         </Card.Meta>
                       </Card.Content>
-                    </Card>));
+                    </Card>),
+                        <Button primary={true} as={Link} onClick={this.filterAgencies()} to={this.props.location.pathname}>Filter!!!</Button>);
               } else {
                 return (
                   currentCategory.subcategories.map(subcat =>

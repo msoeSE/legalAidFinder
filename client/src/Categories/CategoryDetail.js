@@ -16,9 +16,10 @@ class CategoryDetail extends Component {
     super(props);
     this.state = {
       showModal: false,
-      noEligAgencies: null,
       eligibilities: getCategoryEligibilities(this.props.elig, this.props.match.params.id),
       filteredAgencies: [],
+      noEligAgencies: [],
+      agencies: [],
     };
 
     this.eligibilityForm = this.eligibilityForm.bind(this);
@@ -72,6 +73,7 @@ class CategoryDetail extends Component {
       const currentCategory = this.props.data.categories.filter(cat => cat._id === this.props.match.params.id)[0];
       this.state.eligibilities = getCategoryEligibilities(this.props.elig, this.props.match.params.id);
       this.state.noEligAgencies = this.getAgenciesWithNoEligibility(currentCategory.agencies);
+      this.state.agencies = currentCategory.agencies;
 
       if (!currentCategory) {
         return 'ERROR - Could not find subcategory';

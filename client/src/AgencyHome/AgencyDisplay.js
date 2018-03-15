@@ -38,44 +38,75 @@ class AgencyDisplay extends Component {
               Hours Of Operation
             </Header>
 
-            <Table compact={true}>
+            <Table textAlign='center'>
               <Table.Header>
-                <Table.Row textAlign='center'>
+                <Table.Row>
                   <Table.HeaderCell>Monday</Table.HeaderCell>
+                  <Table.Cell>
+                    <Input focus placeholder='Open' className='padding' />
+                    <div className='ui mini buttons'>
+                      <button className='ui toggle button'>AM</button>
+                      <div className='or' />
+                      <button className='ui toggle button '>PM</button>
+                    </div>
+                    <i className='minus icon' />
+                    <Input focus placeholder='Close' className='padding' />
+                    <div className='ui mini buttons'>
+                      <button className='ui toggle positive button'>AM</button>
+                      <div className='or' />
+                      <button className='ui toggle button '>PM</button>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
                   <Table.HeaderCell>Tuesday</Table.HeaderCell>
+                  <Table.Cell>
+                    <Input focus placeholder='Open' className='padding' />
+                    <i className='minus icon' />
+                    <Input focus placeholder='Close' className='padding' />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
                   <Table.HeaderCell>Wednesday</Table.HeaderCell>
+                  <Table.Cell>
+                    <Input focus placeholder='Open' className='padding' />
+                    <i className='minus icon' />
+                    <Input focus placeholder='Close' className='padding' />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
                   <Table.HeaderCell>Thursday</Table.HeaderCell>
+                  <Table.Cell>
+                    <Input focus placeholder='Open' className='padding' />
+                    <i className='minus icon' />
+                    <Input focus placeholder='Close' className='padding' />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
                   <Table.HeaderCell>Friday</Table.HeaderCell>
+                  <Table.Cell>
+                    <Input focus placeholder='Open' className='padding' />
+                    <i className='minus icon' />
+                    <Input focus placeholder='Close' className='padding' />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
                   <Table.HeaderCell>Saturday</Table.HeaderCell>
+                  <Table.Cell>
+                    <Input focus placeholder='Open' className='padding' />
+                    <i className='minus icon' />
+                    <Input focus placeholder='Close' className='padding' />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
                   <Table.HeaderCell>Sunday</Table.HeaderCell>
+                  <Table.Cell>
+                    <Input focus placeholder='Open' className='padding' />
+                    <i className='minus icon' />
+                    <Input focus placeholder='Close' className='padding' />
+                  </Table.Cell>
                 </Table.Row>
               </Table.Header>
-
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell>
-                    <Input focus placeholder='Hours' />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Input focus placeholder='Hours' />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Input focus placeholder='Hours' />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Input focus placeholder='Hours' />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Input focus placeholder='Hours' />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Input focus placeholder='Hours' />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Input focus placeholder='Hours' />
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
             </Table>
           </form>
         </div>

@@ -32,5 +32,8 @@ export default function reducer(state = {
 // Get all categories
 export const getEligibilities = (state, agencyId, categoryId) => state.eligibility.filter(e => e.agency === agencyId && e.category === categoryId);
 
+// Get eligibilities for a category
+export const getCategoryEligibilities = (state, categoryId) => state.eligibility.filter(e => e.category === categoryId);
+
 // Get category by id
 export const getEligibility = (state, agencyId, categoryId) => state.eligibility.filter(e => e.agency === agencyId && e.category === categoryId)[0];

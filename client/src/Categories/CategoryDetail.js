@@ -16,8 +16,8 @@ class CategoryDetail extends Component {
     super(props);
     this.state = {
       showModal: false,
-      agencies: null,
-      eligibilities: null,
+      noEligAgencies: null,
+      eligibilities: getCategoryEligibilities(this.props.elig, this.props.match.params.id),
       filteredAgencies: [],
     };
 
@@ -36,10 +36,6 @@ class CategoryDetail extends Component {
     }
   }
 
-  getSubcategories(category) {
-    return category.map(subcat => <List.Item>{subcat.name}</List.Item>);
-  }
-
   eligibilityForm() {
     this.setState({
       showModal: true,
@@ -53,41 +49,77 @@ class CategoryDetail extends Component {
     });
   }
 
-  onSubmit() {
-    alert('Submitted');
+  onSubmit(data) {
+    console.log(this.state.eligibilities);
+
+    this.setState({
+      showModal: false,
+    });
+  }
+
+  getAgenciesWithNoEligibility(agencies) {
+    return agencies.filter((agency) => {
+      return !this.state.eligibilities.some(x => x.agency === agency._id);
+    });
   }
 
   render() {
-    if (this.props.data.categories.length === 0) {
+    if (this.props.data.categories.length === 0 || this.props.elig.length === 0) {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
 
     if (this.props.match.params.id && this.props.data.categories) {
       const currentCategory = this.props.data.categories.filter(cat => cat._id === this.props.match.params.id)[0];
-      this.state.agencies = currentCategory.agencies;
+      this.state.eligibilities = getCategoryEligibilities(this.props.elig, this.props.match.params.id);
+      this.state.noEligAgencies = this.getAgenciesWithNoEligibility(currentCategory.agencies);
 
       if (!currentCategory) {
         return 'ERROR - Could not find subcategory';
       }
+
       return (
         <div>
           <EligibilityModal showModal={this.state.showModal} eligibilities={this.state.eligibilities} onClose={this.onClose} onSubmit={this.onSubmit} />
           <div className='card-holder'>
             <h2>{currentCategory.name}</h2>
-            {(() => {
+            {(() => { // Create header
               if (currentCategory.agencies.length === 0 && currentCategory.subcategories.length === 0) {
                 return <h3>No agencies support this legal issue for your chosen county.</h3>;
               } else if (currentCategory.agencies.length > 0 && currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).length === 0) {
                 return <h3>No agencies support this legal issue for your chosen county.</h3>;
-              } else if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
-                return <div><Button onClick={this.eligibilityForm}>For <i>better</i> help/representation please fill in eligibility</Button><h3>The following categories will be able to help you:</h3></div>;
+              } else if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0 && this.state.eligibilities.length > 0) {
+                return <div><Button onClick={this.eligibilityForm}>For <i>better</i> help/representation please fill in eligibility</Button></div>;
               } else {
-                return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
+                //return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
+              }
+            })()}
+            {(() => { // Display eligible agencies
+              if (this.state.filteredAgencies.length > 0) {
+                const cards = this.state.filteredAgencies.map(agency => (
+                  <Card fluid color='blue' href={agency.url}>
+                    <Card.Content>
+                      <Card.Header>{agency.name}</Card.Header>
+                      <Card.Meta>
+                            Click to go to this agency's website!
+                          </Card.Meta>
+                    </Card.Content>
+                  </Card>
+                ));
+
+                return (
+                  <div>
+                    <Divider section />
+                    <h4>The agencies below can provide the best services for you!</h4>
+                    <Card.Group>
+                      {cards}
+                    </Card.Group>
+                  </div>
+                );
               }
             })()}
             <Divider section />
             <Card.Group>
-              {(() => {
+              {(() => { // Create Agencies list with no eligibility constraints
                 if (currentCategory.agencies.length === 0 && currentCategory.subcategories.length === 0) {
                   return (
                     <Card fluid color='blue'>
@@ -99,9 +131,9 @@ class CategoryDetail extends Component {
                       </Card.Content>
                     </Card>);
                 }
-                if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
-                  return (
-                    currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).map(agency =>
+                if (this.state.noEligAgencies.length > 0 && currentCategory.subcategories.length === 0) {
+                  const cards = this.state.noEligAgencies.map((agency) => {
+                    return (
                       <Card fluid color='blue' href={agency.url}>
                         <Card.Content>
                           <Card.Header>{agency.name}</Card.Header>
@@ -109,9 +141,17 @@ class CategoryDetail extends Component {
                             Click to go to this agency's website!
                           </Card.Meta>
                         </Card.Content>
-                      </Card>));
-                } else {
+                      </Card>);
+                  });
+
                   return (
+                    <div>
+                      <h3>The following agencies can help you:</h3>
+                      {cards}
+                    </div>
+                  );
+                } else {
+                  return ( // Create subcategories
                     currentCategory.subcategories.map(subcat =>
                       <Card fluid color='blue' as={Link} to={`${subcat._id}`}>
                         <Card.Content>
@@ -129,7 +169,7 @@ class CategoryDetail extends Component {
                           </Card.Meta>
                           <Card.Description>
                             <List bulleted size={'mini'}>
-                              {this.getSubcategories(subcat.subcategories)}
+                              {subcat.subcategories.map(subcat => <List.Item>{subcat.name}</List.Item>)}
                             </List>
                           </Card.Description>
                         </Card.Content>
@@ -137,16 +177,18 @@ class CategoryDetail extends Component {
                 }
               })()}
             </Card.Group>
-            {(() => {
-              if (currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).length > 0 && currentCategory.subcategories.length === 0) {
-                if (currentCategory.agencies.some(x => x.lat && x.lon)) {
-                  return <div><AgencyMap isMarkerShown agencies={currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty))} /></div>;
-                } else {
-                  return <div><h3 style={{ margin: '5px' }}>No agencies listed have a physical location</h3></div>;
-                }
-              }
-            })()}
           </div>
+          {(() => { // Create Map
+            const mappedAgencies = this.state.noEligAgencies.concat(this.state.filteredAgencies);
+
+            if (mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).length > 0 && currentCategory.subcategories.length === 0) {
+              if (mappedAgencies.some(x => x.lat && x.lon)) {
+                return <div><AgencyMap isMarkerShown agencies={mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty))} /></div>;
+              } else {
+                return <div><h3 style={{ margin: '5px' }}>No agencies listed have a physical location</h3></div>;
+              }
+            }
+          })()}
         </div>);
     } else {
       return 'ERROR - Could not find subcategory';
@@ -162,6 +204,8 @@ class EligibilityModal extends Component {
     this.state = {
       inputs: new Set(),
     };
+
+    this.handleInput = this.handleInput.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -176,10 +220,24 @@ class EligibilityModal extends Component {
       return (
         <Form.Field key={reactKey}>
           <label>{kcv.key}</label>
-          <input placeholder={kcv.key} />
+          <input placeholder={kcv.key} ref={kcv.key} />
         </Form.Field>
       );
     }
+  }
+
+  handleInput() {
+    this.state.inputs.forEach((x) => {
+      this.props.eligibilities.map((elig) => {
+        elig.key_comparator_value.map((kcv) => {
+          if (x === kcv.key) {
+            kcv.input = this.refs[x].value;
+          }
+        });
+      });
+    });
+
+    this.props.onSubmit(this.props.eligibilities);
   }
 
   render() {
@@ -200,7 +258,7 @@ class EligibilityModal extends Component {
                     elig.key_comparator_value.map((kcv, k) => this.createKcvInput(kcv, i + k)));
                 }
               })()}
-              <Button type='submit' onClick={this.props.onSubmit}>Submit</Button>
+              <Button type='submit' onClick={this.handleInput}>Submit</Button>
             </Form>
           </Modal.Content>
         </Modal>

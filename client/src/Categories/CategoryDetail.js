@@ -288,8 +288,8 @@ class EligibilityModal extends Component {
   }
 
   createKcvInput(kcv, reactKey) {
-    if (!this.state.inputs.has(kcv.key)) {
-      this.state.inputs.add(kcv.key);
+    if (!this.state.inputs.has(kcv.key.toLowerCase())) {
+      this.state.inputs.add(kcv.key.toLowerCase());
       return (
         <Form.Field key={reactKey}>
           <label>{kcv.key}</label>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Modal, Button, Form, Loader, List, Divider, Card } from 'semantic-ui-react';
+import { Icon, Modal, Button, Form, Loader, List, Divider, Card } from 'semantic-ui-react';
 import { fetchCategories } from '../Actions/categoriesActions';
 import AgencyMap from '../County/AgencyMap';
 import { getCategoryEligibilities } from '../Reducers/eligibilityReducer';
@@ -16,6 +16,7 @@ class CategoryDetail extends Component {
     super(props);
     this.state = {
       showModal: false,
+      criteriaFilledOut: false,
       eligibilities: getCategoryEligibilities(this.props.elig, this.props.match.params.id),
       filteredAgencies: [],
       noEligAgencies: [],
@@ -30,11 +31,6 @@ class CategoryDetail extends Component {
   componentWillMount() {
     if (!this.props.data.fetched && this.props.data.categories.length === 0) {
       this.props.dispatch(fetchCategories());
-
-
-
-        // Agency 1 needs age greater than 20, agency 2 needs greater than 25
-        // Input is 21
     }
 
     if (this.props.elig.eligibility.length === 0) {
@@ -57,9 +53,10 @@ class CategoryDetail extends Component {
 
   onSubmit(data) {
     console.log(this.state.eligibilities);
-
+    this.filterAgencies();
     this.setState({
       showModal: false,
+      criteriaFilledOut: true
     });
   }
 
@@ -70,74 +67,54 @@ class CategoryDetail extends Component {
   }
 
   filterAgencies(){
-
-      var mockAgencies = [{name : "Agency1", _id : 1}, {name : "Agency2", _id : 2}];
-
-
-
-      var mockEligibilities = [{
-          agency: 1,
-          key_comparator_value: [{key: "Age", comparator: ">", value: "20", input: "21"}]
-      },
-          {agency: 2, key_comparator_value: [{key: "Age", comparator: ">", value: "25", input: "21"}]}];
-
     var validAgencies = [];
 
-
-    // this.state.agencies.forEach
-    mockAgencies.forEach(function(agency) {
-
-      var valid = true;
-
-      mockEligibilities.forEach(function(eligibility){
-
-        // TODO: Check user input against eligibility threshold
-          //     If the input is NOT valid, make valid = false
-          switch(eligibility.key_comparator_value.comparator){
+    this.state.agencies.forEach(function(agency) {
+      this.state.eligibilities.forEach(function(eligibility){
+        var valid = true;
+        if (eligibility.agency === agency._id){
+          eligibility.key_comparator_value.forEach(kcv => {
+            switch(kcv.comparator){
               case '>':
-                if(eligibility.key_comparator_value.input <= eligibility.key_comparator_value.value){
+                if(kcv.input <= kcv.value){
                   valid = false;
                 }
-                  break;
-              case '>=':
-                  if(eligibility.key_comparator_value.input < eligibility.key_comparator_value.value){
-                      valid = false;
-                  }
+                break;
+              case '≥':
+                if(kcv.input < kcv.value){
+                    valid = false;
+                }
                 break;
               case '<':
-                  if(eligibility.key_comparator_value.input >= eligibility.key_comparator_value.value){
-                      valid = false;
-                  }
-                  break;
-              case '<=':
-                  if(eligibility.key_comparator_value.input > eligibility.key_comparator_value.value){
-                      valid = false;
-                  }
+                if(kcv.input >= kcv.value){
+                    valid = false;
+                }
+                break;
+              case '≤':
+                if(kcv.input > kcv.value){
+                    valid = false;
+                }
                 break;
               case '=':
-                  if(eligibility.key_comparator_value.input != eligibility.key_comparator_value.value){
-                      valid = false;
-                  }
-                  break;
+                if(kcv.input != kcv.value){
+                    valid = false;
+                }
+                break;
               default:
                 valid = false;
-                  break;
+                break;
+              }
+            });
+
+            if (valid) {
+              console.log(agency.name);
+                validAgencies.push(agency);
+            }
           }
+      }.bind(this));
+    }.bind(this));
 
-      });
-
-      if(valid) {
-        console.log(agency.name);
-          validAgencies.add(agency);
-      }
-  });
-
-    // TODO: Update store here with valid agencies
-
-      const currentCategory = this.props.data.categories.filter(cat => cat._id === this.props.match.params.id)[0];
-      currentCategory.agencies = validAgencies;
-      this.setState({filteredAgencies: validAgencies});
-
+    this.setState({filteredAgencies: validAgencies});
   }
 
   render() {
@@ -168,9 +145,23 @@ class CategoryDetail extends Component {
               } else if (currentCategory.agencies.length > 0 && currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).length === 0) {
                 return <h3>No agencies support this legal issue for your chosen county.</h3>;
               } else if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0 && this.state.eligibilities.length > 0) {
-                return <div><Button onClick={this.eligibilityForm}>For <i>better</i> help/representation please fill in eligibility</Button></div>;
+                if (!this.state.criteriaFilledOut) {
+                  return (
+                    <Button icon labelPosition='right' onClick={this.eligibilityForm}>
+                        Enter eligibility criteria for the <i>best</i> representation
+                        <Icon name='right arrow' />
+                    </Button>
+                  );
+                } else {
+                  return (
+                    <Button icon labelPosition='right' onClick={this.eligibilityForm}>
+                        Enter eligibility criteria for the <i>best</i> representation
+                        <Icon name='checkmark' color='green' />
+                    </Button>
+                  );
+                }
               } else {
-                //return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
+                return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
               }
             })()}
             {(() => { // Display eligible agencies
@@ -180,7 +171,7 @@ class CategoryDetail extends Component {
                     <Card.Content>
                       <Card.Header>{agency.name}</Card.Header>
                       <Card.Meta>
-                            Click to go to this agency's website!
+                            {'Click to go to this agency\'s website!'}
                           </Card.Meta>
                     </Card.Content>
                   </Card>
@@ -188,17 +179,18 @@ class CategoryDetail extends Component {
 
                 return (
                   <div>
-                    <Divider section />
-                    <h4>The agencies below can provide the best services for you!</h4>
+                  <Divider section />
+                  <div>
+                    <h3>The agencies below can provide the <i>best</i> services for you!</h3>
                     <Card.Group>
                       {cards}
                     </Card.Group>
+                  </div>
                   </div>
                 );
               }
             })()}
             <Divider section />
-            <Card.Group>
               {(() => { // Create Agencies list with no eligibility constraints
                 if (currentCategory.agencies.length === 0 && currentCategory.subcategories.length === 0) {
                   return (
@@ -218,7 +210,7 @@ class CategoryDetail extends Component {
                         <Card.Content>
                           <Card.Header>{agency.name}</Card.Header>
                           <Card.Meta>
-                            Click to go to this agency's website!
+                          {'Click to go to this agency\'s website!'}
                           </Card.Meta>
                         </Card.Content>
                       </Card>);
@@ -227,7 +219,9 @@ class CategoryDetail extends Component {
                   return (
                     <div>
                       <h3>The following agencies can help you:</h3>
-                      {cards}
+                      <Card.Group>
+                        {cards}
+                      </Card.Group>
                     </div>
                   );
                 } else {
@@ -243,7 +237,7 @@ class CategoryDetail extends Component {
                               } else if (subcat.agencies.length > 0 && subcat.subcategories.length === 0) {
                                 return <h3>Click to see list of Agencies who can help!</h3>;
                               } else {
-                                // return <h3>Click to see subcategories</h3>;
+                                // Nothing
                               }
                             })()}
                           </Card.Meta>
@@ -256,7 +250,6 @@ class CategoryDetail extends Component {
                       </Card>));
                 }
               })()}
-            </Card.Group>
           </div>
           {(() => { // Create Map
             const mappedAgencies = this.state.noEligAgencies.concat(this.state.filteredAgencies);
@@ -271,7 +264,7 @@ class CategoryDetail extends Component {
           })()}
         </div>);
     } else {
-      return 'ERROR - Could not find subcategory';
+      return 'ERROR - Issue generating categories, please refresh!';
     }
   }
 }

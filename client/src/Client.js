@@ -7,8 +7,8 @@ export const ADD_AGENCY_TO_CATEGORY = 'categories/addAgency';
 export const ADD_ELIGIBILITY = 'eligibility';
 export const ELIGIBILITIES_ENDPOINT = 'eligibility';
 export const ADMINS_ENDPOINT = 'admin';
-// const LAMBDA_URL = 'https://2w9jnw76hh.execute-api.us-east-1.amazonaws.com/dev/';
-const LAMBDA_URL = 'http://localhost:3001/';
+const LAMBDA_URL = 'https://c82fzxf28g.execute-api.us-east-1.amazonaws.com/prod/';
+// const LAMBDA_URL = 'http://localhost:3001/';
 
 function getRequest(endpoint, id = null, cb) {
   let url = LAMBDA_URL + endpoint;

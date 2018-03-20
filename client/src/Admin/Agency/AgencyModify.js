@@ -49,6 +49,7 @@ class AgencyModify extends Component {
     };
 
     this.props.dispatch(modifyAgencies(data)).then(() => {
+      console.log(this.props.data.error);
         if (!this.props.data.error) {
           this.props.dispatch(fetchAgenciesAndDropdown());
           let message = 'Successfully edited agency: ' + this.state.nameVal;

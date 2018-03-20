@@ -7,7 +7,8 @@ export const ADD_AGENCY_TO_CATEGORY = 'categories/addAgency';
 export const ADD_ELIGIBILITY = 'eligibility';
 export const ELIGIBILITIES_ENDPOINT = 'eligibility';
 export const ADMINS_ENDPOINT = 'admin';
-const LAMBDA_URL = 'https://2w9jnw76hh.execute-api.us-east-1.amazonaws.com/dev/';
+// const LAMBDA_URL = 'https://2w9jnw76hh.execute-api.us-east-1.amazonaws.com/dev/';
+const LAMBDA_URL = 'http://localhost:3001/';
 
 function getRequest(endpoint, id = null, cb) {
   let url = LAMBDA_URL + endpoint;
@@ -44,6 +45,7 @@ function deleteRequest(endpoint, id, cb) {
 
 function postRequest(endpoint, data, cb) {
   let url = LAMBDA_URL + endpoint;
+  console.log(JSON.stringify(data))
   return fetch(url, {
     method: 'post',
     headers: {

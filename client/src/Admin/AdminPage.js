@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Tab, Container, Header } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import AgencyRequests from './Agency/AgencyRequests';
 import AgencyAdd from './Agency/AgencyAdd';
 import AgencyDelete from './Agency/AgencyDelete';
 import AgencyModify from './Agency/AgencyModify';
@@ -22,6 +23,12 @@ class AdminPage extends Component {
     }
 
     const panes = [
+      { menuItem: 'Agency Requests', render: () => <Tab.Pane><div className='tab-content'>
+          <Container fluid textAlign='center'>
+            <Header as='h2'>AgencyRequests</Header>
+            <AgencyRequests/>
+          </Container>
+        </div></Tab.Pane> },
       { menuItem: 'Add Agency', render: () => <Tab.Pane><div className='tab-content'>
         <Container fluid textAlign='center'>
           <Header as='h2'>Add a new Agency</Header>

@@ -9,12 +9,16 @@ import GoogleLogin from 'react-google-login';
 import GoogleLogout from 'react-google-login';
 import {
   Link,
+  Route,
+  Switch,
+  Redirect
 } from 'react-router-dom';
 import logo from './Images/logo.png';
 import { fetchAgencies } from './Actions/agenciesActions';
 import { setUser, clearUser } from './Actions/userActions';
 import { fetchAdmins } from './Actions/adminsActions';
 import './Header.css';
+import AgencyRequestForm from './AgencyRequest/AgencyRequestForm';
 
 function mapStateToProps(state) {
   return { agencyData: state.agencies, user: state.user, adminData: state.admins };
@@ -160,6 +164,7 @@ class Header extends Component {
             <Button className='ui inverted button header-btn' as={Link} to={'/agency'}>Agency Home</Button> :
             null
           }
+          <Button className='ui inverted button request-btn' as={Link} to={'/agencyrequestform'}>Agency Request</Button>
         </div>
       </div>
     );

@@ -21,6 +21,8 @@ class AgencyModal extends Component {
               <h2> Phone Number: </h2>
               {this.props.agency.phone}
               <h2>Email: </h2>
+              {this.props.agency.emails.length > 0 ? this.props.agency.emails.map(email =>
+                <div>{email}</div>) : 'There are no emails on file for this agency'}
               <h3> Hours of Operation: </h3>
             </Modal.Description>
           </Modal.Content>

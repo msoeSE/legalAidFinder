@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import CategoryExplorer from './Categories/CategoryExplorer';
+import CategoryExplorer from '../Categories/CategoryExplorer';
 
 
-class Home extends Component {
+class CategoryHome extends Component {
   render() {
     return (
       <div>
@@ -12,4 +12,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default CategoryHome;

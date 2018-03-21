@@ -12,16 +12,6 @@ function mapStateToProps(state) {
 }
 
 class CategoryDetail extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      modalOpen: false,
-    };
-
-    this.toggleModal = this.toggleModal.bind(this);
-  }
-
   componentWillMount() {
     if (!this.props.data.fetched && this.props.data.categories.length === 0) {
       this.props.dispatch(fetchCategories());
@@ -30,12 +20,6 @@ class CategoryDetail extends Component {
 
   getSubcategories(category) {
     return category.map(subcat => <List.Item>{subcat.name}</List.Item>);
-  }
-
-  toggleModal() {
-    this.setState({
-      modalOpen: !this.state.modalOpen,
-    });
   }
 
   render() {
@@ -84,13 +68,12 @@ class CategoryDetail extends Component {
                       <Card.Content>
                         <Card.Header>{agency.name}</Card.Header>
                         <Card.Meta>
-                          Click to go to this agency's website!
+                          <AgencyModal
+                            showModal
+                            onClose={this.toggleModal}
+                            agency={agency}
+                          />
                         </Card.Meta>
-                        <AgencyModal
-                          showModal={true}
-                          onClose={this.toggleModal}
-                          agency={agency}
-                        />
                       </Card.Content>
                     </Card>));
               } else {

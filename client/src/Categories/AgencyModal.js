@@ -7,21 +7,29 @@ class AgencyModal extends Component {
       return null;
     }
 
+    if (!this.props.agency.email) {
+
+    }
+
+    if (!this.props.agency.phone) {
+
+    }
+
     return (
       <div>
-        <Modal open={this.props.showModal}>
+        <Modal trigger={<Button className='small ui blue button'>Click here to learn more about this agency!</Button>} closeIcon>
           <Modal.Header>
             {this.props.agency.name}
-            <Button floated='right' negative onClick={this.props.onClose}>
-              Cancel
-            </Button>
           </Modal.Header>
           <Modal.Content>
             <Modal.Description>
               <h2> Phone Number: </h2>
               {this.props.agency.phone}
               <h2>Email: </h2>
-              {this.props.agency.emails}
+              {if (this.props.agency.emails.length > 0) {
+                this.props.agency.emails.map(email =>
+                <div>{email}</div>)
+              }}
               <h3> Hours of Operation: </h3>
             </Modal.Description>
           </Modal.Content>

@@ -3,16 +3,11 @@ import { Button, Modal } from 'semantic-ui-react';
 
 class AgencyModal extends Component {
   render() {
+    const allEmails = this.props.agency.emails.length;
+
+
     if (!this.props.showModal) {
       return null;
-    }
-
-    if (!this.props.agency.email) {
-
-    }
-
-    if (!this.props.agency.phone) {
-
     }
 
     return (
@@ -26,13 +21,14 @@ class AgencyModal extends Component {
               <h2> Phone Number: </h2>
               {this.props.agency.phone}
               <h2>Email: </h2>
-              {if (this.props.agency.emails.length > 0) {
-                this.props.agency.emails.map(email =>
-                <div>{email}</div>)
-              }}
               <h3> Hours of Operation: </h3>
             </Modal.Description>
           </Modal.Content>
+          <Modal.Actions>
+            <Button color='green' onClick={this.handleClose} inverted>
+              <Icon name='checkmark' /> Got it
+            </Button>
+          </Modal.Actions>
         </Modal>
       </div>
     );

@@ -48,7 +48,7 @@ class AgencyDisplay extends Component {
       <div>
         <div>
           <Input
-            placeholder='Phone Number' label='Phone Number ' labelPosition='left'
+            placeholder={this.props.agency.phone} label='Phone Number ' labelPosition='left'
             size='big' fluid className='padding'
             onChange={this.phoneNumber.bind(this)} value={this.state.phone}
           />

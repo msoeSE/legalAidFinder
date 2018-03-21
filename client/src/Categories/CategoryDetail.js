@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Loader, List, Divider, Card } from 'semantic-ui-react';
 import { fetchCategories } from '../Actions/categoriesActions';
 import AgencyMap from '../County/AgencyMap';
+import AgencyModal from './AgencyModal';
 
 
 function mapStateToProps(state) {
@@ -11,6 +12,16 @@ function mapStateToProps(state) {
 }
 
 class CategoryDetail extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalOpen: false,
+    };
+
+    this.toggleModal = this.toggleModal.bind(this);
+  }
+
   componentWillMount() {
     if (!this.props.data.fetched && this.props.data.categories.length === 0) {
       this.props.dispatch(fetchCategories());
@@ -19,6 +30,12 @@ class CategoryDetail extends Component {
 
   getSubcategories(category) {
     return category.map(subcat => <List.Item>{subcat.name}</List.Item>);
+  }
+
+  toggleModal() {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
   }
 
   render() {
@@ -63,12 +80,17 @@ class CategoryDetail extends Component {
               if (currentCategory.agencies.length > 0 && currentCategory.subcategories.length === 0) {
                 return (
                   currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).map(agency =>
-                    <Card fluid color='blue' href={agency.url}>
+                    <Card fluid color='blue'>
                       <Card.Content>
                         <Card.Header>{agency.name}</Card.Header>
                         <Card.Meta>
                           Click to go to this agency's website!
                         </Card.Meta>
+                        <AgencyModal
+                          showModal={true}
+                          onClose={this.toggleModal}
+                          agency={agency}
+                        />
                       </Card.Content>
                     </Card>));
               } else {

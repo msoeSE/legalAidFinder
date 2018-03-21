@@ -24,7 +24,7 @@ class App extends Component {
         <div className='content'>
           <Switch>
             <Route exact path='/' component={Home} />
-            <Route exact path='/workflow' component={CategoryHome} />
+            <Route path='/workflow' component={CategoryHome} />
             <Route path='/agency' component={AgencyHome} />
             <Route path='/admin' component={AdminPage} />
             <Route path='/category/:id' component={CategoryDetail} />

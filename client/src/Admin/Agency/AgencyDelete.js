@@ -32,12 +32,14 @@ class AgencyDelete extends Component {
       };
 
       this.props.dispatch(deleteAgencies(data)).then(() => {
-        if (!this.props.data.error) {
-          this.props.dispatch(fetchAgenciesAndDropdown());
-          this.setState({ msg: 'Successfuly deleted agency.' });
-        } else {
-          this.setState({ msg: 'Failed to delete agency.' });
-        }
+        this.props.dispatch(fetchAgenciesAndDropdown());
+        this.setState({ msg: 'Successfuly deleted agency.' });
+        // if (!this.props.data.error) {
+        //   this.props.dispatch(fetchAgenciesAndDropdown());
+        //   this.setState({ msg: 'Successfuly deleted agency.' });
+        // } else {
+        //   this.setState({ msg: 'Failed to delete agency.' });
+        // }
       });
     } else {
       this.setState({ msg: '' });

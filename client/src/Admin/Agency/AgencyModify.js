@@ -49,15 +49,17 @@ class AgencyModify extends Component {
     };
 
     this.props.dispatch(modifyAgencies(data)).then(() => {
-      console.log(this.props.data.error);
-        if (!this.props.data.error) {
-          this.props.dispatch(fetchAgenciesAndDropdown());
-          let message = 'Successfully edited agency: ' + this.state.nameVal;
-          this.setState({ msg: message });
-        } else {
-          let message = 'Failed to edit agency.';
-          this.setState({ msg: message });
-        }
+      this.props.dispatch(fetchAgenciesAndDropdown());
+      let message = 'Successfully edited agency: ' + this.state.nameVal;
+      this.setState({ msg: message });
+        // if (!this.props.data.error) {
+        //   this.props.dispatch(fetchAgenciesAndDropdown());
+        //   let message = 'Successfully edited agency: ' + this.state.nameVal;
+        //   this.setState({ msg: message });
+        // } else {
+        //   let message = 'Failed to edit agency.';
+        //   this.setState({ msg: message });
+        // }
     });
   }
   handleEmailAddressChange = (idx) => (event) => {

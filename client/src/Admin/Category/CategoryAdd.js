@@ -35,13 +35,15 @@ class CategoryAdd extends Component {
       };
 
       this.props.dispatch(addCategories(data)).then(() => {
-        if (!this.props.data.error) {
-          let message = 'Successfully created category: ' + this.state.name;
-          this.setState({ msg: message, name: ''});
-        } else {
-          let message = this.state.name !== '' ? 'Failed to create category: ' + this.state.name : 'Failed to create category.';
-          this.setState({ msg: message });
-        }
+        let message = 'Successfully created category: ' + this.state.name;
+        this.setState({ msg: message, name: ''});
+        // if (!this.props.data.error) {
+        //   let message = 'Successfully created category: ' + this.state.name;
+        //   this.setState({ msg: message, name: ''});
+        // } else {
+        //   let message = this.state.name !== '' ? 'Failed to create category: ' + this.state.name : 'Failed to create category.';
+        //   this.setState({ msg: message });
+        // }
       });;
   }
   render() {

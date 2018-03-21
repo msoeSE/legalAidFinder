@@ -21,7 +21,6 @@ function getRequest(endpoint, id = null, cb) {
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     },
-    // mode: 'cors'
   })
     .then(checkStatus)
     .then(parseJSON)
@@ -45,7 +44,6 @@ function deleteRequest(endpoint, id, cb) {
 
 function postRequest(endpoint, data, cb) {
   let url = LAMBDA_URL + endpoint;
-  console.log(JSON.stringify(data))
   return fetch(url, {
     method: 'post',
     headers: {

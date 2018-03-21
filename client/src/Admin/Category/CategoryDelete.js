@@ -31,12 +31,14 @@ class CategoryDelete extends Component {
       };
 
       this.props.dispatch(deleteCategories(data)).then(() => {
-        if (!this.props.data.error) {
-          this.props.dispatch(fetchCategoriesAndFullDropdown());
-          this.setState({ msg: 'Successfuly deleted category.' });
-        } else {
-          this.setState({ msg: 'Failed to delete category.' });
-        }
+        this.props.dispatch(fetchCategoriesAndFullDropdown());
+        this.setState({ msg: 'Successfuly deleted category.' });
+        // if (!this.props.data.error) {
+        //   this.props.dispatch(fetchCategoriesAndFullDropdown());
+        //   this.setState({ msg: 'Successfuly deleted category.' });
+        // } else {
+        //   this.setState({ msg: 'Failed to delete category.' });
+        // }
       });
     } else {
       this.setState({ msg: '' });

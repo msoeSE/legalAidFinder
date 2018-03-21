@@ -25,6 +25,8 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 
 const app = Express();
 app.set('port', process.env.PORT || 3001);
+app.options('*', cors());
+app.use(cors());
 
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
@@ -34,7 +36,6 @@ if (process.env.NODE_ENV === 'production') {
 app.use(bodyParser({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true })); // Parses urlencoded bodies
 app.use(bodyParser.json()); // Send JSON responses
-app.use(cors());
 
 app.use('/api', categories); // categories routes
 app.use('/api', eligibility); // eligibility routes

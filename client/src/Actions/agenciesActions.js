@@ -21,7 +21,7 @@ export function fetchAgencies() {
 export function fetchAgenciesAndDropdown() {
   return dispatch => Client.getRequest(AGENCIES_ENDPOINT)
     .then((response) => {
-      dispatch({ type: FETCH_AGENCIES_DROPDOWN_FULFILLED, payload: response.agencies });
+      dispatch({ type: FETCH_AGENCIES_DROPDOWN_FULFILLED, payload: response });
     })
     .catch((err) => {
       dispatch({ type: REQUEST_REJECTED, payload: err });

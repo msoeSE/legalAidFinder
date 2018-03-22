@@ -18,7 +18,7 @@ class AgencyRequests extends Component {
 
   render() {
     console.log(this.props);
-    if (this.props.requests !== undefined){
+    if (this.props.requests){
       return (
         <div>
           <p>Agency requests would be displayed here</p>

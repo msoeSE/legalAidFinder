@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Loader, Dropdown } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import { fetchCategoriesAndDropdown } from '../../Actions/categoriesActions';
 import CategoryTree from './CategoryTree';
 
@@ -27,8 +28,8 @@ class CategoryTab extends Component {
   }
 
   render() {
-    if (!this.props.data.categories || this.props.data.categories.length === 0) {
-      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+    if (!this.props.data.dropdown) {
+      return (<MagnifyLoader label="Loading categories..." />);
     }
 
     if (this.state.id) {

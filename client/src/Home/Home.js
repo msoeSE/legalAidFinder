@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Link,
 } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
+import { Button, Header, Icon, Label } from 'semantic-ui-react';
 
 
 
@@ -10,8 +10,14 @@ class Home extends Component {
   render() {
     return (
       <div className='homePage'>
-        <h1 className='homePageTitle'> Welcome to Wisconsin Civil Legal Aid! </h1>
-        <div>
+          <Header as='h2' icon textAlign='center'>
+              <Header.Content>
+                  Welcome to Wisconsin's Civil Legal Aid!
+              </Header.Content>
+              <Icon name='law' circular fitted size='huge' />
+          </Header>
+          <div>
+          <Label basic size='big'>
           Do you have a legal issue, but can’t afford to hire an attorney? Then you came to the right place!
           <br />
           <br />
@@ -21,6 +27,7 @@ class Home extends Component {
           <br />
           <br />
           To get started, click the button below!
+          </Label>
           <br />
           <br />
           <Link to='/workflow'>

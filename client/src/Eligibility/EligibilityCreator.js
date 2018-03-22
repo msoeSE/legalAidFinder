@@ -56,10 +56,8 @@ class EligibilityCreator extends Component {
 
   submitEligibility() {
     this.props.dispatch(postEligibilities(this.props.agencyId, this.props.categoryId, this.state.data)).then(() => {
-      if (!this.props.info.error) {
-        this.props.dispatch(fetchEligibilities());
-        this.props.onSubmitted();
-      }
+      this.props.dispatch(fetchEligibilities());
+      this.props.onSubmitted();
     });
   }
 

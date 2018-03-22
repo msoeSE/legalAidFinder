@@ -3,9 +3,11 @@ export const FETCH_ELIGIBILITY_REJECTED = 'FETCH_ELIGIBILITY_REJECTED';
 export const FETCH_ELIGIBILITY_FULFILLED = 'FETCH_ELIGIBILITY_FULFILLED';
 export const ADD_ELIGIBILITIES = 'ADD_ELIGIBILITIES';
 export const DELETE_ELIGIBILITY = 'DELETE_ELIGIBILITY';
+export const ADD_ELIGIBILITY_TYPE = 'ADD_ELIGIBILITY_TYPE';
 
 export default function reducer(state = {
   eligibility: [],
+  eligibilityTypes: [],
   error: null,
 }, action) {
   switch (action.type) {
@@ -20,6 +22,9 @@ export default function reducer(state = {
     }
     case ADD_ELIGIBILITIES: {
       return { ...state, eligibility: [ ...state.eligibility, action.payload ], error: null };
+    }
+    case ADD_ELIGIBILITY_TYPE: {
+      return { ...state, eligibility: [ ...state.eligibilityTypes, action.payload ], error: null };
     }
     case DELETE_ELIGIBILITY:
       return { ...state, eligibility: this.eligibility.filter(e => e._id !== action._id), error: null };

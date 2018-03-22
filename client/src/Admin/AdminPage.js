@@ -8,6 +8,7 @@ import AgencyModify from './Agency/AgencyModify';
 import CategoryTab from './Category/CategoryTab';
 import CategoryAdd from './Category/CategoryAdd';
 import CategoryDelete from './Category/CategoryDelete';
+import EligibilityTypeAdd from './EligibilityType/EligibilityTypeAdd';
 
 function mapStateToProps(state) {
   return { data: state.categories, user: state.user };
@@ -57,6 +58,12 @@ class AdminPage extends Component {
           <Header as='h2'>Edit the Categories</Header>
         </Container>
         <CategoryTab />
+      </div></Tab.Pane> },
+      { menuItem: 'Add Eligibility Type', render: () => <Tab.Pane><div className='tab-content'>
+        <Container fluid textAlign='center'>
+          <Header as='h2'>Add an Eligibility Type</Header>
+        </Container>
+        <EligibilityTypeAdd />
       </div></Tab.Pane> }
     ];
     return (

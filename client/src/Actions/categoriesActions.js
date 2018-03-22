@@ -24,7 +24,7 @@ export function fetchCategories() {
 export function fetchCategoriesAndDropdown() {
   return dispatch => Client.getRequest(CATEGORIES_ENDPOINT)
     .then((response) => {
-      dispatch({ type: FETCH_CATEGORIES_DROPDOWN_FULFILLED, payload: response.categories });
+      dispatch({ type: FETCH_CATEGORIES_DROPDOWN_FULFILLED, payload: response });
     })
     .catch((err) => {
       dispatch({ type: REQUEST_REJECTED, payload: err });
@@ -34,7 +34,7 @@ export function fetchCategoriesAndDropdown() {
 export function fetchCategoriesAndFullDropdown() {
   return dispatch => Client.getRequest(CATEGORIES_ENDPOINT)
     .then((response) => {
-      dispatch({ type: FETCH_CATEGORIES_FULL_DROPDOWN_FULFILLED, payload: response.categories });
+      dispatch({ type: FETCH_CATEGORIES_FULL_DROPDOWN_FULFILLED, payload: response });
     })
     .catch((err) => {
       dispatch({ type: REQUEST_REJECTED, payload: err });

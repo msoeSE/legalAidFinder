@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchAgencyRequests } from '../../Actions/agencyRequestsActions';
 
 function mapStateToProps(state) {
-  return { requests: state.requests };
+  return { requests: state.agencyRequests.requests };
 }
 
 class AgencyRequests extends Component {
@@ -18,7 +18,7 @@ class AgencyRequests extends Component {
 
   render() {
     console.log(this.props);
-    if (this.props.requests){
+    if (this.props.requests.length > 0){
       return (
         <div>
           <p>Agency requests would be displayed here</p>
@@ -26,6 +26,8 @@ class AgencyRequests extends Component {
           <p>{this.props.requests[0].email}</p>
         </div>
       );
+    } else {
+      return <div>Loading...</div>;
     }
   }
 }

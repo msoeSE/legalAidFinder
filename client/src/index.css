@@ -33,6 +33,38 @@ body {
     float: right;
 }
 
+.phoneNum {
+    font-size: large;
+}
+
+.homePageTitle {
+    font-size: 50px;
+    padding-bottom: 10px;
+}
+
+div {
+    white-space: pre-wrap;
+}
+
+.lineBreak {
+    padding-top: 5px;
+}
+
+.homePage {
+    text-align: center;
+    padding-top: 7%;
+    font-size: 17px;
+    box-sizing: content-box;
+    width: 70%;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+.noPhone {
+    color: red;
+    font-size: large;
+}
+
 .tab-content {
     width: 60%;
     margin: auto;

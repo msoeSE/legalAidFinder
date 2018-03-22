@@ -18,7 +18,6 @@ import { fetchAgencies } from './Actions/agenciesActions';
 import { setUser, clearUser } from './Actions/userActions';
 import { fetchAdmins } from './Actions/adminsActions';
 import './Header.css';
-import AgencyRequestForm from './AgencyRequest/AgencyRequestForm';
 
 function mapStateToProps(state) {
   return { agencyData: state.agencies, user: state.user, adminData: state.admins };

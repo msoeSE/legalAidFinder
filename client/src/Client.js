@@ -7,10 +7,11 @@ export const ADD_AGENCY_TO_CATEGORY = 'categories/addAgency';
 export const ADD_ELIGIBILITY = 'eligibility';
 export const ELIGIBILITIES_ENDPOINT = 'eligibility';
 export const ADMINS_ENDPOINT = 'admin';
-export const AGENCY_REQUESTS_ENDPOINT = 'agency/requests';
+export const AGENCY_REQUESTS_ENDPOINT = 'agencyrequests';
 
 function getRequest(endpoint, id = null, cb) {
-  let url = 'https://2w9jnw76hh.execute-api.us-east-1.amazonaws.com/dev/' + endpoint;
+  //let url = 'https://2w9jnw76hh.execute-api.us-east-1.amazonaws.com/dev/' + endpoint;
+  let url = 'http://localhost:3001/' + endpoint;
   if (id) {
     url += `?id=${id}`;
   }

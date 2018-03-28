@@ -59,9 +59,9 @@ class AdminPage extends Component {
         </Container>
         <CategoryTab />
       </div></Tab.Pane> },
-      { menuItem: 'Add Eligibility Type', render: () => <Tab.Pane><div className='tab-content'>
+      { menuItem: 'Eligibility Types', render: () => <Tab.Pane><div className='tab-content'>
         <Container fluid textAlign='center'>
-          <Header as='h2'>Add an Eligibility Type</Header>
+          <Header as='h2'>Eligibility Types</Header>
         </Container>
         <EligibilityTypeAdd />
       </div></Tab.Pane> }

@@ -170,7 +170,7 @@ class CategoryDetail extends Component {
                     </Button>
                   );
                 }
-              } else {
+              } else if (currentCategory.subcategories.length > 0) {
                 return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
               }
             })()}

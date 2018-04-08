@@ -23,11 +23,6 @@ class AgencyDisplay extends Component {
       showModal: false,
     };
   }
-  onClose() {
-    this.setState({
-      showModal: false,
-    });
-  }
 
   render() {
     return (
@@ -87,15 +82,13 @@ class AgencyHomeModal extends Component {
     const data = {
       name: this.props.agency.name,
       phone: this.state.phone,
-      emails: this.state.emails,
-      url: this.state.url,
       operation: this.state.operation,
     };
 
     this.props.dispatch(modifyAgencies(data)).then(() => {
       if (!this.props.data.error) {
         const message = 'Your changes have been saved!';
-        this.setState({ msg: message, name: '', phone: '', emails: [ { address: '' } ], operations: [ { hours: '' } ] });
+        this.setState({ msg: message, name: '', phone: '', operation: '' });
       } else {
         const message = 'Your changes have failed to save.';
         this.setState({ msg: message });
@@ -127,7 +120,7 @@ class AgencyHomeModal extends Component {
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
-            <Button className='ui blue button' onClick={}>
+            <Button className='ui blue button' onClick={this.updateAgency.bind(this)}>
               Save Changes
             </Button>
           </Modal.Actions>

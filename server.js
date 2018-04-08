@@ -25,6 +25,8 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 
 const app = Express();
 app.set('port', process.env.PORT || 3001);
+app.options('*', cors());
+app.use(cors());
 
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {

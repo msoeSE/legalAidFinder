@@ -38,7 +38,7 @@ class AgencyHome extends Component {
       { menuItem: 'Home',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
-            <Header as='h2'>Welcome {this.props.user.agency.name}!</Header>
+            <Header as='h2' style={{ fontSize: '2em', padding: '1em' }}>Welcome {this.props.user.agency.name}!</Header>
             <AgencyDisplay
               agency={this.props.user.agency}
             />

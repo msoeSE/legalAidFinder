@@ -10,7 +10,7 @@ import AdminPage from './Admin/AdminPage';
 import CountySelect from './County/CountySelect';
 import CategoryDetail from './Categories/CategoryDetail';
 import AgencyHome from './AgencyHome/AgencyHome';
-import CategoryHome from "./Home/CategoryHome";
+import CategoryHome from './Home/CategoryHome';
 
 const NoMatch = () => (
   <Redirect to='/' />

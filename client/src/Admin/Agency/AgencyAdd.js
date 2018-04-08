@@ -31,15 +31,17 @@ class AgencyAdd extends Component {
       emails: this.state.emails,
     };
 
-    this.props.dispatch(addAgencies(data)).then(() => {
-      if (!this.props.data.error) {
-        const message = `Successfully created agency: ${this.state.name}`;
-        this.setState({ msg: message, name: '', url: '', emails: [ { address: '' } ] });
-      } else {
-        const message = this.state.name !== '' ? `Failed to create agency: ${this.state.name}` : 'Failed to create agency.';
-        this.setState({ msg: message });
-      }
-    });
+      this.props.dispatch(addAgencies(data)).then(() => {
+        let message = 'Successfully created agency: ' + this.state.name;
+        this.setState({ msg: message, name: '', url: '', emails: [{ address: '' }] })
+        // if (this.props.data.error) {
+        //   let message = this.state.name !== '' ? 'Failed to create agency: ' + this.state.name : 'Failed to create agency.';
+        //   this.setState({ msg: message });
+        // } else {
+        //   let message = 'Successfully created agency: ' + this.state.name;
+        //   this.setState({ msg: message, name: '', url: '', emails: [{ address: '' }] })
+        // }
+      });;
   }
   emailAddressChange = idx => (event) => {
     const copy = this.state.emails.slice();

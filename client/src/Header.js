@@ -114,6 +114,8 @@ class Header extends Component {
         buttonText={<IconText text="Agency/Admin Login" />}
         onSuccess={this.handleLoginSuccess}
         onFailure={this.handleLogoutFailure}
+        approvalPrompt="force"
+        prompt="consent select_account"
       />;
     } else {
       logout = <GoogleLogout

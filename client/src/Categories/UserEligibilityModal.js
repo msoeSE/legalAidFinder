@@ -66,15 +66,13 @@ class UserEligibilityModal extends Component {
    */
   handleInput() {
     let inputsAreAllCompleted = true;
-    this.state.inputs.forEach((x) => {
+
+    // Handle number inputs
+    this.state.numberInputs.forEach((x) => {
       this.props.eligibilities.map((elig) => {
         elig.key_comparator_value.map((kcv) => {
           if (x === kcv.key) {
             kcv.input = this.refs[x].value;
-
-            if (!kcv.input) {
-              kcv.input = (this.refs[x] && this.refs[x].state.checked) ? 'Yes' : 'No';
-            }
 
             if (kcv.input === '') {
               inputsAreAllCompleted = false;
@@ -84,11 +82,22 @@ class UserEligibilityModal extends Component {
       });
     });
 
+    // Handle checkboxes
+    this.state.booleanInputs.forEach((x) => {
+      this.props.eligibilities.map((elig) => {
+        elig.key_comparator_value.map((kcv) => {
+          if (x === kcv.key) {
+            kcv.input = (this.refs[x].state && this.refs[x].state.checked) ? 'Yes' : 'No';
+          }
+        });
+      });
+    });
+
     if (inputsAreAllCompleted) {
       this.setState({ eligibilityErrorText: '', isErrorTextVisible: false });
       this.props.onSubmit(this.props.eligibilities);
     } else {
-      this.setState({ eligibilityErrorText: 'Please enter values for all eligibility criteria', isErrorTextVisible: true });
+      this.setState({ eligibilityErrorText: 'Please enter values for all eligibility fields', isErrorTextVisible: true });
     }
   }
 
@@ -111,13 +120,13 @@ class UserEligibilityModal extends Component {
                 this.state.numberInputs.map((nInput, reactKey) => {
                   if (nInput.toLowerCase().includes('income') && nInput.toLowerCase().includes('%')) {
                     return (<Form.Field key={reactKey}>
-                      <label>{nInput} <a href='http://www.safetyweb.org/fpl.php' target='_blank'>- Income
+                      <label>{nInput} <span style={{ color: 'red' }}>*</span> -<a href='http://www.safetyweb.org/fpl.php' target='_blank'> Income
                         Calculator</a></label>
                       <input type='number' placeholder={nInput} ref={nInput} />
                     </Form.Field>);
                   } else {
                     return (<Form.Field key={reactKey}>
-                      <label>{nInput}</label>
+                      <label>{nInput} <span style={{ color: 'red' }}>*</span></label>
                       <input type='number' placeholder={nInput} ref={nInput} />
                     </Form.Field>);
                   }

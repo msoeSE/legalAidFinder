@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Loader, Divider } from 'semantic-ui-react';
+import { Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchCategories, addAgencyToCategories } from '../Actions/categoriesActions';
 import Checkbox from './CategoryCheckbox';
 
 import EligibilityModal from '../Eligibility/EligibilityModal';
-import { fetchEligibilities } from '../Actions/eligibilityActions';
-import {getEligibilities, getEligibility} from '../Reducers/eligibilityReducer';
+import { fetchEligibilities, fetchEligibilityType } from '../Actions/eligibilityActions';
+import { getEligibility } from '../Reducers/eligibilityReducer';
+import MagnifyLoader from '../Helpers/MagnifyLoader';
 
 function mapStateToProps(state) {
   return { data: state.categories, info: state.eligibility };
@@ -33,6 +34,7 @@ class AgencyCategoryTree extends Component {
   componentWillMount() {
     this.props.dispatch(fetchCategories());
     this.props.dispatch(fetchEligibilities());
+    this.props.dispatch(fetchEligibilityType());
   }
 
   // Recursive function that generates the checkboxes
@@ -159,7 +161,7 @@ class AgencyCategoryTree extends Component {
     this.state.items = [];
 
     if (!this.props.data.categories || this.props.data.categories.length === 0 || !this.props.info.eligibility || this.props.info.eligibility.length === 0) {
-      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+      return (<MagnifyLoader label='Generating category tree...' />);
     }
 
     if (this.props.categoryId) {

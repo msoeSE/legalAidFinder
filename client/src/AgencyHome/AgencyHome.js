@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Tab, Container, Header, Loader } from 'semantic-ui-react';
+import { Tab, Container, Header, Loader, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import AgencyCategoryTab from './AgencyCategoryTab';
 import AgencyDisplay from './AgencyDisplay';
-import { fetchCategories } from '../Actions/categoriesActions';
+import { fetchAgencies } from '../Actions/agenciesActions';
+
 
 function mapStateToProps(state) {
-  return { data: state.categories, user: state.user };
+  return { data: state.agencies, user: state.user };
 }
 
 class AgencyHome extends Component {
@@ -20,7 +21,19 @@ class AgencyHome extends Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(fetchCategories());
+    this.props.dispatch(fetchAgencies());
+  }
+
+  getAgencies() {
+    const matchedAgencies = [];
+    this.props.data.agencies.map(agency =>
+      agency.emails.length > 0 ?
+        agency.emails.map(email =>
+          email === this.props.user.email ? matchedAgencies.push({ text: agency.name, value: agency._id }) : null,
+        )
+        : null,
+    );
+    return matchedAgencies;
   }
 
   render() {
@@ -30,14 +43,22 @@ class AgencyHome extends Component {
       );
     }
 
-    if (this.props.data.categories.length === 0) {
+    if (this.props.data.agencies.length === 0) {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
+
+    const dropdown = [
+      {
+        text: 'Agency 1',
+        value: 'Agency 1',
+      },
+    ];
 
     const panes = [
       { menuItem: 'Home',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
+            <Dropdown placeholder='Switch Agencies' selction options={this.getAgencies()} />
             <Header as='h2' style={{ fontSize: '2em', padding: '1em' }}>Welcome {this.props.user.agency.name}!</Header>
             <AgencyDisplay
               agency={this.props.user.agency}

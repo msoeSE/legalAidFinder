@@ -23,11 +23,6 @@ class AgencyDisplay extends Component {
       showModal: false,
     };
   }
-  onClose() {
-    this.setState({
-      showModal: false,
-    });
-  }
 
   render() {
     return (
@@ -127,7 +122,7 @@ class AgencyHomeModal extends Component {
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
-            <Button className='ui blue button' onClick={}>
+            <Button className='ui blue button' onClick={this.updateAgency.bind(this)}>
               Save Changes
             </Button>
           </Modal.Actions>

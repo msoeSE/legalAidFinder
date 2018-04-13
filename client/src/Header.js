@@ -92,7 +92,7 @@ class Header extends Component {
   handleLogoutFailure(response) {
     this.props.dispatch(clearUser());
     this.setState({
-      showAlert: true,
+      showAlert: false,
       alertTitle: "Logout Error",
       alertMsg: "Google was unable to log user out."
     });
@@ -124,6 +124,7 @@ class Header extends Component {
         buttonText="Logout"
         onSuccess={this.handleLogoutSuccess}
         onFailure={this.handleLogoutFailure}
+        prompt="none"
       >
       </GoogleLogout>
     }

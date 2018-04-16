@@ -70,13 +70,14 @@ class EligibilityCreator extends Component {
   /**
    * When key is changed we need to update possible Comparator and ValueType inputs
    * @param event
+   * @param result
    */
-  handleKeyChange(event) {
-    this.state.key = event.target.innerText;
+  handleKeyChange(event, result) {
+    this.state.key = result.value;
     const comparators = [];
     let isBool = false;
     this.props.eligibilityTypes.some((x) => {
-      if (x.name === event.target.innerText) {
+      if (x.name === result.value) {
         x.comparators.forEach((val) => {
           comparators.push({ key: val, value: val, text: val });
         });
@@ -100,17 +101,19 @@ class EligibilityCreator extends Component {
   /**
    * Update comparator value
    * @param event
+   * @param result
    */
-  handleComparatorChange(event) {
-    this.state.comparator = event.target.innerText;
+  handleComparatorChange(event, result) {
+    this.state.comparator = result.value;
   }
 
   /**
    * Update current value
    * @param event
+   * @param result
    */
-  handleValueChange(event) {
-    this.state.value = event.target.value;
+  handleValueChange(event, result) {
+    this.state.value = result.value;
   }
 
   /**
@@ -179,8 +182,8 @@ class EligibilityCreator extends Component {
     return (
       <Form style={{ margin: '5px' }}>
         <Form.Group inline>
-          <Dropdown selection style={{ marginLeft: '2px' }} options={this.state.keys} onChange={this.handleKeyChange} defaultValue={this.state.key} />
-          <Dropdown selection style={{ marginLeft: '2px' }} options={this.state.comparators} onChange={this.handleComparatorChange} defaultValue={this.state.comparator} />
+          <Dropdown upward selection style={{ marginLeft: '2px' }} options={this.state.keys} onChange={this.handleKeyChange} />
+          <Dropdown upward selection style={{ marginLeft: '2px' }} options={this.state.comparators} onChange={this.handleComparatorChange} />
           {input}
           <Button positive style={{ marginLeft: '2px' }} onClick={this.addEligibility}>Add</Button>
         </Form.Group>

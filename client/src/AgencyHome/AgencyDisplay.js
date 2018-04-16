@@ -10,7 +10,8 @@ import {
   Modal,
   Input,
 } from 'semantic-ui-react';
-import { modifyAgencies } from '../Actions/agenciesActions';
+import {fetchAgencies, modifyAgencies} from '../Actions/agenciesActions';
+import { updateAgency } from '../Actions/userActions';
 
 function mapStateToProps(state) {
   return { data: state.agencies, user: state.user };
@@ -22,6 +23,36 @@ class AgencyDisplay extends Component {
     this.state = {
       showModal: false,
     };
+
+    this.updateAgency = this.updateAgency.bind(this);
+  }
+
+  updateAgency(data) {
+    const newData = {
+      ...data,
+      name: this.props.user.agency.name,
+      url: this.props.user.agency.url,
+      query: { _id: this.props.user.agency._id },
+      emails: [],
+    };
+
+    this.props.user.agency.emails.forEach((e) => {
+      if (e !== null)
+        newData.emails.push({ address: e });
+    });
+
+    return this.props.dispatch(modifyAgencies(newData)).then(() => {
+      if (!this.props.data.error) {
+        this.props.dispatch(fetchAgencies()).then(() => {
+          this.props.dispatch(updateAgency(this.props.data.agencies.find(x => {
+            return x._id === this.props.user.agency._id;
+          })));
+        });
+        return true;
+      } else {
+        return false;
+      }
+    });
   }
 
   render() {
@@ -52,6 +83,7 @@ class AgencyDisplay extends Component {
               showModal
               onClose={this.toggleModal}
               agency={this.props.agency}
+              update={this.updateAgency}
             />
           </Container>
         </Segment>
@@ -81,12 +113,14 @@ class AgencyHomeModal extends Component {
     event.preventDefault();
     const data = {
       name: this.props.agency.name,
-      phone: this.state.phone,
-      operation: this.state.operation,
     };
 
-    this.props.dispatch(modifyAgencies(data)).then(() => {
-      if (!this.props.data.error) {
+    data.phone = (this.state.phone === '' && this.props.agency.phone) ? this.props.agency.phone : this.state.phone;
+
+    data.operation = (this.state.operation === '' && this.props.agency.operation) ? this.props.agency.operation : this.state.operation;
+
+    this.props.update(data).then((result) => {
+      if (result) {
         const message = 'Your changes have been saved!';
         this.setState({ msg: message, name: '', phone: '', operation: '' });
       } else {

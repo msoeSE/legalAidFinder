@@ -252,11 +252,11 @@ class CategoryDetail extends Component {
                               }
                             })()}
                           </Card.Meta>
-                          <Card.Description>
-                            <List bulleted size={'mini'}>
-                              {subcat.subcategories.map(subcat => <List.Item>{subcat.name}</List.Item>)}
-                            </List>
-                          </Card.Description>
+                          {/*<Card.Description>*/}
+                            {/*<List bulleted size={'mini'}>*/}
+                              {/*{subcat.subcategories.map(subcat => <List.Item>{subcat.name}</List.Item>)}*/}
+                            {/*</List>*/}
+                          {/*</Card.Description>*/}
                         </Card.Content>
                       </Card>));
               }

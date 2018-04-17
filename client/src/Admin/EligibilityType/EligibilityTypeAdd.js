@@ -161,7 +161,7 @@ class EligibilityAdd extends Component {
                       onChange={(e, { value }) => this.setState({ comparators: [ ...value ] })}
                     />
                   </Form.Field>
-                  <Button positive onClick={this.submitEligibilityType.bind(this)}>Add Eligibility Type</Button>
+                  <Button positive onClick={this.submitEligibilityType.bind(this)}>Submit Eligibility Type</Button>
                   <h2>{this.state.msg}</h2>
                 </Form>
               </div>

@@ -22,18 +22,37 @@ class AgencyRequestForm extends Component {
     return (
       <div>
         <form className="ui form">
-          <h1>Agency Request Form</h1>
+          <h1>Agency Registration</h1>
+          <p>Paragraph here with instructions</p>
+          <h3>Agency Information:</h3>
           <div className="field">
             <label>Name</label>
-            <input type="text" name="agency-name" placeholder="Name"/>
+            <input type="text" name="agency-name" placeholder=""/>
           </div>
           <div className="field">
             <label>Email</label>
-            <input type="text" name="agency-email" placeholder="Email"/>
+            <input type="text" name="agency-email" placeholder=""/>
           </div>
           <div className="field">
             <label>URL</label>
-            <input type="text" name="agency-url" placeholder="URL"/>
+            <input type="text" name="agency-url" placeholder=""/>
+          </div>
+          <h3>Contact Person Information:</h3>
+          <div className="field">
+            <label>Name</label>
+            <input type="text" name="contact-name" placeholder=""/>
+          </div>
+          <div className="field">
+            <label>Phone Number</label>
+            <input type="text" name="contact-phone" placeholder=""/>
+          </div>
+          <div className="field">
+            <label>Email</label>
+            <input type="text" name="contact-email" placeholder=""/>
+          </div>
+          <h3>Additional Comments:</h3>
+          <div className="field">
+            <input type="text" name="comments" placeholder="Comments"/>
           </div>
         </form>
         <button className="ui button" onClick={this.processRequests}>Submit</button>

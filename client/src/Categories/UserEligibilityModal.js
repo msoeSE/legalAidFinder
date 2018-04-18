@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Checkbox, Button, Form, Label, Grid, Divider } from 'semantic-ui-react';
+import CountySelector from '../County/CountySelector';
 
 class UserEligibilityModal extends Component {
   constructor(props) {
@@ -132,6 +133,10 @@ class UserEligibilityModal extends Component {
                   }
                 })
               }
+              <Form.Field>
+                <label>County <span style={{ color: 'red' }}>*</span></label>
+                <CountySelector />
+              </Form.Field>
               {(() => { // Loop through and create Yes/No input fields
                 const checkboxes = this.state.booleanInputs.map((bInput, reactKey) => (
                   <Grid.Column key={reactKey + this.state.numberInputs.length} style={{ margin: '8px' }}>

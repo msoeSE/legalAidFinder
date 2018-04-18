@@ -4,7 +4,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Card, Image, Loader, List } from 'semantic-ui-react';
+import { Card, Image, List } from 'semantic-ui-react';
 import { fetchCategories } from '../Actions/categoriesActions';
 import moneyImg from '../Images/money.png';
 import crimeImg from '../Images/crime.png';
@@ -15,6 +15,7 @@ import schoolImg from '../Images/school.png';
 import workImg from '../Images/work.png';
 import famImg from '../Images/family.png';
 import MagnifyLoader from '../Helpers/MagnifyLoader';
+import {fetchCounties} from "../Actions/countiesActions";
 
 function mapStateToProps(state) {
   return { data: state.categories };
@@ -23,6 +24,7 @@ function mapStateToProps(state) {
 class CategoryExplorer extends Component {
   componentWillMount() {
     this.props.dispatch(fetchCategories());
+    this.props.dispatch(fetchCounties());
   }
 
   render() {

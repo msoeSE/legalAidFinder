@@ -18,7 +18,20 @@ export default function reducer(state = {
       return { ...state, fetching: false, error: action.payload };
     }
     case 'FETCH_COUNTIES_FULFILLED': {
-      return { ...state, fetching: false, fetched: true, counties: action.payload };
+      const sortedCountiesList = action.payload.sort((a, b) => {
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
+        if (nameA < nameB) { // sort string ascending
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        return 0; // default return value (no sorting)
+      });
+
+      return { ...state, fetching: false, fetched: true, counties: sortedCountiesList };
     }
     case 'CHOOSE_COUNTY': {
       return { ...state, chosenCounty: action.payload };

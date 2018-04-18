@@ -91,11 +91,13 @@ class Header extends Component {
 
   handleLogoutFailure(response) {
     this.props.dispatch(clearUser());
-    this.setState({
+    /*this.setState({
       showAlert: false,
       alertTitle: "Logout Error",
       alertMsg: "Google was unable to log user out."
-    });
+    });*/
+      // Not showing alert because this is how we get around having to choose an account when logging out.
+      // This is fine, as even if there is an "error" logging out, we still clear the user and logout anyway. -bw
   }
 
   alertClose() {

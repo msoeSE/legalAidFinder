@@ -70,6 +70,10 @@ div {
     margin: auto;
 }
 
+.helpButton {
+    padding: 5px;
+}
+
 .padding {
     padding: 5px;
 }

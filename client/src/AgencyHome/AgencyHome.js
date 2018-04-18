@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Tab, Container, Header, Loader, Dropdown } from 'semantic-ui-react';
+import { Tab, Container, Header, Loader, Dropdown, Icon, Popup, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import AgencyCategoryTab from './AgencyCategoryTab';
 import AgencyDisplay from './AgencyDisplay';
+import AgencyDropdown from './AgencyDropdown';
 import { fetchAgencies } from '../Actions/agenciesActions';
-
 
 function mapStateToProps(state) {
   return { data: state.agencies, user: state.user };
@@ -17,6 +17,7 @@ class AgencyHome extends Component {
 
     this.state = {
       agency: props.agency,
+      showDropdown: false,
     };
   }
 
@@ -29,7 +30,7 @@ class AgencyHome extends Component {
     this.props.data.agencies.map(agency =>
       agency.emails.length > 0 ?
         agency.emails.map(email =>
-          email === this.props.user.email ? matchedAgencies.push({ text: agency.name, value: agency._id }) : null,
+          email === this.props.user.email ? matchedAgencies.push({ text: agency.name, value: agency }) : null,
         )
         : null,
     );
@@ -47,18 +48,15 @@ class AgencyHome extends Component {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
     }
 
-    const dropdown = [
-      {
-        text: 'Agency 1',
-        value: 'Agency 1',
-      },
-    ];
+    if (this.getAgencies().length > 1) {
+      this.state.showDropdown = true;
+    }
 
     const panes = [
       { menuItem: 'Home',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
-            <Dropdown placeholder='Switch Agencies' selction options={this.getAgencies()} />
+            {this.state.showDropdown ? <AgencyDropdown agencies={this.getAgencies()} user={this.props.user} /> : null}
             <Header as='h2' style={{ fontSize: '2em', padding: '1em' }}>Welcome {this.props.user.agency.name}!</Header>
             <AgencyDisplay
               agency={this.props.user.agency}

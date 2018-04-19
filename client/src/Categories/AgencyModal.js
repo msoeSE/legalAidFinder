@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, Icon } from 'semantic-ui-react';
+import { Button, Modal, Icon, Card, Container } from 'semantic-ui-react';
 
 class AgencyModal extends Component {
   render() {
@@ -7,30 +7,52 @@ class AgencyModal extends Component {
       return null;
     }
     return (
-      <div>
-        <Modal trigger={<Button className='small ui blue button'>Click here to learn more about this agency!</Button>} closeIcon>
-          <Modal.Header>
-            {this.props.agency.name}
+      <Container fluid style={{ padding: '0.5em' }} >
+        <Modal
+          trigger={
+            <Card fluid>
+              <Card.Content>
+                <Card.Header>{this.props.agency.name}</Card.Header>
+                <Card.Meta>
+                  Click to learn more about this agency!
+                </Card.Meta>
+              </Card.Content>
+            </Card>
+          } closeIcon
+        >
+          <Modal.Header style={{ fontSize: '2em', textAlign: 'center' }}>
+            Contact Information for {this.props.agency.name}
           </Modal.Header>
-          <Modal.Content>
+          <Modal.Content style={{ textAlign: 'center' }}>
             <Modal.Description>
-              <h2> Phone Number: </h2>
+              <h2 style={{ textDecoration: 'underline' }}>Phone Number: </h2>
               <div>
-                {this.props.agency.phone > 0 ? <div className='phoneNum'>{this.props.agency.phone} </div> : <div className='noPhone'>There is not a phone number on file for this agency</div>}
+                {this.props.agency.phone ? <div className='phoneNum'>{this.props.agency.phone} </div> :
+                <div className='noPhone'>There is not a phone number on file for this agency!</div>}
               </div>
-              <h2>Email/s: </h2>
-              {this.props.agency.emails.length > 0 ? this.props.agency.emails.map(email =>
-                <div>{email}</div>) : <div className='noPhone'> There are no emails on file for this agency </div>}
-              <h3> Hours of Operation: </h3>
+              <h2 style={{ textDecoration: 'underline' }}>Address: </h2>
+              {this.props.agency.address ? <div className='phoneNum'>{`${this.props.agency.address}\n` + `${this.props.agency.city}` + `, WI, ${this.props.agency.zipcode}`} </div> :
+              <div className='noPhone'>There is currently no address on file for this agency!</div>}
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
-            <Button className='ui blue button' href={this.props.agency.url}>
-              Visit Website
-            </Button>
+            {this.props.agency.operation ?
+              <Button className='ui green button' href={`http://${this.props.agency.operation}`}>
+              Hours of Operation
+            </Button> :
+              <Button disabled>
+                Hours of Operation
+              </Button>}
+            {this.props.agency.url ?
+              <Button className='ui blue button' href={this.props.agency.url}>
+                Visit Website
+              </Button> :
+              <Button disabled>
+                Visit Website
+              </Button>}
           </Modal.Actions>
         </Modal>
-      </div>
+      </Container>
     );
   }
 }

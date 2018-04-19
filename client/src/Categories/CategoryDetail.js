@@ -216,14 +216,11 @@ class CategoryDetail extends Component {
               }
               if (this.state.noEligAgencies.length > 0 && currentCategory.subcategories.length === 0) {
                 const cards = this.state.noEligAgencies.map(agency => (
-                  <Card fluid color='blue' href={agency.url}>
-                    <Card.Content>
-                      <Card.Header>{agency.name}</Card.Header>
-                      <Card.Meta>
-                        {'Click to go to this agency\'s website!'}
-                      </Card.Meta>
-                    </Card.Content>
-                  </Card>));
+                  <AgencyModal
+                    showModal
+                    onClose={this.toggleModal}
+                    agency={agency}
+                  />));
 
                 return (
                   // currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).map(agency =>

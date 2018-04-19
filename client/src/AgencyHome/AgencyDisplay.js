@@ -10,7 +10,7 @@ import {
   Modal,
   Input,
 } from 'semantic-ui-react';
-import {fetchAgencies, modifyAgencies} from '../Actions/agenciesActions';
+import { fetchAgencies, modifyAgencies } from '../Actions/agenciesActions';
 import { updateAgency } from '../Actions/userActions';
 
 function mapStateToProps(state) {
@@ -37,16 +37,13 @@ class AgencyDisplay extends Component {
     };
 
     this.props.user.agency.emails.forEach((e) => {
-      if (e !== null)
-        newData.emails.push({ address: e });
+      if (e !== null) { newData.emails.push({ address: e }); }
     });
 
     return this.props.dispatch(modifyAgencies(newData)).then(() => {
       if (!this.props.data.error) {
         this.props.dispatch(fetchAgencies()).then(() => {
-          this.props.dispatch(updateAgency(this.props.data.agencies.find(x => {
-            return x._id === this.props.user.agency._id;
-          })));
+          this.props.dispatch(updateAgency(this.props.data.agencies.find(x => x._id === this.props.user.agency._id)));
         });
         return true;
       } else {
@@ -61,24 +58,30 @@ class AgencyDisplay extends Component {
         <Segment style={{ padding: '0em 1em' }} vertical>
           <Container text>
             <Divider />
-            <Header as='h3' style={{ fontSize: '1.5em' }}>Emails:</Header>
+            <Header as='h3' style={{ fontSize: '1.5em', textDecoration: 'underline' }}>Emails:</Header>
             <p style={{ fontSize: '1.33em' }}>
               {this.props.agency.emails.map(email =>
                 <div>{email}</div>)}
             </p>
-            <Header as='h3' style={{ fontSize: '1.5em' }}>Phone Number:</Header>
+            <Header as='h3' style={{ fontSize: '1.5em', textDecoration: 'underline' }}>Address:</Header>
             <p style={{ fontSize: '1.33em' }}>
-              {this.props.agency.phone !== undefined ? <div className='phoneNum'>
+              {this.props.agency.address ? <div className='phoneNum'>
+                {`${this.props.agency.address}\n` + `${this.props.agency.city}` + `, WI, ${this.props.agency.zipcode}`} </div> :
+              <div className='noPhone'>There is currently no address on file for this agency!</div>}</p>
+            <Header as='h3' style={{ fontSize: '1.5em', textDecoration: 'underline' }}>Phone Number:</Header>
+            <p style={{ fontSize: '1.33em' }}>
+              {this.props.agency.phone ? <div className='phoneNum'>
                 {this.props.agency.phone} </div> : <div className='noPhone'>There is currently no phone number on file for this agency!</div>}
             </p>
-            <Header as='h3' style={{ fontSize: '1.5em' }}>Agency Website:</Header>
+            <Header as='h3' style={{ fontSize: '1.5em', textDecoration: 'underline' }}>Agency Website:</Header>
             <p style={{ fontSize: '1.33em' }}>
-              {this.props.agency.url !== undefined ? <div className='phoneNum'>
+              {this.props.agency.url ? <div className='phoneNum'>
                 {this.props.agency.url} </div> : <div className='noPhone'>There is currently no URL on file for this agency!</div>}</p>
-            <Header as='h3' style={{ fontSize: '1.5em' }}>Hours of Operation Link:</Header>
+            <Header as='h3' style={{ fontSize: '1.5em', textDecoration: 'underline' }}>Hours of Operation Link:</Header>
             <p style={{ fontSize: '1.33em' }}>
-              {this.props.agency.operation !== undefined ? <div className='phoneNum'>
-                {this.props.agency.operation} </div> : <div className='noPhone'>There is currently no hours of operation link on file for this agency!</div>}</p>
+              {this.props.agency.operation ? <div className='phoneNum'>
+                {this.props.agency.operation} </div> :
+              <div className='noPhone'>There is currently no hours of operation link on file for this agency!</div>}</p>
             <AgencyHomeModal
               showModal
               onClose={this.toggleModal}
@@ -99,6 +102,9 @@ class AgencyHomeModal extends Component {
       name: '',
       phone: '',
       operation: '',
+      address: '',
+      zipcode: '',
+      city: '',
     };
   }
   phoneNumber(event) {
@@ -107,6 +113,18 @@ class AgencyHomeModal extends Component {
 
   hoursOfOperation(event) {
     this.setState({ operation: event.target.value, msg: '' });
+  }
+
+  addressSave(event) {
+    this.setState({ address: event.target.value, msg: '' });
+  }
+
+  zipCode(event) {
+    this.setState({ zipcode: event.target.value, msg: '' });
+  }
+
+  citySave(event) {
+    this.setState({ city: event.target.value, msg: '' });
   }
 
   updateAgency(event) {
@@ -119,10 +137,17 @@ class AgencyHomeModal extends Component {
 
     data.operation = (this.state.operation === '' && this.props.agency.operation) ? this.props.agency.operation : this.state.operation;
 
+    data.address = (this.state.address === '' && this.props.agency.address) ? this.props.agency.address : this.state.address;
+
+    data.zipcode = (this.state.zipcode === '' && this.props.agency.zipcode) ? this.props.agency.zipcode : this.state.zipcode;
+
+    data.city = (this.state.city === '' && this.props.agency.city) ? this.props.agency.city : this.state.city;
+
+
     this.props.update(data).then((result) => {
       if (result) {
         const message = 'Your changes have been saved!';
-        this.setState({ msg: message, name: '', phone: '', operation: '' });
+        this.setState({ msg: message, name: '', phone: '', operation: '', address: '', zipcode: '' });
       } else {
         const message = 'Your changes have failed to save.';
         this.setState({ msg: message });
@@ -136,18 +161,36 @@ class AgencyHomeModal extends Component {
     return (
       <div>
         <Modal trigger={<Button floated='right' className='large ui green button'>Edit</Button>} closeIcon>
-          <Modal.Header style={{ textAlign: 'center' }}>
+          <Modal.Header style={{ fontSize: '2em', textAlign: 'center' }}>
             {this.props.agency.name}
           </Modal.Header>
           <Modal.Content>
             <Modal.Description>
+              <h3 style={{ textAlign: 'center', textDecoration: 'underline' }}> Address </h3>
               <Input
-                placeholder={this.props.agency.phone} label='Phone Number ' labelPosition='left'
+                placeholder={this.props.agency.address} label='Street' labelPosition='left'
                 size='big' fluid className='padding'
-                onChange={this.phoneNumber.bind(this)} value={this.state.phone}
+                onChange={this.addressSave.bind(this)} value={this.state.address}
               />
               <Input
-                placeholder={this.props.agency.operation} label='Hours of Operation Link' labelPosition='left'
+                placeholder={this.props.agency.city} label='City' labelPosition='left'
+                size='big' className='padding'
+                onChange={this.citySave.bind(this)} value={this.state.city}
+              />
+              <Input
+                placeholder={this.props.agency.zipcode} label='Zip Code' labelPosition='left'
+                size='big' className='padding'
+                onChange={this.zipCode.bind(this)} value={this.state.zipcode}
+              />
+              <h3 style={{ textAlign: 'center', textDecoration: 'underline' }}> Phone Number </h3>
+              <Input
+                placeholder={this.props.agency.phone} fluid size='big' label='(XXX) XXX-XXXX'
+                labelPosition='left'
+                onChange={this.phoneNumber.bind(this)} value={this.state.phone}
+              />
+              <h3 style={{ textAlign: 'center', textDecoration: 'underline' }}> Hours of Operation Link </h3>
+              <Input
+                placeholder={this.props.agency.operation} label='http://' labelPosition='left'
                 size='big' fluid className='padding'
                 onChange={this.hoursOfOperation.bind(this)} value={this.state.operation}
               />

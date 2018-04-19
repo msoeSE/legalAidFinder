@@ -57,7 +57,7 @@ class AgencyHome extends Component {
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             {this.state.showDropdown ? <AgencyDropdown agencies={this.getAgencies()} user={this.props.user} /> : null}
-            <Header as='h2' style={{ fontSize: '2em', padding: '1em' }}>Welcome {this.props.user.agency.name}!</Header>
+            <Header as='h2' style={{ fontSize: '2em' }}>Welcome {this.props.user.agency.name}!</Header>
             <AgencyDisplay
               agency={this.props.user.agency}
             />

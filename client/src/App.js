@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import Home from './Home/Home';
 import Header from './Header';
+import Footer from './Footer';
 import AdminPage from './Admin/AdminPage';
 import CountySelect from './County/CountySelect';
 import CategoryDetail from './Categories/CategoryDetail';
@@ -32,6 +33,7 @@ class App extends Component {
             <Route component={NoMatch} />
           </Switch>
         </div>
+        <Footer />
       </div>
     );
   }

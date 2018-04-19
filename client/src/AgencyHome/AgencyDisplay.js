@@ -55,7 +55,7 @@ class AgencyDisplay extends Component {
   render() {
     return (
       <div>
-        <Segment style={{ padding: '0em 1em' }} vertical>
+        <Segment style={{ paddingBottom: '2em' }} vertical>
           <Container text>
             <Divider />
             <Header as='h3' style={{ fontSize: '1.5em', textDecoration: 'underline' }}>Emails:</Header>
@@ -82,12 +82,14 @@ class AgencyDisplay extends Component {
               {this.props.agency.operation ? <div className='phoneNum'>
                 {this.props.agency.operation} </div> :
               <div className='noPhone'>There is currently no hours of operation link on file for this agency!</div>}</p>
-            <AgencyHomeModal
-              showModal
-              onClose={this.toggleModal}
-              agency={this.props.agency}
-              update={this.updateAgency}
-            />
+            <div>
+              <AgencyHomeModal
+                showModal
+                onClose={this.toggleModal}
+                agency={this.props.agency}
+                update={this.updateAgency}
+              />
+            </div>
           </Container>
         </Segment>
       </div>
@@ -147,7 +149,7 @@ class AgencyHomeModal extends Component {
     this.props.update(data).then((result) => {
       if (result) {
         const message = 'Your changes have been saved!';
-        this.setState({ msg: message, name: '', phone: '', operation: '', address: '', zipcode: '' });
+        this.setState({ msg: message, name: '', phone: '', operation: '', address: '', zipcode: '', city: '' });
       } else {
         const message = 'Your changes have failed to save.';
         this.setState({ msg: message });
@@ -159,7 +161,7 @@ class AgencyHomeModal extends Component {
       return null;
     }
     return (
-      <div>
+      <div style={{ paddingBottom: '0.5em' }}>
         <Modal trigger={<Button floated='right' className='large ui green button'>Edit</Button>} closeIcon>
           <Modal.Header style={{ fontSize: '2em', textAlign: 'center' }}>
             {this.props.agency.name}
@@ -197,7 +199,7 @@ class AgencyHomeModal extends Component {
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
-            <Button className='ui blue button' onClick={this.updateAgency.bind(this)}>
+            <Button className='ui blue button' size='huge' onClick={this.updateAgency.bind(this)}>
               Save Changes
             </Button>
           </Modal.Actions>

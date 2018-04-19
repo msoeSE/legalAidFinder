@@ -28,7 +28,7 @@ class AgencyModal extends Component {
               <h2 style={{ textDecoration: 'underline' }}>Phone Number: </h2>
               <div>
                 {this.props.agency.phone ? <div className='phoneNum'>{this.props.agency.phone} </div> :
-                <div className='noPhone'>There is not a phone number on file for this agency!</div>}
+                <div className='noPhone'>There is currently no phone number on file for this agency!</div>}
               </div>
               <h2 style={{ textDecoration: 'underline' }}>Address: </h2>
               {this.props.agency.address ? <div className='phoneNum'>{`${this.props.agency.address}\n` + `${this.props.agency.city}` + `, WI, ${this.props.agency.zipcode}`} </div> :

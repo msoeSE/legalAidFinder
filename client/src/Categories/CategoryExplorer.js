@@ -81,7 +81,7 @@ class CategoryCard extends Component {
 
   render() {
     return (
-      <Card as={Link} to={`category/${this.props.category._id}`} color='blue' raised>
+      <Card as={Link} to={`category/${this.props.category._id}`} color='grey' raised>
         <Card.Content>
           {this.getCorrespondingImage()}
           <Card.Header>

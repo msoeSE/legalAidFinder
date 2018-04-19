@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Icon, Modal, Button, Form, Loader, List, Divider, Card, Label } from 'semantic-ui-react';
+import { Icon, Button, Loader, List, Divider, Card } from 'semantic-ui-react';
 import { fetchCategories } from '../Actions/categoriesActions';
 import AgencyMap from '../County/AgencyMap';
 import AgencyModal from './AgencyModal';
 import { getCategoryEligibilities } from '../Reducers/eligibilityReducer';
-import { fetchEligibilities } from '../Actions/eligibilityActions';
+import { fetchEligibilities, fetchEligibilityType } from '../Actions/eligibilityActions';
+import UserEligibilityModal from './UserEligibilityModal';
 
 function mapStateToProps(state) {
-  return { data: state.categories, chosenCounty: state.counties.chosenCounty, elig: state.eligibility };
+  return { data: state.categories, chosenCounty: state.counties.chosenCounty, elig: state.eligibility, eligibilityTypes: state.eligibility.eligibilityTypes };
 }
 
 class CategoryDetail extends Component {
@@ -37,6 +38,10 @@ class CategoryDetail extends Component {
     if (this.props.elig.eligibility.length === 0) {
       this.props.dispatch(fetchEligibilities());
     }
+
+    if (this.props.eligibilityTypes.length === 0) {
+      this.props.dispatch(fetchEligibilityType());
+    }
   }
 
   eligibilityForm() {
@@ -52,8 +57,7 @@ class CategoryDetail extends Component {
     });
   }
 
-  onSubmit(data) {
-    console.log(this.state.eligibilities);
+  onSubmit() {
     this.filterAgencies();
     this.setState({
       showModal: false,
@@ -118,7 +122,6 @@ class CategoryDetail extends Component {
           });
 
           if (valid) {
-            console.log(agency.name);
             validAgencies.push(agency);
           }
         }
@@ -147,7 +150,7 @@ class CategoryDetail extends Component {
 
       return (
         <div>
-          <EligibilityModal showModal={this.state.showModal} eligibilities={this.state.eligibilities} onClose={this.onClose} onSubmit={this.onSubmit} />
+          <UserEligibilityModal showModal={this.state.showModal} eligibilities={this.state.eligibilities} eligibilityTypes={this.props.eligibilityTypes} onClose={this.onClose} onSubmit={this.onSubmit} />
           <div className='card-holder'>
             <h2>{currentCategory.name}</h2>
             {(() => { // Create header
@@ -171,14 +174,14 @@ class CategoryDetail extends Component {
                     </Button>
                   );
                 }
-              } else {
+              } else if (currentCategory.subcategories.length > 0) {
                 return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
               }
             })()}
             {(() => { // Display eligible agencies
               if (this.state.filteredAgencies.length > 0) {
                 const cards = this.state.filteredAgencies.map(agency => (
-                  <Card fluid color='blue' href={agency.url}>
+                  <Card fluid color='grey' href={agency.url}>
                     <Card.Content>
                       <Card.Header>{agency.name}</Card.Header>
                       <Card.Meta>
@@ -205,7 +208,7 @@ class CategoryDetail extends Component {
             {(() => { // Create Agencies list with no eligibility constraints
               if (currentCategory.agencies.length === 0 && currentCategory.subcategories.length === 0) {
                 return (
-                  <Card fluid color='blue'>
+                  <Card fluid color='grey'>
                     <Card.Content>
                       <Card.Header>Currently no agencies support this category..</Card.Header>
                       <Card.Meta>
@@ -246,7 +249,7 @@ class CategoryDetail extends Component {
               } else {
                 return ( // Create subcategories
                     currentCategory.subcategories.map(subcat =>
-                      <Card fluid color='blue' as={Link} to={`${subcat._id}`}>
+                      <Card fluid color='grey' as={Link} to={`${subcat._id}`}>
                         <Card.Content>
                           <Card.Header>{subcat.name}</Card.Header>
                           <Card.Meta>
@@ -289,91 +292,3 @@ class CategoryDetail extends Component {
 }
 
 export default withRouter(connect(mapStateToProps)(CategoryDetail));
-
-class EligibilityModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      inputs: new Set(),
-      eligibilityErrorText: '',
-      isErrorTextVisible: false,
-    };
-
-    this.handleInput = this.handleInput.bind(this);
-    this.closePressed = this.closePressed.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    this.state.inputs = new Set();
-
-    return true;
-  }
-
-  closePressed() {
-    this.setState({ eligibilityErrorText: '', isErrorTextVisible: false });
-    this.props.onClose();
-  }
-
-  createKcvInput(kcv, reactKey) {
-    const key = kcv.key.toLowerCase();
-    if (!this.state.inputs.has(key)) {
-      this.state.inputs.add(key);
-      return (
-        <Form.Field key={reactKey}>
-          <label>{kcv.key}</label>
-          <input placeholder={kcv.key} ref={key} />
-        </Form.Field>
-      );
-    }
-  }
-
-  handleInput() {
-    let inputsAreAllCompleted = true;
-    this.state.inputs.forEach((x) => {
-      this.props.eligibilities.map((elig) => {
-        elig.key_comparator_value.map((kcv) => {
-          if (x === kcv.key.toLowerCase()) {
-            kcv.input = this.refs[x].value;
-            if (kcv.input === '') {
-              inputsAreAllCompleted = false;
-            }
-          }
-        });
-      });
-    });
-
-    if (inputsAreAllCompleted) {
-      this.setState({ eligibilityErrorText: '', isErrorTextVisible: false });
-      this.props.onSubmit(this.props.eligibilities);
-    } else {
-      this.setState({ eligibilityErrorText: 'Please enter values for all eligibility criteria', isErrorTextVisible: true });
-    }
-  }
-
-  render() {
-    this.state.inputs = new Set();
-
-    return (
-      <div>
-        <Modal open={this.props.showModal}>
-          <Modal.Header>
-            Please enter eligibility values:
-            <Button floated='right' negative onClick={this.closePressed} icon='cancel' />
-          </Modal.Header>
-          <Modal.Content>
-            <Form>
-              {(() => {
-                if (this.props.eligibilities !== null) {
-                  return this.props.eligibilities.map((elig, i) =>
-                    elig.key_comparator_value.map((kcv, k) => this.createKcvInput(kcv, i + k)));
-                }
-              })()}
-              <Button type='submit' onClick={this.handleInput}>Submit</Button>
-              {this.state.isErrorTextVisible && <Label basic color='red'>{this.state.eligibilityErrorText}</Label>}
-            </Form>
-          </Modal.Content>
-        </Modal>
-      </div>
-    );
-  }
-}

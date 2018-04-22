@@ -25,7 +25,7 @@ class AdminPage extends Component {
     const panes = [
       { menuItem: 'Agency Requests', render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
-            <Header as='h2'>AgencyRequests</Header>
+            <Header as='h2'>Agency Requests</Header>
             <AgencyRequests/>
           </Container>
         </div></Tab.Pane> },

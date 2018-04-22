@@ -56,26 +56,35 @@ class AgencyRequestForm extends Component {
 
   submitAgencyRequest(event) {
     event.preventDefault();
-    const data = {
-      agency_name: this.state.agency_name,
-      agency_email: this.state.agency_email,
-      agency_url: this.state.agency_url,
-      contact_name: this.state.contact_name,
-      contact_phone: this.state.contact_phone,
-      contact_email: this.state.contact_email,
-      comments: this.state.comments,
-    };
-
-    this.props.dispatch(addAgencyRequests(data)).then(() => {
+    if (this.state.agency_name === "" || this.state.agency_email === "" || this.state.agency_url === ""
+       || this.state.contact_name === "" || this.state.contact_phone === "" || this.state.contact_email === "") {
       this.setState({
         showAlert: true,
-        alertTitle: "Success",
-        alertMsg: "Thank you for submitting a request for " + this.state.agency_name,
+        alertTitle: "Warning",
+        alertMsg: "Please enter all required fields.",
       });
-      this.setState({ agency_name: '', agency_email: '', agency_url: '',
-                      contact_name: '', contact_phone: '', contact_email: '',
-                      comments: '' });
+    } else {
+      const data = {
+        agency_name: this.state.agency_name,
+        agency_email: this.state.agency_email,
+        agency_url: this.state.agency_url,
+        contact_name: this.state.contact_name,
+        contact_phone: this.state.contact_phone,
+        contact_email: this.state.contact_email,
+        comments: this.state.comments,
+      };
+
+      this.props.dispatch(addAgencyRequests(data)).then(() => {
+        this.setState({
+          showAlert: true,
+          alertTitle: "Success",
+          alertMsg: "Thank you for submitting a request for " + this.state.agency_name,
+        });
+        this.setState({ agency_name: '', agency_email: '', agency_url: '',
+          contact_name: '', contact_phone: '', contact_email: '',
+          comments: '' });
       });
+    }
   }
 
   alertClose() {

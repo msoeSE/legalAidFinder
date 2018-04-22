@@ -69,6 +69,8 @@ class AgencyRequests extends Component {
     this.setState({
       showAlert: false
     });
+
+    this.props.dispatch(fetchAgencyRequests());
   }
 
   render () {

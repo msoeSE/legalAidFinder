@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { Button, Modal } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchAgencyRequests, deleteAgencyRequests } from '../../Actions/agencyRequestsActions';
-import { addAgencies} from '../../Actions/agenciesActions'
+import { addAgencies } from '../../Actions/agenciesActions';
 
 function mapStateToProps(state) {
   return { requests: state.agencyRequests.requests };
@@ -12,14 +13,22 @@ class AgencyRequests extends Component {
   constructor (props) {
     super(props);
 
+    this.state = {
+      showAlert: false,
+      alertTitle: "",
+      alertMsg: ""
+    };
+
     this.acceptAgencyRequest = this.acceptAgencyRequest.bind(this);
     this.rejectAgencyRequest = this.rejectAgencyRequest.bind(this);
+    this.alertClose = this.alertClose.bind(this);
   }
 
   componentWillMount () {
     this.props.dispatch(fetchAgencyRequests());
   }
 
+  // Add agency to Agency table and delete from Agency Request table
   acceptAgencyRequest(req) {
     // Add agency to Agency table
     var data = {
@@ -29,16 +38,16 @@ class AgencyRequests extends Component {
     };
 
     this.props.dispatch(addAgencies(data)).then(() => {
-      // Agency added to Agency table
-    });
-
-    // Delete agency from Agency Request table
-    data = {
-      id: req._id,
-    };
-
-    this.props.dispatch(deleteAgencyRequests(data)).then(() => {
-      // Agency deleted from Agency Requests table
+      data = {
+        id: req._id,
+      };
+      this.props.dispatch(deleteAgencyRequests(data)).then(() => {
+        this.setState({
+          showAlert: true,
+          alertTitle: "Agency Accepted",
+          alertMsg: req.agency_name + " has been added as an agency.",
+        });
+      });
     });
   }
 
@@ -48,7 +57,17 @@ class AgencyRequests extends Component {
     };
 
     this.props.dispatch(deleteAgencyRequests(data)).then(() => {
-      // Agency deleted from Agency Requests table
+      this.setState({
+        showAlert: true,
+        alertTitle: "Agency Rejected",
+        alertMsg: "The request for " + req.agency_name + " has been deleted.",
+      });
+    });
+  }
+
+  alertClose() {
+    this.setState({
+      showAlert: false
     });
   }
 
@@ -78,6 +97,22 @@ class AgencyRequests extends Component {
       }
       return (
         <div>
+          <div>
+            <Modal open={this.state.showAlert}>
+              <Modal.Header>
+                {this.state.alertTitle}
+              </Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  {this.state.alertMsg}
+                  <Button floated='right' positive onClick={this.alertClose}>
+                    Ok
+                  </Button>
+                </Modal.Description>
+              </Modal.Content>
+            </Modal>
+          </div>
+
           <table className="ui celled table">
             <thead>
             <tr>

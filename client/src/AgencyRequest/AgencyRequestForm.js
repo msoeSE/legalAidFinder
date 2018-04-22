@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Input, Button } from 'semantic-ui-react';
+import { Form, Input, Button, Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
-import { addAgencyRequests, deleteAgencyRequests } from '../Actions/agencyRequestsActions'
+import { addAgencyRequests } from '../Actions/agencyRequestsActions';
+import './AgencyRequestForm.css';
 
 function mapStateToProps(state) {
   return { data: state.requests };
@@ -22,6 +23,7 @@ class AgencyRequestForm extends Component {
     };
 
     this.submitAgencyRequest = this.submitAgencyRequest.bind(this);
+    this.alertClose = this.alertClose.bind(this);
   }
 
   agencyName(event) {
@@ -65,48 +67,73 @@ class AgencyRequestForm extends Component {
     };
 
     this.props.dispatch(addAgencyRequests(data)).then(() => {
-      console.log("Successfully added Agency Request");
-      console.log(data);
+      this.setState({
+        showAlert: true,
+        alertTitle: "Success",
+        alertMsg: "Thank you for submitting a request for " + this.state.agency_name,
+      });
       this.setState({ agency_name: '', agency_email: '', agency_url: '',
                       contact_name: '', contact_phone: '', contact_email: '',
                       comments: '' });
+      });
+  }
+
+  alertClose() {
+    this.setState({
+      showAlert: false
     });
   }
 
   render() {
     return (
       <div>
+        <div>
+          <Modal open={this.state.showAlert}>
+            <Modal.Header>
+              {this.state.alertTitle}
+            </Modal.Header>
+            <Modal.Content>
+              <Modal.Description>
+                {this.state.alertMsg}
+                <Button floated='right' positive onClick={this.alertClose}>
+                  Ok
+                </Button>
+              </Modal.Description>
+            </Modal.Content>
+          </Modal>
+        </div>
+
         <form className="ui form">
           <h1>Agency Registration</h1>
           <p>Paragraph here with instructions</p>
           <h3>Agency Information:</h3>
-          <div className="field">
+          <div className=" required field">
             <label>Name</label>
             <input type="text" name="agency-name" placeholder=""
                    onChange={this.agencyName.bind(this)} value={this.state.agency_name}/>
           </div>
-          <div className="field">
+          <div className="required field">
             <label>Email</label>
             <input type="text" name="agency-email" placeholder=""
                    onChange={this.agencyEmail.bind(this)} value={this.state.agency_email}/>
           </div>
-          <div className="field">
+          <div className="required field">
             <label>URL</label>
             <input type="text" name="agency-url" placeholder=""
                    onChange={this.agencyUrl.bind(this)} value={this.state.agency_url}/>
           </div>
           <h3>Contact Person Information:</h3>
-          <div className="field">
+          <div className="required field">
             <label>Name</label>
             <input type="text" name="contact-name" placeholder=""
                    onChange={this.contactName.bind(this)} value={this.state.contact_name}/>
           </div>
-          <div className="field">
+          <div className="required field">
             <label>Phone Number</label>
             <input type="text" name="contact-phone" placeholder=""
                    onChange={this.contactPhone.bind(this)} value={this.state.contact_phone}/>
           </div>
-          <div className="field">
+          <div className="required field">
             <label>Email</label>
             <input type="text" name="contact-email" placeholder=""
                    onChange={this.contactEmail.bind(this)} value={this.state.contact_email}/>
@@ -116,8 +143,8 @@ class AgencyRequestForm extends Component {
             <input type="text" name="comments" placeholder="Comments"
                    onChange={this.comments.bind(this)} value={this.state.comments}/>
           </div>
+          <button className="ui button" onClick={this.submitAgencyRequest}>Submit</button>
         </form>
-        <button className="ui button" onClick={this.submitAgencyRequest}>Submit</button>
       </div>
     );
   }

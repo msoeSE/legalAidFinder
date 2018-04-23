@@ -7,6 +7,7 @@ export const ADD_AGENCY_TO_CATEGORY = 'category/agency';
 export const ELIGIBILITIES_ENDPOINT = 'eligibility';
 export const ELIGIBILITY_TYPE_ENDPOINT = 'eligibilityType';
 export const ADMINS_ENDPOINT = 'admin';
+export const AGENCY_REQUESTS_ENDPOINT = 'agencyrequests';
 const LAMBDA_URL = 'https://c82fzxf28g.execute-api.us-east-1.amazonaws.com/prod/';
 //const LAMBDA_URL = 'http://localhost:3001/';
 
@@ -21,6 +22,7 @@ function getRequest(endpoint, id = null, cb) {
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     },
+    // mode: 'cors'
   })
     .then(checkStatus)
     .then(parseJSON)

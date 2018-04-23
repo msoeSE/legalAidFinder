@@ -12,6 +12,7 @@ import CountySelect from './County/CountySelect';
 import CategoryDetail from './Categories/CategoryDetail';
 import AgencyHome from './AgencyHome/AgencyHome';
 import CategoryHome from './Home/CategoryHome';
+import AgencyRequestForm from './AgencyRequest/AgencyRequestForm';
 
 const NoMatch = () => (
   <Redirect to='/' />
@@ -30,6 +31,7 @@ class App extends Component {
             <Route path='/admin' component={AdminPage} />
             <Route path='/category/:id' component={CategoryDetail} />
             <Route path='/counties' component={CountySelect} />
+            <Route path='/agencyrequestform' component={AgencyRequestForm} />
             <Route component={NoMatch} />
           </Switch>
         </div>

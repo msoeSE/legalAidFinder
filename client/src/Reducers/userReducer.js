@@ -1,5 +1,6 @@
 export const SET_USER = 'SET_USER';
 export const CLEAR_USER = 'CLEAR_USER';
+export const UPDATE_USER_AGENCY = 'UPDATE_USER_AGENCY';
 
 export default function reducer(state = {
   firstName: null,
@@ -16,6 +17,9 @@ export default function reducer(state = {
     case SET_USER: {
       return { ...state, firstName: action.payload.firstName, lastName: action.payload.lastName,
         email: action.payload.email, agency: action.payload.agency, admin: action.payload.admin, error: null };
+    }
+    case UPDATE_USER_AGENCY: {
+      return { ...state, agency: action.payload.agency };
     }
   }
 

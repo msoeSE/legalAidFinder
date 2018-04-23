@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Icon, Button, Loader, List, Divider, Card } from 'semantic-ui-react';
 import { fetchCategories } from '../Actions/categoriesActions';
 import AgencyMap from '../County/AgencyMap';
+import AgencyModal from './AgencyModal';
 import { getCategoryEligibilities } from '../Reducers/eligibilityReducer';
 import { fetchEligibilities, fetchEligibilityType } from '../Actions/eligibilityActions';
 import UserEligibilityModal from './UserEligibilityModal';
@@ -221,16 +222,26 @@ class CategoryDetail extends Component {
               }
               if (this.state.noEligAgencies.length > 0 && currentCategory.subcategories.length === 0) {
                 const cards = this.state.noEligAgencies.map(agency => (
-                  <Card fluid color='grey' href={agency.url}>
-                    <Card.Content>
-                      <Card.Header>{agency.name}</Card.Header>
-                      <Card.Meta>
-                        {'Click to go to this agency\'s website!'}
-                      </Card.Meta>
-                    </Card.Content>
-                  </Card>));
+                  <AgencyModal
+                    showModal
+                    onClose={this.toggleModal}
+                    agency={agency}
+                  />));
 
                 return (
+                  // currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).map(agency =>
+                  //   <Card fluid color='blue'>
+                  //     <Card.Content>
+                  //       <Card.Header>{agency.name}</Card.Header>
+                  //       <Card.Meta>
+                  //         <AgencyModal
+                  //           showModal
+                  //           onClose={this.toggleModal}
+                  //           agency={agency}
+                  //         />
+                  //       </Card.Meta>
+                  //     </Card.Content>
+                  //   </Card>));
                   <div>
                     <h3>The following agencies can help you:</h3>
                     <Card.Group>

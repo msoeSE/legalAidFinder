@@ -31,10 +31,10 @@ export default function reducer(state = {
       return { ...state, agencies: [ ...state.agencies, action.payload ], error: null };
     }
     case UPDATE_AGENCY: {
-      const { id, name } = action.payload;
+      const id = action.payload.agency._id;
       const newAgencies = [ ...state.agencies ];
-      const agencyToUpdate = newAgencies.findIndex(agency => agency._id === id);
-      newAgencies[agencyToUpdate] = action.payload;
+      const agencyToUpdate = newAgencies.findIndex(({ _id }) => _id === id);
+      newAgencies[agencyToUpdate] = action.payload.agency;
 
       return { ...state, agencies: newAgencies, error: null };
     }

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { Tab, Container, Header, Loader } from 'semantic-ui-react';
+import { Tab, Container, Header, Loader, Dropdown, Icon, Popup, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import AgencyCategoryTab from './AgencyCategoryTab';
-import { fetchCategories } from '../Actions/categoriesActions';
+import AgencyDisplay from './AgencyDisplay';
+import AgencyDropdown from './AgencyDropdown';
+import { fetchAgencies } from '../Actions/agenciesActions';
 import CountyModify from './CountyModify';
 
-
 function mapStateToProps(state) {
-  return { data: state.categories, user: state.user };
+  return { data: state.agencies, user: state.user };
 }
 
 class AgencyHome extends Component {
@@ -17,11 +18,24 @@ class AgencyHome extends Component {
 
     this.state = {
       agency: props.agency,
+      showDropdown: false,
     };
   }
 
   componentWillMount() {
-    this.props.dispatch(fetchCategories());
+    this.props.dispatch(fetchAgencies());
+  }
+
+  getAgencies() {
+    const matchedAgencies = [];
+    this.props.data.agencies.map(agency =>
+      agency.emails.length > 0 ?
+        agency.emails.map(email =>
+          email === this.props.user.email ? matchedAgencies.push({ text: agency.name, value: agency }) : null,
+        )
+        : null,
+    );
+    return matchedAgencies;
   }
 
   render() {
@@ -31,15 +45,23 @@ class AgencyHome extends Component {
       );
     }
 
-    if (this.props.data.categories.length === 0) {
+    if (this.props.data.agencies.length === 0) {
       return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+    }
+
+    if (this.getAgencies().length > 1) {
+      this.state.showDropdown = true;
     }
 
     const panes = [
       { menuItem: 'Home',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
-            <Header as='h2'>Welcome {this.props.user.agency.name}!</Header>
+            {this.state.showDropdown ? <AgencyDropdown agencies={this.getAgencies()} user={this.props.user} /> : null}
+            <Header as='h2' style={{ fontSize: '2em' }}>Welcome {this.props.user.agency.name}!</Header>
+            <AgencyDisplay
+              agency={this.props.user.agency}
+            />
           </Container>
         </div></Tab.Pane> },
       { menuItem: 'Categories',

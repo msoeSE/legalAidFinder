@@ -6,6 +6,7 @@ import AgencyCategoryTab from './AgencyCategoryTab';
 import AgencyDisplay from './AgencyDisplay';
 import AgencyDropdown from './AgencyDropdown';
 import { fetchAgencies } from '../Actions/agenciesActions';
+import CountyModify from './CountyModify';
 
 function mapStateToProps(state) {
   return { data: state.agencies, user: state.user };
@@ -75,6 +76,13 @@ class AgencyHome extends Component {
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>View Global Eligibility</Header>
+          </Container>
+        </div></Tab.Pane> },
+      { menuItem: 'Counties',
+        render: () => <Tab.Pane><div className='tab-content'>
+          <Container fluid textAlign='center'>
+            <Header as='h2'>Edit Supported Counties</Header>
+            <CountyModify agencyId={this.props.user.agency._id}/>
           </Container>
         </div></Tab.Pane> },
     ];

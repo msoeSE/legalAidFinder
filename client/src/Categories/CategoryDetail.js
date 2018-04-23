@@ -78,43 +78,46 @@ class CategoryDetail extends Component {
         if (eligibility.agency === agency._id) {
           eligibility.key_comparator_value.forEach((kcv) => {
             try {
-              let input = kcv.input.toLowerCase();
-              let val = kcv.value.toLowerCase();
+              if (this.props.eligibilityTypes.find(x => x.name === kcv.key)) {
+                let input = kcv.input.toLowerCase();
+                let val = kcv.value.toLowerCase();
 
-              if (!isNaN(parseFloat(val))) {
-                input = parseFloat(input);
-                val = parseFloat(val);
-              }
 
-              switch (kcv.comparator) {
-                case '>':
-                  if (input <= val) {
+                if (!isNaN(parseFloat(val))) {
+                  input = parseFloat(input);
+                  val = parseFloat(val);
+                }
+
+                switch (kcv.comparator) {
+                  case '>':
+                    if (input <= val) {
+                      valid = false;
+                    }
+                    break;
+                  case '≥':
+                    if (input < val) {
+                      valid = false;
+                    }
+                    break;
+                  case '<':
+                    if (input >= val) {
+                      valid = false;
+                    }
+                    break;
+                  case '≤':
+                    if (input > val) {
+                      valid = false;
+                    }
+                    break;
+                  case '=':
+                    if (input !== val) {
+                      valid = false;
+                    }
+                    break;
+                  default:
                     valid = false;
-                  }
-                  break;
-                case '≥':
-                  if (input < val) {
-                    valid = false;
-                  }
-                  break;
-                case '<':
-                  if (input >= val) {
-                    valid = false;
-                  }
-                  break;
-                case '≤':
-                  if (input > val) {
-                    valid = false;
-                  }
-                  break;
-                case '=':
-                  if (input !== val) {
-                    valid = false;
-                  }
-                  break;
-                default:
-                  valid = false;
-                  break;
+                    break;
+                }
               }
             } catch (err) {
               valid = false;
@@ -278,7 +281,12 @@ class CategoryDetail extends Component {
 
             if (mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).length > 0 && currentCategory.subcategories.length === 0) {
               if (mappedAgencies.some(x => x.lat && x.lon)) {
-                return <div><AgencyMap isMarkerShown agencies={mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty))} /></div>;
+                return(
+                  <div className='agency-map-div'>
+                    <AgencyMap 
+                      isMarkerShown 
+                      agencies={mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty))} />
+                  </div>);
               } else {
                 return <div><h3 style={{ margin: '5px' }}>No agencies listed have a physical location</h3></div>;
               }

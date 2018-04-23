@@ -18,6 +18,17 @@ export function fetchAgencies() {
     });
 }
 
+export function fetchAgency(id) {
+  return dispatch => Client.getRequest(AGENCIES_ENDPOINT)
+    .then((response) => {
+      let agency = response.find(agency => agency._id === id);
+      dispatch({ type: FETCH_AGENCIES_FULFILLED, payload: agency });
+    })
+    .catch((err) => {
+      dispatch({ type: REQUEST_REJECTED, payload: err });
+    });
+}
+
 export function fetchAgenciesAndDropdown() {
   return dispatch => Client.getRequest(AGENCIES_ENDPOINT)
     .then((response) => {

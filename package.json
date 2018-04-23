@@ -15,6 +15,7 @@
     "font-awesome": "^4.7.0",
     "fs": "0.0.2",
     "geolib": "^2.0.24",
+    "google-maps-react": "^2.0.0",
     "immutability-helper": "^2.6.4",
     "install": "^0.10.4",
     "marked": "^0.3.12",

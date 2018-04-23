@@ -168,6 +168,7 @@ class Header extends Component {
             <Button className='ui inverted button header-btn' as={Link} to={'/agency'}>Agency Home</Button> :
             null
           }
+          <Button className='ui inverted button request-btn' as={Link} to={'/agencyrequestform'}>Agency Registration</Button>
           <a href='https://www.wisbar.org/formembers/probono/Pages/Volunteer.aspx'>
             <h3 className='lawyerTab'>
               For Lawyers
@@ -178,7 +179,6 @@ class Header extends Component {
               Find Legal Aid
             </h3>
           </Link>
-          <Button className='ui inverted button request-btn' as={Link} to={'/agencyrequestform'}>Agency Registration</Button>
         </div>
       </div>
     );

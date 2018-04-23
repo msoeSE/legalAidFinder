@@ -28,7 +28,7 @@ export default function reducer(state = {
       return { ...state, agencies: agencies_temp, dropdown: dropdown_temp, error: null };
     }
     case ADD_AGENCY: {
-      return { ...state, agencies: [ ...state.agencies, action.payload ], error: null };
+      return { ...state, agencies: [ ...state.agencies, action.payload.agency ], error: null };
     }
     case UPDATE_AGENCY: {
       const id = action.payload.agency._id;

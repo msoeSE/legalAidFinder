@@ -77,43 +77,46 @@ class CategoryDetail extends Component {
         if (eligibility.agency === agency._id) {
           eligibility.key_comparator_value.forEach((kcv) => {
             try {
-              let input = kcv.input.toLowerCase();
-              let val = kcv.value.toLowerCase();
+              if (this.props.eligibilityTypes.find(x => x.name === kcv.key)) {
+                let input = kcv.input.toLowerCase();
+                let val = kcv.value.toLowerCase();
 
-              if (!isNaN(parseFloat(val))) {
-                input = parseFloat(input);
-                val = parseFloat(val);
-              }
 
-              switch (kcv.comparator) {
-                case '>':
-                  if (input <= val) {
+                if (!isNaN(parseFloat(val))) {
+                  input = parseFloat(input);
+                  val = parseFloat(val);
+                }
+
+                switch (kcv.comparator) {
+                  case '>':
+                    if (input <= val) {
+                      valid = false;
+                    }
+                    break;
+                  case '≥':
+                    if (input < val) {
+                      valid = false;
+                    }
+                    break;
+                  case '<':
+                    if (input >= val) {
+                      valid = false;
+                    }
+                    break;
+                  case '≤':
+                    if (input > val) {
+                      valid = false;
+                    }
+                    break;
+                  case '=':
+                    if (input !== val) {
+                      valid = false;
+                    }
+                    break;
+                  default:
                     valid = false;
-                  }
-                  break;
-                case '≥':
-                  if (input < val) {
-                    valid = false;
-                  }
-                  break;
-                case '<':
-                  if (input >= val) {
-                    valid = false;
-                  }
-                  break;
-                case '≤':
-                  if (input > val) {
-                    valid = false;
-                  }
-                  break;
-                case '=':
-                  if (input !== val) {
-                    valid = false;
-                  }
-                  break;
-                default:
-                  valid = false;
-                  break;
+                    break;
+                }
               }
             } catch (err) {
               valid = false;

@@ -31,25 +31,12 @@ class AdminPage extends Component {
             <AgencyRequests/>
           </Container>
         </div></Tab.Pane> },
-      { menuItem: 'Add Agency', render: () => <Tab.Pane><div className='tab-content'>
       { menuItem: 'Agency Tools', render: () => <Tab.Pane><div className='tab-content'>
         <Container fluid textAlign='center'>
           <Header as='h2'>Agency Tools</Header>
           <Agency />
         </Container>
       </div></Tab.Pane> },
-        { menuItem: 'Delete Agency', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Delete an existing Agency</Header>
-          <AgencyDelete />
-        </Container>
-      </div></Tab.Pane> },
-        { menuItem: 'Edit Agency', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Edit an existing Agency</Header>
-          <AgencyModify />
-        </Container>
-        </div></Tab.Pane> },
       { menuItem: 'Add Category', render: () => <Tab.Pane><div className='tab-content'>
         <Container fluid textAlign='center'>
           <Header as='h2'>Add a Category</Header>

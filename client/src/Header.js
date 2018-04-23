@@ -68,6 +68,7 @@ class Header extends Component {
 
     if (agency || isAdmin) {
       this.props.dispatch(setUser(response.profileObj.givenName, response.profileObj.familyName, email, agency, isAdmin));
+      this.props.dispatch(fetchAgencyRequests());
       if (isAdmin && this.props.requests.length > 0) {
         if (this.props.requests.length === 1) {
           this.setState({

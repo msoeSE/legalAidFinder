@@ -45,7 +45,8 @@ class AgencyRequests extends Component {
         this.setState({
           showAlert: true,
           alertTitle: "Agency Accepted",
-          alertMsg: req.agency_name + " has been added as an agency.",
+          alertMsg: req.agency_name + " has been added as an agency. Please let " + req.contact_name + " know at " +
+          req.contact_phone + " or " + req.contact_email + ".",
         });
       });
     });

@@ -9,6 +9,9 @@ import GoogleLogin from 'react-google-login';
 import GoogleLogout from 'react-google-login';
 import {
   Link,
+  Route,
+  Switch,
+  Redirect
 } from 'react-router-dom';
 import logo from './Images/logo.png';
 import { fetchAgencies } from './Actions/agenciesActions';
@@ -165,6 +168,7 @@ class Header extends Component {
             <Button className='ui inverted button header-btn' as={Link} to={'/agency'}>Agency Home</Button> :
             null
           }
+          <Button className='ui inverted button request-btn' as={Link} to={'/agencyrequestform'}>Agency Registration</Button>
         </div>
       </div>
     );

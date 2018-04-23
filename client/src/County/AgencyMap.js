@@ -1,30 +1,41 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import geolib from 'geolib';
 import {withRouter} from "react-router-dom";
 import { connect } from 'react-redux';
-
-const MapComponent = withScriptjs(withGoogleMap((props) =>
-    <GoogleMap
-        defaultZoom={11}
-        defaultCenter={props.center}
-    >
-        {props.agencies.map(agency => {
-            if(agency.lat) {
-                return (props.isMarkerShown && <Marker position={{lat: agency.lat, lng: agency.lon}} label={agency.name}/>
-                );
-            }
-        })}
-    </GoogleMap>
-));
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 function mapStateToProps(state) {
     return { data: state.agencies };
 }
 
-class AgencyMap extends Component {
+export class AgencyMap extends Component {
+    state = {
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {},
+    };
 
+    style = {
+        width: '60%',
+        height: '60%'
+    }
+  
+    onMarkerClick = (props, marker, e) =>
+      this.setState({
+        selectedPlace: props,
+        activeMarker: marker,
+        showingInfoWindow: true
+      });
+  
+    onMapClicked = (props) => {
+      if (this.state.showingInfoWindow) {
+        this.setState({
+          showingInfoWindow: false,
+          activeMarker: null
+        })
+      }
+    };
 
     calculateCenter(agencies){
         var i = 0;
@@ -38,44 +49,46 @@ class AgencyMap extends Component {
             }
         });
 
-       // console.log(locations);
-
         var geoCenter = geolib.getCenter(locations);
         var center = {lat: 0, lng: 0};
         center.lat = parseFloat(geoCenter.latitude);
         center.lng = parseFloat(geoCenter.longitude);
         return center;
     }
-
-    componentWillMount() {
-    }
-
+  
     render() {
-        if (!this.props.agencies) {
-            return (<div className='ui segment'>
-                <p>Loading</p>
-                <div className='ui active dimmer'>
-                    <div className='ui loader' />
-                </div>
-            </div>);
-        }
-
-        return(
-            <div style={{margin: '10px'}}>
-                <MapComponent
-                    isMarkerShown
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsT5bprWJB-h2ztvVUXRRSPHJGKnZtCvo"
-                    loadingElement={<div style={{height: '100%'}}/>}
-                    containerElement={<div style={{height: '80%', width: '80%', position: 'absolute'}}/>}
-                    mapElement={<div style={{height: '100%'}}/>}
-                    agencies={this.props.agencies}
-                    center={this.calculateCenter(this.props.agencies)}
-                />
-            </div>
-        )
-
+      return (
+        <Map google={this.props.google}
+            onClick={this.onMapClicked}
+            initialCenter={this.calculateCenter(this.props.agencies)}
+            style={this.style}
+            zoom={12}
+        >
+            
+            {this.props.agencies.map(agency => {
+                if(agency.lat) {
+                        return (this.props.isMarkerShown && 
+                            <Marker 
+                                position={{lat: agency.lat, lng: agency.lon}} 
+                                key={agency.name}
+                                onClick={this.onMarkerClick}
+                                name={agency.name}
+                            />
+                        );
+                    }
+                })}
+          
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}>
+              <div>
+                <h5>{this.state.selectedPlace.name}</h5>
+              </div>
+          </InfoWindow>
+        </Map>
+      )
     }
-}
+  }
 
 AgencyMap.propTypes = {
     agencies: PropTypes.arrayOf(PropTypes.shape({
@@ -88,7 +101,6 @@ AgencyMap.propTypes = {
     isMarkerShown: PropTypes.bool
 };
 
-export default withRouter(connect(mapStateToProps)(AgencyMap));
-
-
-
+export default withRouter(connect(mapStateToProps)(GoogleApiWrapper({
+    apiKey: ("AIzaSyDsT5bprWJB-h2ztvVUXRRSPHJGKnZtCvo")
+  })(AgencyMap))); 

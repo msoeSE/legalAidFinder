@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import AgencyCategoryTab from './AgencyCategoryTab';
 import { fetchCategories } from '../Actions/categoriesActions';
+import CountyModify from './CountyModify';
 
 
 function mapStateToProps(state) {
@@ -53,6 +54,13 @@ class AgencyHome extends Component {
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>View Global Eligibility</Header>
+          </Container>
+        </div></Tab.Pane> },
+      { menuItem: 'Counties',
+        render: () => <Tab.Pane><div className='tab-content'>
+          <Container fluid textAlign='center'>
+            <Header as='h2'>Edit Supported Counties</Header>
+            <CountyModify agencyId={this.props.user.agency._id}/>
           </Container>
         </div></Tab.Pane> },
     ];

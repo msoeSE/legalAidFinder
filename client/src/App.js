@@ -33,7 +33,7 @@ class App extends Component {
             <Route component={NoMatch} />
           </Switch>
         </div>
-        <Footer />
+        {/*<Footer />*/}
       </div>
     );
   }

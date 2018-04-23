@@ -77,8 +77,8 @@ class AgencyRequestForm extends Component {
       this.props.dispatch(addAgencyRequests(data)).then(() => {
         this.setState({
           showAlert: true,
-          alertTitle: "Success",
-          alertMsg: "Thank you for submitting a request for " + this.state.agency_name,
+          alertTitle: "Successful Request",
+          alertMsg: "Thank you for submitting a request for " + this.state.agency_name + ".",
         });
         this.setState({ agency_name: '', agency_email: '', agency_url: '',
           contact_name: '', contact_phone: '', contact_email: '',

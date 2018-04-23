@@ -3,13 +3,13 @@
 export const AGENCIES_ENDPOINT = 'agency';
 export const COUNTY_ENDPOINT = 'county';
 export const CATEGORIES_ENDPOINT = 'category';
-export const ADD_AGENCY_TO_CATEGORY = 'categories/addAgency';
-export const ADD_ELIGIBILITY = 'eligibility';
+export const ADD_AGENCY_TO_CATEGORY = 'category/agency';
 export const ELIGIBILITIES_ENDPOINT = 'eligibility';
+export const ELIGIBILITY_TYPE_ENDPOINT = 'eligibilityType';
 export const ADMINS_ENDPOINT = 'admin';
 export const AGENCY_REQUESTS_ENDPOINT = 'agencyrequests';
 const LAMBDA_URL = 'https://c82fzxf28g.execute-api.us-east-1.amazonaws.com/prod/';
-// const LAMBDA_URL = 'http://localhost:3001/';
+//const LAMBDA_URL = 'http://localhost:3001/';
 
 function getRequest(endpoint, id = null, cb) {
   let url = LAMBDA_URL + endpoint;
@@ -22,6 +22,7 @@ function getRequest(endpoint, id = null, cb) {
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     },
+    // mode: 'cors'
   })
     .then(checkStatus)
     .then(parseJSON)

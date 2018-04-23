@@ -44,14 +44,11 @@
     "superagent": "^3.8.2"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "start:debug": "concurrently \"npm run server:debug\" \"npm run client\"",
-    "start:prod": "concurrently \"npm run server:prod\" \"npm run client:prod\"",
-    "server": "nodemon server.js --exec babel-node",
+    "start": "npm run client",
+    "start:debug": "npm run client",
+    "start:prod": "npm run client:prod",
     "client": "node start-client.js",
-    "server:prod": "NODE_ENV=production nodemon server.js --exec babel-node",
     "client:prod": "NODE_ENV=production node start-client.js",
-    "server:debug": "nodemon %NODE_DEBUG_OPTION% server.js --exec babel-node",
     "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
     "e2e": "nightwatch -e chrome",
     "test": "jest",

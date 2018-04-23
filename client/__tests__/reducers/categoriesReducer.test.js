@@ -58,7 +58,7 @@ describe('Categories Reducer', () =>{
 
         expect(reducer(DEFAULT_STATE, {
             type: 'UPDATE_CATEGORY',
-            payload: {query : {"_id" : 0}, name: updatedCategory.name}
+            payload: { _id : 0, name: updatedCategory.name }
         })).toEqual({ ...DEFAULT_STATE, categories: expectedCategories });
     });
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Loader, Dropdown } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { fetchCategoriesAndDropdown } from '../Actions/categoriesActions';
 import AgencyCategoryTree from './AgencyCategoryTree';
+import MagnifyLoader from '../Helpers/MagnifyLoader';
 
 function mapStateToProps(state) {
   return { data: state.categories, user: state.user };
@@ -27,8 +28,8 @@ class AgencyCategoryTab extends Component {
   }
 
   render() {
-    if (!this.props.data.categories || this.props.data.categories.length === 0) {
-      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+    if (!this.props.data.categories || !this.props.data.dropdown || this.props.data.categories.length === 0) {
+      return (<MagnifyLoader label='Gathering categories...' />);
     }
 
     if (this.state.id) {

@@ -111,11 +111,13 @@ class Header extends Component {
 
   handleLogoutFailure(response) {
     this.props.dispatch(clearUser());
-    this.setState({
-      showAlert: true,
+    /*this.setState({
+      showAlert: false,
       alertTitle: "Logout Error",
       alertMsg: "Google was unable to log user out."
-    });
+    });*/
+      // Not showing alert because this is how we get around having to choose an account when logging out.
+      // This is fine, as even if there is an "error" logging out, we still clear the user and logout anyway. -bw
   }
 
   alertClose() {
@@ -134,6 +136,8 @@ class Header extends Component {
         buttonText={<IconText text="Agency/Admin Login" />}
         onSuccess={this.handleLoginSuccess}
         onFailure={this.handleLogoutFailure}
+        approvalPrompt="force"
+        prompt="consent select_account"
       />;
     } else {
       logout = <GoogleLogout
@@ -142,6 +146,7 @@ class Header extends Component {
         buttonText="Logout"
         onSuccess={this.handleLogoutSuccess}
         onFailure={this.handleLogoutFailure}
+        prompt="none"
       >
       </GoogleLogout>
     }

@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
-import { Tab, Container, Header } from 'semantic-ui-react';
+import { Tab, Container, Header, Menu, Label } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AgencyRequests from './Agency/AgencyRequests';
-import AgencyAdd from './Agency/AgencyAdd';
-import AgencyDelete from './Agency/AgencyDelete';
-import AgencyModify from './Agency/AgencyModify';
 import CategoryTab from './Category/CategoryTab';
 import CategoryAdd from './Category/CategoryAdd';
 import CategoryDelete from './Category/CategoryDelete';
 import EligibilityTypeAdd from './EligibilityType/EligibilityTypeAdd';
 import Agency from "./Agency/Agency";
+import { fetchAgencyRequests } from '../Actions/agencyRequestsActions'
 
 function mapStateToProps(state) {
-  return { data: state.categories, user: state.user };
+  return { data: state.categories, user: state.user, requests: state.agencyRequests.requests };
 }
 
 class AdminPage extends Component {
+
+  componentWillMount () {
+    this.props.dispatch(fetchAgencyRequests());
+  }
+
   render() {
     if (!this.props.user.email || !this.props.user.admin) {
       return (
@@ -25,7 +28,7 @@ class AdminPage extends Component {
     }
 
     const panes = [
-      { menuItem: 'Agency Requests', render: () => <Tab.Pane><div className='tab-content'>
+      { menuItem: <Menu.Item key='requests'>Agency Requests<Label>{this.props.requests.length}</Label></Menu.Item>, render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>Agency Requests</Header>
             <AgencyRequests/>

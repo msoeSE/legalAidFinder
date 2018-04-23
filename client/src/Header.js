@@ -18,10 +18,9 @@ import { fetchAgencies } from './Actions/agenciesActions';
 import { setUser, clearUser } from './Actions/userActions';
 import { fetchAdmins } from './Actions/adminsActions';
 import './Header.css';
-import { fetchAgencyRequests } from './Actions/agencyRequestsActions'
 
 function mapStateToProps(state) {
-  return { agencyData: state.agencies, user: state.user, adminData: state.admins, requests: state.agencyRequests.requests };
+  return { agencyData: state.agencies, user: state.user, adminData: state.admins };
 }
 
 class Header extends Component {
@@ -44,7 +43,6 @@ class Header extends Component {
   componentWillMount() {
     this.props.dispatch(fetchAgencies());
     this.props.dispatch(fetchAdmins());
-    this.props.dispatch(fetchAgencyRequests());
   }
 
   handleLoginSuccess(response) {
@@ -68,22 +66,6 @@ class Header extends Component {
 
     if (agency || isAdmin) {
       this.props.dispatch(setUser(response.profileObj.givenName, response.profileObj.familyName, email, agency, isAdmin));
-      this.props.dispatch(fetchAgencyRequests());
-      if (isAdmin && this.props.requests.length > 0) {
-        if (this.props.requests.length === 1) {
-          this.setState({
-            showAlert: true,
-            alertTitle: "Admin Alert",
-            alertMsg: "There is " + this.props.requests.length + " agency request pending.",
-          });
-        } else {
-          this.setState({
-            showAlert: true,
-            alertTitle: "Admin Alert",
-            alertMsg: "There are " + this.props.requests.length + " agency requests pending.",
-          });
-        }
-      }
     } else { // No match in DB so log user out
       this.setState({
         showAlert: true,

@@ -89,7 +89,7 @@ class AgencyRequestForm extends Component {
 
   alertClose() {
     this.setState({
-      showAlert: false
+      showAlert: false,
     });
   }
 

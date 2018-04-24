@@ -178,7 +178,8 @@ class CategoryDetail extends Component {
                   );
                 }
               } else if (currentCategory.subcategories.length > 0) {
-                return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
+                return "";
+                // return <h3>Select a subcategory that corresponds with your legal issue:</h3>;
               }
             })()}
             {(() => { // Display eligible agencies
@@ -267,9 +268,9 @@ class CategoryDetail extends Component {
                             })()}
                           </Card.Meta>
                           <Card.Description>
-                            <List bulleted size={'mini'}>
+                            {/* <List bulleted size={'mini'}>
                               {subcat.subcategories.map(subcat => <List.Item>{subcat.name}</List.Item>)}
-                            </List>
+                            </List> */}
                           </Card.Description>
                         </Card.Content>
                       </Card>));

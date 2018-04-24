@@ -95,7 +95,10 @@ div {
 /*}*/
 
 .card-holder{
-    margin: 25px;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 .county-select-div{
@@ -196,4 +199,5 @@ div {
 
   .agency-map-div {
     margin-left: 20%;
+    min-height: 50%;
   }

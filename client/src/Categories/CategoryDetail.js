@@ -23,6 +23,7 @@ class CategoryDetail extends Component {
       filteredAgencies: [],
       noEligAgencies: [],
       agencies: [],
+      // breadcrumb: ''
     };
 
     this.eligibilityForm = this.eligibilityForm.bind(this);
@@ -68,6 +69,18 @@ class CategoryDetail extends Component {
   getAgenciesWithNoEligibility(agencies) {
     return agencies.filter(agency => !this.state.eligibilities.some(x => x.agency === agency._id));
   }
+
+  // getBreadcrumb(category) {
+  //   let c = category;
+  //   let s = '';
+  //   while(c.parent != null) {
+  //     s = c.parent.name + " -> " + s;
+  //     c = c.parent;
+  //     console.log(c)
+  //   }
+  //   s += category.name;
+  //   return s;
+  // }
 
   filterAgencies() {
     const validAgencies = [];
@@ -141,6 +154,7 @@ class CategoryDetail extends Component {
 
     if (this.props.match.params.id && this.props.data.categories) {
       const currentCategory = this.props.data.categories.filter(cat => cat._id === this.props.match.params.id)[0];
+      // this.state.breadcrumb = this.getBreadcrumb(currentCategory);
       this.state.eligibilities = getCategoryEligibilities(this.props.elig, this.props.match.params.id);
       this.state.noEligAgencies = this.getAgenciesWithNoEligibility(currentCategory.agencies);
       this.state.agencies = currentCategory.agencies;

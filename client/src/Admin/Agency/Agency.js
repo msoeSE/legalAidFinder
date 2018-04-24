@@ -9,7 +9,7 @@ import { Grid } from "semantic-ui-react";
 class Agency extends Component {
   render() {
     return (
-      <div>
+      <div className="bottom-padding">
         <Grid divided='vertically' celled='internally'>
           <Grid.Row columns={2} stretched>
             <Grid.Column>

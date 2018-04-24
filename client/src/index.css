@@ -201,3 +201,7 @@ div {
     margin-left: 20%;
     min-height: 50%;
   }
+
+  .bottom-padding {
+      padding-bottom: 30%;
+  }

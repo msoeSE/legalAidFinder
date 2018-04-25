@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Dropdown, Button, Loader } from 'semantic-ui-react';
+import { Dropdown, Button } from 'semantic-ui-react';
+import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import { fetchAgenciesAndDropdown, deleteAgencies } from '../../Actions/agenciesActions';
 
 function mapStateToProps(state) {
@@ -31,20 +32,22 @@ class AgencyDelete extends Component {
       };
 
       this.props.dispatch(deleteAgencies(data)).then(() => {
-        if (!this.props.data.error) {
-          this.props.dispatch(fetchAgenciesAndDropdown());
-          this.setState({ msg: 'Successfuly deleted agency.' });
-        } else {
-          this.setState({ msg: 'Failed to delete agency.' });
-        }
+        this.props.dispatch(fetchAgenciesAndDropdown());
+        this.setState({ msg: 'Successfuly deleted agency.' });
+        // if (!this.props.data.error) {
+        //   this.props.dispatch(fetchAgenciesAndDropdown());
+        //   this.setState({ msg: 'Successfuly deleted agency.' });
+        // } else {
+        //   this.setState({ msg: 'Failed to delete agency.' });
+        // }
       });
     } else {
       this.setState({ msg: '' });
     }
   }
   render() {
-    if (this.props.data.agencies.length === 0) {
-      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+    if (!this.props.data.dropdown) {
+      return (<MagnifyLoader label="Loading agencies..." />);
     }
 
     return (

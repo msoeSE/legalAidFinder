@@ -1,75 +1,65 @@
 import React, { Component } from 'react';
-import { Button, Input, Dropdown } from 'semantic-ui-react';
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Form, Divider, Button, Input, Dropdown } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchEligibilities, postEligibilities } from '../Actions/eligibilityActions';
 
-
-const COMPARATORS = {
-  GREATERorEQUAL: '≥',
-  GREATER: '>',
-  LESS: '<',
-  LESSorEQUAL: '≤',
-  EQUAL: '=',
-};
-
-const comparators = [
-  { key: COMPARATORS.EQUAL, value: COMPARATORS.EQUAL, text: COMPARATORS.EQUAL },
-  { key: COMPARATORS.GREATER, value: COMPARATORS.GREATER, text: COMPARATORS.GREATER },
-  { key: COMPARATORS.LESS, value: COMPARATORS.LESS, text: COMPARATORS.LESS },
-  { key: COMPARATORS.LESSorEQUAL, value: COMPARATORS.LESSorEQUAL, text: COMPARATORS.LESSorEQUAL },
-  { key: COMPARATORS.GREATERorEQUAL, value: COMPARATORS.GREATERorEQUAL, text: COMPARATORS.GREATERorEQUAL },
-];
-
-const keys = [
-  { key: 'Income (% of FPL)', value: 'Income (% of FPL)', text: 'Income (% of FPL)' },
-  { key: 'Age', value: 'Age', text: 'Age' },
-  { key: 'Disability', value: 'Disability', text: 'Disability' },
-  { key: 'Veteran', value: 'Veteran', text: 'Veteran' },
-];
-
 function mapStateToProps(state) {
-  return { info: state.eligibility};
+  return { eligibilityTypes: state.eligibility.eligibilityTypes };
 }
 
 class EligibilityCreator extends Component {
   constructor(props) {
     super(props);
 
-    if (!this.props.eligibilities || this.props.eligibilities.length === 0) {
-      this.state = {
-        data: [ { key: 'Income (% of FPL)', comparator: '<', value: 0 } ],
-      };
-    } else {
-      this.state = {
-        data: this.props.eligibilities.key_comparator_value,
-      };
-    }
-
+    this.handleKeyChange = this.handleKeyChange.bind(this);
+    this.handleComparatorChange = this.handleComparatorChange.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
+    this.createNewEligibilitySection = this.createNewEligibilitySection.bind(this);
     this.addEligibility = this.addEligibility.bind(this);
     this.submitEligibility = this.submitEligibility.bind(this);
-    this.removeEligibility = this.removeEligibility.bind(this);
-    this.handleComparatorChange = this.handleComparatorChange.bind(this);
-    this.handleKeyChange = this.handleKeyChange.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
+
+    this.state = {
+      keys: [],
+      comparators: [],
+      key: null,
+      comparator: null,
+      value: null,
+      keyIsBool: false,
+      data: this.props.eligibilities.key_comparator_value,
+    };
+  }
+
+  componentWillMount() {
+    this.props.dispatch(fetchEligibilities());
   }
 
   submitEligibility() {
     this.props.dispatch(postEligibilities(this.props.agencyId, this.props.categoryId, this.state.data)).then(() => {
-      if (!this.props.info.error) {
-        this.props.dispatch(fetchEligibilities());
-        this.props.onSubmitted();
-      }
+      this.props.dispatch(fetchEligibilities());
+      this.props.onSubmitted();
     });
   }
 
-  addEligibility(event) {
-    event.preventDefault();
+  /**
+   * Create new eligibility
+   */
+  addEligibility() {
+    if (!this.state.key || !this.state.comparator || !this.state.value) {
+      alert('Key, Comparator, Value required!');
+      return;
+    }
+
     this.setState({
-      data: this.state.data.concat([ { key: 'Age', comparator: '<', value: 0 } ]),
+      data: this.state.data.concat([ { key: this.state.key, comparator: this.state.comparator, value: this.state.value } ]),
     });
   }
 
+  /**
+   * Removes eligibility from temp data array. Not final until submit is pressed
+   * @param idx
+   * @returns {function(*)}
+   */
   removeEligibility = idx => (event) => {
     event.preventDefault();
     this.setState({
@@ -77,37 +67,143 @@ class EligibilityCreator extends Component {
     });
   };
 
-  handleKeyChange = idx => (event) => {
-    const x = this.state.data.find((a, index) => idx === index);
-    x.key = event.target.innerText;
+  /**
+   * When key is changed we need to update possible Comparator and ValueType inputs
+   * @param event
+   * @param result
+   */
+  handleKeyChange(event, result) {
+    this.state.key = result.value;
+    const comparators = [];
+    let isBool = false;
+    this.props.eligibilityTypes.some((x) => {
+      if (x.name === result.value) {
+        x.comparators.forEach((val) => {
+          comparators.push({ key: val, value: val, text: val });
+        });
+
+        if (x.valueType === 'Yes/No') {
+          isBool = true;
+        }
+
+        return true;
+      }
+
+      return false;
+    });
+
+    this.setState({
+      comparators,
+      keyIsBool: isBool,
+    });
+  }
+
+  /**
+   * Update comparator value
+   * @param event
+   * @param result
+   */
+  handleComparatorChange(event, result) {
+    this.state.comparator = result.value;
+  }
+
+  /**
+   * Update current value
+   * @param event
+   * @param result
+   */
+  handleValueChange(event, result) {
+    this.state.value = result.value;
+  }
+
+  /**
+   * Creates list of existing Eligibilities (Not editable)
+   * @returns {any[]}
+   */
+  createContent() {
+    if (this.props.eligibilities || this.props.eligibilities.length > 0) {
+      return this.props.eligibilityTypes.map(eType => this.state.data.map((kcv, idx) => {
+        if (kcv.key === eType.name) {
+          return (<div key={idx} style={{ margin: '5px' }}>
+            <Input readOnly style={{ marginLeft: '2px' }} defaultValue={kcv.key} />
+            <Input readOnly style={{ marginLeft: '2px' }} defaultValue={kcv.comparator} />
+            <Input readOnly style={{ marginLeft: '2px' }} defaultValue={kcv.value} />
+            <Button negative style={{ marginLeft: '2px' }} onClick={this.removeEligibility(idx).bind(this)} icon='minus' />
+          </div>
+          );
+        }
+      }));
+    }
+  }
+
+  /**
+   * Update value for Yes/No eligibility types
+   * @param e
+   * @param value
+   */
+  handleRadioChange = (e, { value }) => {
+    this.setState({ value });
   };
 
-  handleComparatorChange = idx => (event) => {
-    const x = this.state.data.find((a, index) => idx === index);
-    x.comparator = event.target.innerText;
-  };
+  /**
+   * Create section that is used to make new eligibility types
+   * @returns {*}
+   */
+  createNewEligibilitySection() {
+    if (this.state.keys.length === 0) {
+      this.props.eligibilityTypes.forEach((x) => {
+        this.state.keys.push({ key: x.name, value: x.name, text: x.name });
+      });
+    }
 
-  handleValueChange = idx => (event) => {
-    const x = this.state.data.find((a, index) => idx === index);
-    x.value = event.target.value;
-  };
+    let input;
+    if (this.state.keyIsBool) {
+      input = (<div style={{ marginLeft: '5px' }}>
+        <Form.Radio
+          label='Yes'
+          name='radioGroup'
+          value='Yes'
+          checked={this.state.value === 'Yes'}
+          onChange={this.handleRadioChange}
+        />
+        <Form.Radio
+          label='No'
+          name='radioGroup'
+          value='No'
+          checked={this.state.value === 'No'}
+          onChange={this.handleRadioChange}
+        />
+      </div>
+    );
+    } else {
+      input = <Input type='number' placeholder='Value' style={{ marginLeft: '2px' }} onChange={this.handleValueChange} defaultValue={this.state.value} />;
+    }
+
+    return (
+      <Form style={{ margin: '5px' }}>
+        <Form.Group inline>
+          <Dropdown upward selection style={{ marginLeft: '2px' }} options={this.state.keys} onChange={this.handleKeyChange} />
+          <Dropdown upward selection style={{ marginLeft: '2px' }} options={this.state.comparators} onChange={this.handleComparatorChange} />
+          {input}
+          <Button positive style={{ marginLeft: '2px' }} onClick={this.addEligibility}>Add</Button>
+        </Form.Group>
+      </Form>
+    );
+  }
 
   render() {
     return (
       <div>
+        <h2 className='form-title'>Existing eligibility criteria:</h2>
+        <div>
+          {this.createContent()}
+        </div>
         <h2 className='form-title'>Create new eligibility criteria:</h2>
         <div>
-          {this.state.data.map((eligibility, idx) => (
-            <div key={idx} style={{ margin: '5px' }}>
-              <Dropdown selection options={keys} onChange={this.handleKeyChange(idx).bind(this)} defaultValue={eligibility.key} />
-              <Dropdown selection options={comparators} onChange={this.handleKeyChange(idx).bind(this)} defaultValue={eligibility.comparator} />
-              <Input placeholder='Value' style={{ marginLeft: '2px' }} onChange={this.handleValueChange(idx).bind(this)} defaultValue={eligibility.value} />
-              <Button negative style={{ marginLeft: '2px' }} onClick={this.removeEligibility(idx).bind(this)} icon='minus' />
-            </div>
-          ))}
+          {this.createNewEligibilitySection()}
         </div>
-        <Button color='blue' onClick={this.addEligibility} className='padding'>Add another Eligibility</Button>
-        <Button positive onClick={this.submitEligibility}>Submit</Button>
+        <Divider />
+        <Button positive onClick={this.submitEligibility}>Submit Changes</Button>
       </div>
     );
   }

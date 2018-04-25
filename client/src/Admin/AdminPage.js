@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
-import { Tab, Container, Header } from 'semantic-ui-react';
+import { Tab, Container, Header, Menu, Label } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import AgencyAdd from './Agency/AgencyAdd';
-import AgencyDelete from './Agency/AgencyDelete';
-import AgencyModify from './Agency/AgencyModify';
+import AgencyRequests from './Agency/AgencyRequests';
 import CategoryTab from './Category/CategoryTab';
 import CategoryAdd from './Category/CategoryAdd';
 import CategoryDelete from './Category/CategoryDelete';
+import EligibilityTypeAdd from './EligibilityType/EligibilityTypeAdd';
+import Agency from "./Agency/Agency";
+import { fetchAgencyRequests } from '../Actions/agencyRequestsActions'
 
 function mapStateToProps(state) {
-  return { data: state.categories, user: state.user };
+  return { data: state.categories, user: state.user, requests: state.agencyRequests.requests };
 }
 
 class AdminPage extends Component {
+
+  componentWillMount () {
+    this.props.dispatch(fetchAgencyRequests());
+  }
+
   render() {
     if (!this.props.user.email || !this.props.user.admin) {
       return (
@@ -22,24 +28,18 @@ class AdminPage extends Component {
     }
 
     const panes = [
-      { menuItem: 'Add Agency', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Add a new Agency</Header>
-          <AgencyAdd />
-        </Container>
-      </div></Tab.Pane> },
-        { menuItem: 'Delete Agency', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Delete an existing Agency</Header>
-          <AgencyDelete />
-        </Container>
-      </div></Tab.Pane> },
-        { menuItem: 'Edit Agency', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Edit an existing Agency</Header>
-          <AgencyModify />
-        </Container>
+      { menuItem: <Menu.Item key='requests'>Agency Requests<Label>{this.props.requests.length}</Label></Menu.Item>, render: () => <Tab.Pane><div className='tab-content'>
+          <Container fluid textAlign='center'>
+            <Header as='h2'>Agency Requests</Header>
+            <AgencyRequests/>
+          </Container>
         </div></Tab.Pane> },
+      { menuItem: 'Agency Tools', render: () => <Tab.Pane><div className='tab-content'>
+        <Container fluid textAlign='center'>
+          <Header as='h2'>Agency Tools</Header>
+          <Agency />
+        </Container>
+      </div></Tab.Pane> },
       { menuItem: 'Add Category', render: () => <Tab.Pane><div className='tab-content'>
         <Container fluid textAlign='center'>
           <Header as='h2'>Add a Category</Header>
@@ -57,6 +57,12 @@ class AdminPage extends Component {
           <Header as='h2'>Edit the Categories</Header>
         </Container>
         <CategoryTab />
+      </div></Tab.Pane> },
+      { menuItem: 'Eligibility Types', render: () => <Tab.Pane><div className='tab-content'>
+        <Container fluid textAlign='center'>
+          <Header as='h2'>Eligibility Types</Header>
+        </Container>
+        <EligibilityTypeAdd />
       </div></Tab.Pane> }
     ];
     return (

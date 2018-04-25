@@ -11,7 +11,7 @@ const mockStore = configureMockStore();
 describe('AdminPage', () =>{
 
     it('renders without exploding', () => {
-        const store = mockStore({chosenCounty: ""});
+        const store = mockStore({agencyRequests: {requests: []}});
         expect(
             shallow(
                 <AdminPage store={store} />

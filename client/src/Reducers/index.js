@@ -5,6 +5,7 @@ import counties from './countiesReducer';
 import eligibility from './eligibilityReducer';
 import user from './userReducer';
 import admins from './adminsReducer';
+import agencyRequests from './agencyRequestsReducer';
 
 export default combineReducers({
   agencies,
@@ -13,4 +14,5 @@ export default combineReducers({
   eligibility,
   user,
   admins,
+  agencyRequests,
 });

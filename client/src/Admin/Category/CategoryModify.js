@@ -63,7 +63,6 @@ class CategoryModify extends Component {
   }
   submitEditCategory(event) {
       event.preventDefault();
-
       const data = {
         query: { _id : this.state.idVal },
         name: this.state.nameVal,

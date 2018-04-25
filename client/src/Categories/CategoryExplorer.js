@@ -14,6 +14,7 @@ import immImg from '../Images/immigration.png';
 import schoolImg from '../Images/school.png';
 import workImg from '../Images/work.png';
 import famImg from '../Images/family.png';
+import MagnifyLoader from '../Helpers/MagnifyLoader';
 
 function mapStateToProps(state) {
   return { data: state.categories };
@@ -26,7 +27,7 @@ class CategoryExplorer extends Component {
 
   render() {
     if (this.props.data.categories.length === 0) {
-      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+      return (<MagnifyLoader label="Finding agencies that can help..." />);
     }
 
     return (
@@ -80,7 +81,7 @@ class CategoryCard extends Component {
 
   render() {
     return (
-      <Card as={Link} to={`category/${this.props.category._id}`} color='blue' raised>
+      <Card as={Link} to={`category/${this.props.category._id}`} color='grey' raised>
         <Card.Content>
           {this.getCorrespondingImage()}
           <Card.Header>

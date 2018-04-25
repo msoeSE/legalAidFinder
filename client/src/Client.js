@@ -1,20 +1,28 @@
 /* eslint-disable no-undef */
 
-export const AGENCIES_ENDPOINT = 'agencies';
-export const COUNTY_ENDPOINT = 'counties';
-export const CATEGORIES_ENDPOINT = 'categories';
-export const ADD_AGENCY_TO_CATEGORY = 'categories/addAgency';
-export const ADD_ELIGIBILITY = 'eligibility';
-export const ELIGIBILITIES_ENDPOINT = 'eligibilities';
-export const ADMINS_ENDPOINT = 'admins';
+export const AGENCIES_ENDPOINT = 'agency';
+export const COUNTY_ENDPOINT = 'county';
+export const CATEGORIES_ENDPOINT = 'category';
+export const ADD_AGENCY_TO_CATEGORY = 'category/agency';
+export const ELIGIBILITIES_ENDPOINT = 'eligibility';
+export const ELIGIBILITY_TYPE_ENDPOINT = 'eligibilityType';
+export const ADMINS_ENDPOINT = 'admin';
+export const AGENCY_REQUESTS_ENDPOINT = 'agencyrequests';
+const LAMBDA_URL = 'https://c82fzxf28g.execute-api.us-east-1.amazonaws.com/prod/';
+//const LAMBDA_URL = 'http://localhost:3001/';
 
 function getRequest(endpoint, id = null, cb) {
-  let url = `${process.env.PUBLIC_URL}/api/${endpoint}`;
+  let url = LAMBDA_URL + endpoint;
   if (id) {
     url += `?id=${id}`;
   }
   return fetch(url, {
     accept: 'application/json',
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json',
+    },
+    // mode: 'cors'
   })
     .then(checkStatus)
     .then(parseJSON)
@@ -22,7 +30,8 @@ function getRequest(endpoint, id = null, cb) {
 }
 
 function deleteRequest(endpoint, id, cb) {
-  return fetch(`${process.env.PUBLIC_URL}/api/${endpoint}`, {
+  let url = LAMBDA_URL + endpoint;
+  return fetch(url, {
     method: 'delete',
     headers: {
       'Accept': 'application/json, text/plain, */*',
@@ -36,7 +45,8 @@ function deleteRequest(endpoint, id, cb) {
 }
 
 function postRequest(endpoint, data, cb) {
-  return fetch(`${process.env.PUBLIC_URL}/api/${endpoint}`, {
+  let url = LAMBDA_URL + endpoint;
+  return fetch(url, {
     method: 'post',
     headers: {
       'Accept': 'application/json, text/plain, */*',
@@ -50,7 +60,8 @@ function postRequest(endpoint, data, cb) {
 }
 
 function putRequest(endpoint, data, cb) {
-  return fetch(`${process.env.PUBLIC_URL}/api/${endpoint}`, {
+  let url = LAMBDA_URL + endpoint;
+  return fetch(url, {
     method: 'put',
     headers: {
       'Accept': 'application/json, text/plain, */*',

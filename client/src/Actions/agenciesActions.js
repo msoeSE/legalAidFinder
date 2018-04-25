@@ -11,7 +11,18 @@ import {
 export function fetchAgencies() {
   return dispatch => Client.getRequest(AGENCIES_ENDPOINT)
     .then((response) => {
-      dispatch({ type: FETCH_AGENCIES_FULFILLED, payload: response.agencies });
+      dispatch({ type: FETCH_AGENCIES_FULFILLED, payload: response });
+    })
+    .catch((err) => {
+      dispatch({ type: REQUEST_REJECTED, payload: err });
+    });
+}
+
+export function fetchAgency(id) {
+  return dispatch => Client.getRequest(AGENCIES_ENDPOINT)
+    .then((response) => {
+      let agency = response.find(agency => agency._id === id);
+      dispatch({ type: FETCH_AGENCIES_FULFILLED, payload: agency });
     })
     .catch((err) => {
       dispatch({ type: REQUEST_REJECTED, payload: err });
@@ -21,7 +32,7 @@ export function fetchAgencies() {
 export function fetchAgenciesAndDropdown() {
   return dispatch => Client.getRequest(AGENCIES_ENDPOINT)
     .then((response) => {
-      dispatch({ type: FETCH_AGENCIES_DROPDOWN_FULFILLED, payload: response.agencies });
+      dispatch({ type: FETCH_AGENCIES_DROPDOWN_FULFILLED, payload: response });
     })
     .catch((err) => {
       dispatch({ type: REQUEST_REJECTED, payload: err });

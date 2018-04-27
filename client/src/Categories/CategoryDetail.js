@@ -165,15 +165,15 @@ class CategoryDetail extends Component {
                 if (!this.state.criteriaFilledOut) {
                   return (
                     <Button icon labelPosition='right' onClick={this.eligibilityForm}>
-                        Enter eligibility criteria for the <i>best</i> representation
-                        <Icon name='right arrow' />
+                      Enter additional information for more accurate referrals
+                      <Icon name='right arrow' />
                     </Button>
                   );
                 } else {
                   return (
                     <Button icon labelPosition='right' onClick={this.eligibilityForm}>
-                        Enter eligibility criteria for the <i>best</i> representation
-                        <Icon name='checkmark' color='green' />
+                      Enter additional information for more accurate referrals
+                      <Icon name='checkmark' color='green' />
                     </Button>
                   );
                 }
@@ -182,69 +182,37 @@ class CategoryDetail extends Component {
               }
             })()}
             {(() => { // Display eligible agencies
-              if (this.state.filteredAgencies.length > 0) {
-                const cards = this.state.filteredAgencies.map(agency => (
-                  <Card fluid color='grey' href={agency.url}>
-                    <Card.Content>
-                      <Card.Header>{agency.name}</Card.Header>
-                      <Card.Meta>
-                        {'Click to go to this agency\'s website!'}
-                      </Card.Meta>
-                    </Card.Content>
-                  </Card>
+              if (this.state.filteredAgencies.length > 0 || currentCategory.agencies.length > 0) {
+                const eligCards = this.state.filteredAgencies.map(agency => (
+                  <AgencyModal
+                    showModal
+                    onClose={this.toggleModal}
+                    agency={agency}
+                  />
                 ));
-
-                return (
-                  <div>
-                    <Divider section />
-                    <div>
-                      <h3>The agencies below can provide the <i>best</i> services for you!</h3>
-                      <Card.Group>
-                        {cards}
-                      </Card.Group>
-                    </div>
-                  </div>
-                );
-              }
-            })()}
-            <Divider section />
-            {(() => { // Create Agencies list with no eligibility constraints
-              if (currentCategory.agencies.length === 0 && currentCategory.subcategories.length === 0) {
-                return (
-                  <Card fluid color='grey'>
-                    <Card.Content>
-                      <Card.Header>Currently no agencies support this category..</Card.Header>
-                      <Card.Meta>
-                          Please contact Wisconsin Legal Aid Finder for help.
-                        </Card.Meta>
-                    </Card.Content>
-                  </Card>);
-              }
-              if (this.state.noEligAgencies.length > 0 && currentCategory.subcategories.length === 0) {
                 const cards = this.state.noEligAgencies.map(agency => (
                   <AgencyModal
                     showModal
                     onClose={this.toggleModal}
                     agency={agency}
                   />));
-
+                if (currentCategory.agencies.length === 0 && currentCategory.subcategories.length === 0) {
+                  return (
+                    <Card fluid color='grey'>
+                      <Card.Content>
+                        <Card.Header>Currently no agencies support this category..</Card.Header>
+                        <Card.Meta>
+                        Please contact Wisconsin Legal Aid Finder for help.
+                      </Card.Meta>
+                      </Card.Content>
+                    </Card>);
+                }
                 return (
-                  // currentCategory.agencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).map(agency =>
-                  //   <Card fluid color='blue'>
-                  //     <Card.Content>
-                  //       <Card.Header>{agency.name}</Card.Header>
-                  //       <Card.Meta>
-                  //         <AgencyModal
-                  //           showModal
-                  //           onClose={this.toggleModal}
-                  //           agency={agency}
-                  //         />
-                  //       </Card.Meta>
-                  //     </Card.Content>
-                  //   </Card>));
                   <div>
-                    <h3>The following agencies can help you:</h3>
+                    <br />
+                    <h3>The following agencies may be able to help you:</h3>
                     <Card.Group>
+                      {eligCards}
                       {cards}
                     </Card.Group>
                   </div>
@@ -281,14 +249,13 @@ class CategoryDetail extends Component {
 
             if (mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).length > 0 && currentCategory.subcategories.length === 0) {
               if (mappedAgencies.some(x => x.lat && x.lon)) {
-                return(
+                return (
                   <div className='agency-map-div'>
-                    <AgencyMap 
-                      isMarkerShown 
-                      agencies={mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty))} />
+                    <AgencyMap
+                      isMarkerShown
+                      agencies={mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty))}
+                    />
                   </div>);
-              } else {
-                return <div><h3 style={{ margin: '5px' }}>No agencies listed have a physical location</h3></div>;
               }
             }
           })()}

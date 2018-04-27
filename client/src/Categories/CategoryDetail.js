@@ -165,15 +165,15 @@ class CategoryDetail extends Component {
                 if (!this.state.criteriaFilledOut) {
                   return (
                     <Button icon labelPosition='right' onClick={this.eligibilityForm}>
-                        Enter eligibility criteria for the <i>best</i> representation
-                        <Icon name='right arrow' />
+                      Enter additional information for more accurate referrals
+                      <Icon name='right arrow' />
                     </Button>
                   );
                 } else {
                   return (
                     <Button icon labelPosition='right' onClick={this.eligibilityForm}>
-                        Enter eligibility criteria for the <i>best</i> representation
-                        <Icon name='checkmark' color='green' />
+                      Enter additional information for more accurate referrals
+                      <Icon name='checkmark' color='green' />
                     </Button>
                   );
                 }
@@ -210,7 +210,7 @@ class CategoryDetail extends Component {
                 return (
                   <div>
                     <br />
-                    <h3>The following agencies can help you:</h3>
+                    <h3>The following agencies may be able to help you:</h3>
                     <Card.Group>
                       {eligCards}
                       {cards}

@@ -4,7 +4,7 @@ import geolib from 'geolib';
 import {withRouter} from "react-router-dom";
 import { connect } from 'react-redux';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import {Button} from 'semantic-ui-react'
+import {Button} from 'semantic-ui-react';
 
 function mapStateToProps(state) {
     return { data: state.agencies };
@@ -88,7 +88,9 @@ export class AgencyMap extends Component {
             visible={this.state.showingInfoWindow}>
               <div>
                 <h5>{this.state.selectedPlace.name}</h5>
-                  <Button href={`http://www.google.com/maps/search/?api=1&query=${this.state.selectedLat},${this.state.selectedLon}`}>Map</Button>
+                  <div className='agency-map-div'>
+                    <Button size={'tiny'} primary={true} href={`http://www.google.com/maps/search/?api=1&query=${this.state.selectedLat},${this.state.selectedLon}`}>Get Directions</Button>
+                  </div>
               </div>
           </InfoWindow>
         </Map>

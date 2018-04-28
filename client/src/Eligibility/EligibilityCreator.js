@@ -26,12 +26,8 @@ class EligibilityCreator extends Component {
       comparator: null,
       value: null,
       keyIsBool: false,
-      data: this.props.eligibilities.key_comparator_value,
+      data: this.props.kcvList,
     };
-  }
-
-  componentWillMount() {
-    this.props.dispatch(fetchEligibilities());
   }
 
   submitEligibility() {
@@ -121,19 +117,17 @@ class EligibilityCreator extends Component {
    * @returns {any[]}
    */
   createContent() {
-    if (this.props.eligibilities || this.props.eligibilities.length > 0) {
-      return this.props.eligibilityTypes.map(eType => this.state.data.map((kcv, idx) => {
-        if (kcv.key === eType.name) {
-          return (<div key={idx} style={{ margin: '5px' }}>
-            <Input readOnly style={{ marginLeft: '2px' }} defaultValue={kcv.key} />
-            <Input readOnly style={{ marginLeft: '2px' }} defaultValue={kcv.comparator} />
-            <Input readOnly style={{ marginLeft: '2px' }} defaultValue={kcv.value} />
-            <Button negative style={{ marginLeft: '2px' }} onClick={this.removeEligibility(idx).bind(this)} icon='minus' />
-          </div>
-          );
-        }
-      }));
-    }
+    return this.props.eligibilityTypes.map(eType => this.state.data.map((kcv, idx) => {
+      if (kcv.key === eType.name) {
+        return (<div key={idx} style={{ margin: '5px' }}>
+          <Input readOnly style={{ marginLeft: '2px' }} defaultValue={kcv.key} />
+          <Input readOnly style={{ marginLeft: '2px' }} defaultValue={kcv.comparator} />
+          <Input readOnly style={{ marginLeft: '2px' }} defaultValue={kcv.value} />
+          <Button negative style={{ marginLeft: '2px' }} onClick={this.removeEligibility(idx).bind(this)} icon='minus' />
+        </div>
+        );
+      }
+    }));
   }
 
   /**
@@ -194,11 +188,11 @@ class EligibilityCreator extends Component {
   render() {
     return (
       <div>
-        <h2 className='form-title'>Existing eligibility criteria:</h2>
+        <h3 className='form-title'>Existing eligibility criteria:</h3>
         <div>
           {this.createContent()}
         </div>
-        <h2 className='form-title'>Create new eligibility criteria:</h2>
+        <h3 className='form-title'>Create new eligibility criteria:</h3>
         <div>
           {this.createNewEligibilitySection()}
         </div>

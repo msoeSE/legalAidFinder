@@ -281,11 +281,12 @@ class CategoryDetail extends Component {
 
             if (mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty)).length > 0 && currentCategory.subcategories.length === 0) {
               if (mappedAgencies.some(x => x.lat && x.lon)) {
-                return(
+                return (
                   <div className='agency-map-div'>
-                    <AgencyMap 
-                      isMarkerShown 
-                      agencies={mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty))} />
+                    <AgencyMap
+                      isMarkerShown
+                      agencies={mappedAgencies.filter(x => this.props.chosenCounty === '' ? 1 === 1 : x.counties.some(x => x === this.props.chosenCounty))}
+                    />
                   </div>);
               } else {
                 return <div><h3 style={{ margin: '5px' }}>No agencies listed have a physical location</h3></div>;

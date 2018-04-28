@@ -174,7 +174,7 @@ class AgencyCategoryTree extends Component {
       <EligibilityModal
         showModal={this.state.modalOpen}
         onClose={this.toggleModal}
-        eligibilities={getEligibility(this.props.info, this.props.agencyId, this.state.currentCategory)}
+        eligibility={getEligibility(this.props.info, this.props.agencyId, this.state.currentCategory)}
         category={this.state.currentCategory}
         agency={this.props.agencyId}
       />

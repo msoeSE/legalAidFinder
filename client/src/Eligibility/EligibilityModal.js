@@ -11,15 +11,15 @@ class EligibilityModal extends Component {
     return (
       <div>
         <Modal open={this.props.showModal}>
+          <Button floated='right' style={{ marginTop: '5px', marginRight: '6px' }} negative onClick={this.props.onClose}>
+            Cancel
+          </Button>
           <Modal.Header>
-            Add an eligibility constraint:
-            <Button floated='right' negative onClick={this.props.onClose}>
-              Cancel
-            </Button>
+            <h2>Add Eligibility Criteria:</h2>
           </Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <EligibilityCreator onSubmitted={this.props.onClose} agencyId={this.props.agency} categoryId={this.props.category} eligibilities={this.props.eligibilities} />
+              <EligibilityCreator onSubmitted={this.props.onClose} agencyId={this.props.agency} categoryId={this.props.category} kcvList={this.props.eligibility ? this.props.eligibility.key_comparator_value : []} />
             </Modal.Description>
           </Modal.Content>
         </Modal>

@@ -96,19 +96,19 @@ class CategoryTree extends Component {
   createCheckbox(category, depth, checked, isTopParent = false) {
     if (category.subcategories && category.subcategories.length === 0) {
       return (
-        <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
+        <div key={category._id} style={{ marginLeft: `${50 * depth}px` }}>
           <Button onClick={this.openModal} compact basic color='brown' size='small' id={category._id}><b>{category.name}</b></Button>
         </div>
       );
     } else if (isTopParent) {
       return (
-        <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
+        <div key={category._id} style={{ marginLeft: `${50 * depth}px` }}>
           <Button onClick={this.openModal} compact basic color='black' size='huge' id={category._id}><b><u>{category.name}</u></b></Button>
         </div>
       );
     } else {
       return (
-        <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
+        <div key={category._id} style={{ marginLeft: `${50 * depth}px` }}>
           <Button onClick={this.openModal} compact basic color='black' size='large' id={category._id}><b>{category.name}</b></Button>
         </div>
       );

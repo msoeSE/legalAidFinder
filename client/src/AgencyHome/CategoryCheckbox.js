@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Checkbox, Button } from 'semantic-ui-react';
+import { Checkbox, Button, Divider } from 'semantic-ui-react';
 
 class CategoryCheckbox extends Component {
   constructor(props) {
@@ -32,20 +32,55 @@ class CategoryCheckbox extends Component {
 
     const num = this.props.eligibility ? this.props.eligibility.key_comparator_value.length : 0;
 
-    return (
-      <div>
-        <Checkbox
-          label={this.props.label}
-          value={this.props.key}
-          checked={isChecked}
-          onChange={this.toggleCheckboxChange}
-        />
-        {this.state.isChecked ?
-          <Button size='mini' style={{ marginLeft: '3px' }} content={`Edit Eligibility: ${num}`} icon='edit' labelPosition='right' onClick={this.editButtonClicked} />
-          : null
-        }
-      </div>
-    );
+    if (this.props.depth === 1) {
+      return (
+        <div style={{ whiteSpace: 'nowrap', fontWeight: 'bold' }}>
+          <Divider />
+          {`${this.props.depth}) `}<Checkbox
+            label={`${this.props.label}`}
+            value={this.props.key}
+            checked={isChecked}
+            onChange={this.toggleCheckboxChange}
+            style={{ whiteSpace: 'nowrap' }}
+          />
+          {this.state.isChecked ?
+            <Button
+              size='mini'
+              style={{ marginLeft: '3px' }}
+              content={`Edit Eligibility: ${num}`}
+              icon='edit'
+              labelPosition='right'
+              onClick={this.editButtonClicked}
+            />
+            : null
+          }
+          <Divider />
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ whiteSpace: 'nowrap' }}>
+          {`${this.props.depth}) `}<Checkbox
+            label={`${this.props.label}`}
+            value={this.props.key}
+            checked={isChecked}
+            onChange={this.toggleCheckboxChange}
+            style={{ whiteSpace: 'nowrap' }}
+          />
+          {this.state.isChecked ?
+            <Button
+              size='mini'
+              style={{ marginLeft: '3px' }}
+              content={`Edit Eligibility: ${num}`}
+              icon='edit'
+              labelPosition='right'
+              onClick={this.editButtonClicked}
+            />
+            : null
+          }
+        </div>
+      );
+    }
   }
 }
 

@@ -22,6 +22,7 @@ class AgencyCategoryTree extends Component {
       modalOpen: false,
       items: [],
       depth: 0,
+      innerDepth: 0,
       created: false,
       currentCategory: null,
     };
@@ -75,7 +76,6 @@ class AgencyCategoryTree extends Component {
         if (category[key] !== null && typeof (category[key]) === 'object') {
           // going one step down in the object tree!!
           ++this.state.depth;
-
           category[key].forEach((element) => {
             if (typeof (element) === 'string') {
               this.traverse(this.findCategory(element));
@@ -123,7 +123,7 @@ class AgencyCategoryTree extends Component {
   createCheckbox(category, depth, checked, isTopParent = false) {
     if (category.subcategories && category.subcategories.length === 0) {
       return (
-        <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
+        <div key={category._id} style={{ marginLeft: `${50 * depth}px`, marginTop: '5px' }}>
           <Checkbox
             label={category.name}
             handleCheckboxChange={this.updateAgencyCategory}
@@ -132,20 +132,27 @@ class AgencyCategoryTree extends Component {
             categoryId={category._id}
             checked={checked}
             eligibility={getEligibility(this.props.info, this.props.agencyId, category._id)}
+            depth={this.state.depth}
           />
         </div>
       );
     } else if (isTopParent) {
       return (
-        <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
+        <div key={category._id} style={{ marginLeft: `${50 * depth}px`, marginTop: '10px' }}>
           <h2 className='underline'>{category.name}</h2>
         </div>
       );
     } else {
+      let bold = 'normal';
+      if (depth === 1) {
+        bold = 'bold';
+      }
+
       return (
-        <div key={category._id} style={{ marginLeft: `${25 * depth}px` }}>
-          <h4>{category.name}</h4>
-          <Divider />
+        <div key={category._id} style={{ marginLeft: `${50 * depth}px`, marginTop: `${25}px` }}>
+          {bold === 'bold' ? <Divider /> : null}
+          <p style={{ fontWeight: bold }}>{`${this.state.depth}) ${category.name}`}</p>
+          {bold === 'bold' ? <Divider /> : null}
         </div>
       );
     }

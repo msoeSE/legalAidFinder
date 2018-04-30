@@ -38,7 +38,7 @@ class AgencyDelete extends Component {
         event.preventDefault();
     }
 
-    submitAgency(event) {
+    submitAgency() {
         const data = {
             id: this.state.id
         };

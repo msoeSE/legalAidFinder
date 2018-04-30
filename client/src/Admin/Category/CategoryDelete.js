@@ -4,45 +4,48 @@ import { connect } from 'react-redux';
 import { Dropdown, Button, Loader } from 'semantic-ui-react';
 import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import { fetchCategoriesAndFullDropdown, deleteCategories } from '../../Actions/categoriesActions';
+import AdminDeleteModal from "../AdminDeleteModal";
 
 function mapStateToProps(state) {
   return { data: state.categories };
 }
 
 class CategoryDelete extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: '',
-      msg: ''
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: '',
+            msg: '',
+            modalOpen: false
+        };
+
+        this.toggleModal = this.toggleModal.bind(this);
+        this.submitCategory = this.submitCategory.bind(this);
+    }
   componentWillMount() {
     this.props.dispatch(fetchCategoriesAndFullDropdown());
   }
   categoryID(event, data) {
     this.setState({ id: data.value, msg: '' });
   }
-  submitCategory(event) {
-    event.preventDefault();
-    if (window.confirm('Are you sure you want to delete it?')) {
+
+    toggleModal(event) {
+        this.setState({
+            modalOpen: !this.state.modalOpen,
+        });
+        event.preventDefault();
+    }
+
+  submitCategory() {
       const data = {
         id: this.state.id
       };
 
       this.props.dispatch(deleteCategories(data)).then(() => {
         this.props.dispatch(fetchCategoriesAndFullDropdown());
-        this.setState({ msg: 'Successfuly deleted category.' });
-        // if (!this.props.data.error) {
-        //   this.props.dispatch(fetchCategoriesAndFullDropdown());
-        //   this.setState({ msg: 'Successfuly deleted category.' });
-        // } else {
-        //   this.setState({ msg: 'Failed to delete category.' });
-        // }
+        this.setState({ msg: 'Successfully deleted category.', modalOpen: false });
+
       });
-    } else {
-      this.setState({ msg: '' });
-    }
   }
   render() {
     if (!this.props.data.dropdown) {
@@ -59,11 +62,20 @@ class CategoryDelete extends Component {
             />
             <div className='padding2'>
               <Button negative type='Submit' value='Submit' className='padding2'
-                onClick={this.submitCategory.bind(this)}>Delete Category</Button>
+                onClick={this.toggleModal}>Delete Category</Button>
             </div>
             <h2>{this.state.msg}</h2>
           </form>
         </div>
+          <div>
+              <AdminDeleteModal
+                  showModal={this.state.modalOpen}
+                  onClose={this.toggleModal}
+                  deleteMessage="Are you sure you want to delete this category?"
+                  onSubmit={this.submitCategory}
+                  category={this.state.id}
+              />
+          </div>
       </div>
     );
   }

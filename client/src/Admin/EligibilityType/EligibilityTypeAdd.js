@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { List, Grid, Dropdown, Input, Button, Form } from 'semantic-ui-react';
 import { addEligibilityType, deleteEligibilityType, fetchEligibilityType } from '../../Actions/eligibilityActions';
 import MagnifyLoader from "../../Helpers/MagnifyLoader";
+import AdminDeleteModal from "../AdminDeleteModal";
 
 function mapStateToProps(state) {
   return { data: state.eligibility };
@@ -42,11 +43,15 @@ class EligibilityAdd extends Component {
       name: '',
       comparators: [],
       valueType: '',
+        modalOpen: false,
+        selectedEt: null
     };
 
     this.comparatorValChange = this.comparatorValChange.bind(this);
     this.removeEligibilityType = this.removeEligibilityType.bind(this);
     this.handleResponse = this.handleResponse.bind(this);
+      this.toggleModal = this.toggleModal.bind(this);
+      this.removeEligibilityType = this.removeEligibilityType.bind(this);
   }
 
   componentWillMount() {
@@ -60,6 +65,14 @@ class EligibilityAdd extends Component {
   eligibilityValueType(event, data) {
     this.setState({ valueType: data.value, msg: '' });
   }
+
+    toggleModal(event, et) {
+        this.setState({
+            modalOpen: !this.state.modalOpen,
+            selectedEt: et
+        });
+        event.preventDefault();
+    }
 
   submitEligibilityType(event) {
     event.preventDefault();
@@ -177,7 +190,7 @@ class EligibilityAdd extends Component {
                   const eligTypes = this.props.data.eligibilityTypes.map(et => (
                     <List.Item>
                       <List.Content floated='right'>
-                        <Button onClick={() => this.removeEligibilityType(et)}>Delete</Button>
+                        <Button onClick={this.toggleModal(et)}>Delete</Button>
                       </List.Content>
                       <List.Content>
                         <List.Header>{et.name}</List.Header>
@@ -185,6 +198,12 @@ class EligibilityAdd extends Component {
                           Type: {et.valueType} <br />
                           Comparators: {et.comparators.join(', ')}
                         </List.Description>
+                          <AdminDeleteModal
+                              showModal={this.state.modalOpen}
+                              onClose={this.toggleModal}
+                              deleteMessage="Are you sure you want to delete this eligibility type?"
+                              onSubmit={this.removeEligibilityType(this.state.selectedEt)}
+                          />
                       </List.Content>
                     </List.Item>
                   ));

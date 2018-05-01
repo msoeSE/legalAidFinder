@@ -19,7 +19,7 @@ class AdminDeleteModal extends Component {
                     </Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <div className="ui buttons" style={{marginLeft: "25%", width: "50%"}}>
+                            <div className="ui buttons" style={{marginLeft: "30%", width: "40%"}}>
                                 <button className="ui positive button" onClick={this.props.onSubmit}>Yes</button>
                                 <div className="or"/>
                                 <button className="ui negative button" onClick={this.props.onClose}>No</button>

@@ -4,6 +4,7 @@ import geolib from 'geolib';
 import {withRouter} from "react-router-dom";
 import { connect } from 'react-redux';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import {Button} from 'semantic-ui-react';
 
 function mapStateToProps(state) {
     return { data: state.agencies };
@@ -14,18 +15,22 @@ export class AgencyMap extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
+        selectedLat: 0.0,
+        selectedLon: 0.0
     };
 
     style = {
-        width: '60%',
-        height: '60%'
+        width: '80%',
+        height: '80%'
     }
   
     onMarkerClick = (props, marker, e) =>
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
-        showingInfoWindow: true
+        showingInfoWindow: true,
+          selectedLat: props.position.lat,
+          selectedLon: props.position.lng
       });
   
     onMapClicked = (props) => {
@@ -83,6 +88,9 @@ export class AgencyMap extends Component {
             visible={this.state.showingInfoWindow}>
               <div>
                 <h5>{this.state.selectedPlace.name}</h5>
+                  <div className='agency-map-div'>
+                    <Button size={'tiny'} primary={true} href={`http://www.google.com/maps/search/?api=1&query=${this.state.selectedLat},${this.state.selectedLon}`}>Get Directions</Button>
+                  </div>
               </div>
           </InfoWindow>
         </Map>

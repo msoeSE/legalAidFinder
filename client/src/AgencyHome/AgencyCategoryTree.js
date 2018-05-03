@@ -9,8 +9,7 @@ import EligibilityModal from '../Eligibility/EligibilityModal';
 import { fetchEligibilities, fetchEligibilityType } from '../Actions/eligibilityActions';
 import { getEligibility } from '../Reducers/eligibilityReducer';
 import MagnifyLoader from '../Helpers/MagnifyLoader';
-
-export const BULLETPOINTS = [ '▶', '●', '◻', '◆', '◇', '✱', '⚽' ];
+import getBulletPoint from '../Helpers/Bulletpoints';
 
 function mapStateToProps(state) {
   return { data: state.categories, info: state.eligibility };
@@ -123,11 +122,6 @@ class AgencyCategoryTree extends Component {
   }
 
   createCheckbox(category, depth, checked, isTopParent = false) {
-    let bullet = null;
-    if (this.state.depth - 1 < BULLETPOINTS.length) {
-      bullet = BULLETPOINTS[this.state.depth - 1];
-    }
-
     if (category.subcategories && category.subcategories.length === 0) {
       return (
         <div key={category._id} style={{ marginLeft: `${50 * depth}px`, marginTop: '5px' }}>
@@ -140,7 +134,7 @@ class AgencyCategoryTree extends Component {
             checked={checked}
             eligibility={getEligibility(this.props.info, this.props.agencyId, category._id)}
             eligibilityTypes={this.props.info.eligibilityTypes}
-            depth={bullet}
+            depth={getBulletPoint(depth)}
           />
         </div>
       );
@@ -159,7 +153,7 @@ class AgencyCategoryTree extends Component {
       return (
         <div key={category._id} style={{ marginLeft: `${50 * depth}px`, marginTop: `${25}px` }}>
           {bold === 'bold' ? <Divider /> : null}
-          <p style={{ fontWeight: bold }}>{`${bullet} ${category.name}`}</p>
+          <p style={{ fontWeight: bold }}>{`${getBulletPoint(depth)} ${category.name}`}</p>
           {bold === 'bold' ? <Divider /> : null}
         </div>
       );

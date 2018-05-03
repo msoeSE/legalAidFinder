@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { deleteCategories, fetchCategories } from '../../Actions/categoriesActions';
 import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import CategoryModal from './CategoryModal';
+import getBulletPoint from '../../Helpers/Bulletpoints';
 
-export const BULLETPOINTS = [ '▶', '●', '◻', '◆', '◇', '✱', '⚽' ];
 
 function mapStateToProps(state) {
   return { data: state.categories, info: state.eligibility };
@@ -161,7 +161,7 @@ class EditCategoryTree extends Component {
       return (
         <div key={category._id} style={{ marginLeft: `${50 * depth}px`, marginTop: '5px', fontWeight: bold }}>
           {bold === 'bold' ? <Divider /> : null}
-          {`${BULLETPOINTS[depth]} ${category.name}`}
+          {`${getBulletPoint(depth)} ${category.name}`}
           {buttonGroup}
           {bold === 'bold' ? <Divider /> : null}
         </div>

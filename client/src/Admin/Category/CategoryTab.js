@@ -4,7 +4,6 @@ import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import { fetchCategoriesAndDropdown } from '../../Actions/categoriesActions';
-import CategoryTree from './CategoryTree';
 import EditCategoryTree from './EditCategoryTree';
 
 function mapStateToProps(state) {
@@ -35,7 +34,7 @@ class CategoryTab extends Component {
 
     if (this.state.id) {
       return (
-        <div>
+        <div style={{ marginTop: '8px' }}>
           <Dropdown
             placeholder='Select a Category to edit'
             fluid

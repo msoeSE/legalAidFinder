@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Divider, Button, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { fetchCategories } from '../../Actions/categoriesActions';
+import { deleteCategories, fetchCategories } from '../../Actions/categoriesActions';
 import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import CategoryModal from './CategoryModal';
+
+export const BULLETPOINTS = [ '▶', '●', '◻', '◆', '◇', '✱', '⚽' ];
 
 function mapStateToProps(state) {
   return { data: state.categories, info: state.eligibility };
@@ -29,6 +31,22 @@ class EditCategoryTree extends Component {
 
   componentWillMount() {
     this.props.dispatch(fetchCategories());
+  }
+
+  deleteCategory(event, data) {
+    event.preventDefault();
+    if (window.confirm('Are you sure you want to delete it?')) {
+      const parent = this.findCategory(data.id).parent;
+
+      const category = {
+        id: data.id,
+        parent: parent,
+      };
+
+      this.props.dispatch(deleteCategories(category)).then(() => {
+        this.props.dispatch(fetchCategories());
+      });
+    }
   }
 
   // Recursive function that generates the checkboxes
@@ -95,44 +113,43 @@ class EditCategoryTree extends Component {
   }
 
   createCategorySection(category, depth, isTopParent = false) {
-    if (category.subcategories && category.subcategories.length === 0) {
-      return (
-        <div key={category._id} style={{ marginLeft: `${50 * depth}px`, marginTop: '5px' }}>
-          {`${this.state.depth}) ${category.name}`}
-          <Button.Group size='mini' style={{ marginLeft: '5px' }}>
-            <Button animated='vertical' inverted onClick={this.openModal} color='green' id={category._id}>
-              <Button.Content hidden>Add</Button.Content>
-              <Button.Content visible>
-                <Icon name='plus' />
-              </Button.Content>
-            </Button>
-            <Button animated='vertical' inverted onClick={this.openModal} color='red' id={category._id}>
-              <Button.Content hidden>Delete</Button.Content>
-              <Button.Content visible>
-                <Icon name='minus' />
-              </Button.Content>
-            </Button>
-          </Button.Group>
-        </div>
+    let buttonGroup;
+    if (category.subcategories && category.subcategories.length > 0) {
+      buttonGroup = (
+        <Button.Group size='mini' style={{ marginLeft: '5px' }}>
+          <Button animated='vertical' inverted onClick={this.openModal} color='green' id={category._id}>
+            <Button.Content hidden>Edit</Button.Content>
+            <Button.Content visible>
+              <Icon name='plus' />
+            </Button.Content>
+          </Button>
+        </Button.Group>
       );
-    } else if (isTopParent) {
+    } else {
+      buttonGroup = (
+        <Button.Group size='mini' style={{ marginLeft: '5px' }}>
+          <Button animated='vertical' inverted onClick={this.openModal} color='green' id={category._id}>
+            <Button.Content hidden>Edit</Button.Content>
+            <Button.Content visible>
+              <Icon name='plus' />
+            </Button.Content>
+          </Button>
+          <Button animated='vertical' inverted onClick={this.deleteCategory.bind(this)} color='red' id={category._id}>
+            <Button.Content hidden>Delete</Button.Content>
+            <Button.Content visible>
+              <Icon name='minus' />
+            </Button.Content>
+          </Button>
+        </Button.Group>
+      );
+    }
+
+    if (isTopParent) {
       return (
         <div key={category._id} style={{ marginLeft: `${50 * depth}px`, marginTop: '10px' }}>
-          <h2 className='underline'>{category.name}</h2>
-          <Button.Group size='mini' style={{ marginLeft: '5px' }}>
-            <Button animated='vertical' inverted onClick={this.openModal} color='green' id={category._id}>
-              <Button.Content hidden>Add</Button.Content>
-              <Button.Content visible>
-                <Icon name='plus' />
-              </Button.Content>
-            </Button>
-            <Button animated='vertical' inverted onClick={this.openModal} color='red' id={category._id}>
-              <Button.Content hidden>Delete</Button.Content>
-              <Button.Content visible>
-                <Icon name='minus' />
-              </Button.Content>
-            </Button>
-          </Button.Group>
+          <h2 className='underline'>{category.name}
+            {buttonGroup}
+          </h2>
         </div>
       );
     } else {
@@ -144,21 +161,8 @@ class EditCategoryTree extends Component {
       return (
         <div key={category._id} style={{ marginLeft: `${50 * depth}px`, marginTop: '5px', fontWeight: bold }}>
           {bold === 'bold' ? <Divider /> : null}
-          {`${this.state.depth}) ${category.name}`}
-          <Button.Group size='mini' style={{ marginLeft: '5px' }}>
-            <Button animated='vertical' inverted onClick={this.openModal} color='green' id={category._id}>
-              <Button.Content hidden>Add</Button.Content>
-              <Button.Content visible>
-                <Icon name='plus' />
-              </Button.Content>
-            </Button>
-            <Button animated='vertical' inverted onClick={this.openModal} color='red' id={category._id}>
-              <Button.Content hidden>Delete</Button.Content>
-              <Button.Content visible>
-                <Icon name='minus' />
-              </Button.Content>
-            </Button>
-          </Button.Group>
+          {`${BULLETPOINTS[depth]} ${category.name}`}
+          {buttonGroup}
           {bold === 'bold' ? <Divider /> : null}
         </div>
       );

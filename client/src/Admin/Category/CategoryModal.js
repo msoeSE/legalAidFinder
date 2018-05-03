@@ -11,8 +11,8 @@ class CategoryModal extends Component {
           <Modal.Header>{this.props.category.name}</Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <CategoryModify category={this.props.category}/>
-              <Button primary onClick={this.props.onClose}>
+              <CategoryModify category={this.props.category} onClose={this.props.onClose} />
+              <Button color='red' onClick={this.props.onClose}>
                 Close
               </Button>
             </Modal.Description>

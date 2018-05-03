@@ -19,7 +19,7 @@
     "immutability-helper": "^2.6.4",
     "install": "^0.10.4",
     "marked": "^0.3.12",
-    "mongoose": "^4.13.10",
+    "mongoose": "^4.13.12",
     "nodemailer": "^4.6.3",
     "nodemon": "^1.17.1",
     "npm": "^5.6.0",

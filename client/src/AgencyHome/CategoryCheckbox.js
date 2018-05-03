@@ -30,13 +30,22 @@ class CategoryCheckbox extends Component {
   render() {
     const { isChecked } = this.state;
 
-    const num = this.props.eligibility ? this.props.eligibility.key_comparator_value.length : 0;
+    let num = 0;
+    if (this.props.eligibility) {
+      this.props.eligibility.key_comparator_value.forEach(x => {
+        this.props.eligibilityTypes.forEach(y => {
+          if (x.key.toLowerCase() === y.name.toLowerCase()) {
+            num++;
+          }
+        });
+      });
+    }
 
     if (this.props.depth === 1) {
       return (
         <div style={{ whiteSpace: 'nowrap', fontWeight: 'bold' }}>
           <Divider />
-          {`${this.props.depth}) `}<Checkbox
+          {`${this.props.depth} `}<Checkbox
             label={`${this.props.label}`}
             value={this.props.key}
             checked={isChecked}
@@ -60,7 +69,7 @@ class CategoryCheckbox extends Component {
     } else {
       return (
         <div style={{ whiteSpace: 'nowrap' }}>
-          {`${this.props.depth}) `}<Checkbox
+          {this.props.depth} <Checkbox
             label={`${this.props.label}`}
             value={this.props.key}
             checked={isChecked}

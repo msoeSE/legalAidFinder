@@ -52,7 +52,7 @@ class Header extends Component {
 
     const agency = this.props.agencyData.agencies.find((a) => {
       a.emails.forEach((e) => {
-        if (e === email && !emailFound) {
+        if (e.toLowerCase() === email.toLowerCase() && !emailFound) {
           emailFound = true;
         }
       });
@@ -60,7 +60,7 @@ class Header extends Component {
     });
 
     const isAdmin = this.props.adminData.admins.find((a) => {
-      if (email === a.email) {
+      if (email.toLowerCase() === a.email.toLowerCase()) {
         return true;
       }
     });

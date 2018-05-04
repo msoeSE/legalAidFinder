@@ -61,7 +61,7 @@ class EligibilityAdd extends Component {
     this.setState({ valueType: data.value, msg: '' });
   }
 
-  submitEligibilityType(event) {
+  submitEligibilityType(event, data) { // TODO: Follow data pattern from category to get this to work???
     event.preventDefault();
 
     if (this.state.name === '') {

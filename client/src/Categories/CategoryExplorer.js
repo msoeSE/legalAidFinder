@@ -33,7 +33,7 @@ class CategoryExplorer extends Component {
     return (
       <div className='card-holder'>
         <h2>Select a category that corresponds with your legal issue:</h2>
-        <Card.Group itemsPerRow={4} stackable={true}>
+        <Card.Group itemsPerRow={2} stackable={true}>
           {
             this.props.data.categories.map((category) =>
               category.parent === null ?
@@ -74,9 +74,9 @@ class CategoryCard extends Component {
   }
 
   getSubcategories() {
-    return this.props.category.subcategories.map((subcat, i) => {
-      return <List.Item key={i}>{subcat.name}</List.Item>;
-    });
+    // return this.props.category.subcategories.map((subcat, i) => {
+    //   return <List.Item key={i}>{subcat.name}</List.Item>;
+    // });
   }
 
   render() {
@@ -87,18 +87,18 @@ class CategoryCard extends Component {
           <Card.Header>
             {this.props.category.name}
           </Card.Header>
-          <Card.Meta>
+          {/* <Card.Meta>
             Sub-Categories:
-          </Card.Meta>
+          </Card.Meta> */}
           <Card.Description>
             <List bulleted size={'mini'}>
               {this.getSubcategories()}
             </List>
           </Card.Description>
         </Card.Content>
-        <Card.Content extra size={'mini'}>
+        {/* <Card.Content extra size={'mini'}>
           Click for more information
-        </Card.Content>
+        </Card.Content> */}
       </Card>
     );
   }

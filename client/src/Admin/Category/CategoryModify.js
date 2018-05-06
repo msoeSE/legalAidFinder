@@ -53,24 +53,6 @@ class CategoryModify extends Component {
     this.setState({ nameVal: event.target.value, msg: '' });
   }
 
-  // /* For each subcategory, determine new parent (current category)
-  //    and also remove from parent subcategory array to update reference */
-  // updateSubArray() {
-  //   const full_subs = [];
-  //   this.state.subcategories.forEach((e) => {
-  //     const sub = this.props.data.categories.find(sub => e.id === sub._id);
-  //     if (sub && sub.parent) {
-  //       sub.new_parent = this.props.category;
-  //       if (sub.new_parent._id !== sub.parent._id) {
-  //         const i = sub.parent.subcategories.indexOf(sub._id);
-  //         sub.parent.subcategories.splice(i, 1);
-  //       }
-  //       full_subs.push(sub);
-  //     }
-  //   });
-  //   return full_subs;
-  // }
-
   submitEditCategory() {
     const data = {
       query: { _id: this.state.idVal },

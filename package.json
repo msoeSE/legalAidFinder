@@ -45,12 +45,6 @@
     "superagent": "^3.8.2"
   },
   "scripts": {
-    "start": "npm run client",
-    "start:debug": "npm run client",
-    "start:prod": "npm run client:prod",
-    "client": "node start-client.js",
-    "client:prod": "NODE_ENV=production node start-client.js",
-    "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
     "e2e": "nightwatch -e chrome",
     "test": "jest",
     "lint": "eslint ."

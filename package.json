@@ -45,6 +45,8 @@
     "superagent": "^3.8.2"
   },
   "scripts": {
+    "start": "npm run client",
+    "client": "node start-client.js",
     "e2e": "nightwatch -e chrome",
     "test": "jest",
     "lint": "eslint ."

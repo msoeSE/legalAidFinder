@@ -56,11 +56,8 @@ class EditCategoryTree extends Component {
     deleteCategory() {
         //const parent = this.findCategory(data.id).parent;
 
-        /*const category = {
-            id: data.id,
-            parent: parent,
-        };*/
         const category = this.state.currentCategory;
+        category.id = this.state.currentCategory._id;
 
         this.setState({
             deleteModalOpen: false

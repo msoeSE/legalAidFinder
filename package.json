@@ -19,7 +19,7 @@
     "immutability-helper": "^2.6.4",
     "install": "^0.10.4",
     "marked": "^0.3.12",
-    "mongoose": "^4.13.10",
+    "mongoose": "^4.13.12",
     "nodemailer": "^4.6.3",
     "nodemon": "^1.17.1",
     "npm": "^5.6.0",
@@ -39,18 +39,14 @@
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^5.0.0",
     "redux-thunk": "^2.2.0",
-    "semantic-ui-react": "^0.77.2",
+    "semantic-ui-react": "^0.79.1",
     "sendmail": "^1.4.0",
     "sql.js": "0.3.2",
     "superagent": "^3.8.2"
   },
   "scripts": {
     "start": "npm run client",
-    "start:debug": "npm run client",
-    "start:prod": "npm run client:prod",
     "client": "node start-client.js",
-    "client:prod": "NODE_ENV=production node start-client.js",
-    "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
     "e2e": "nightwatch -e chrome",
     "test": "jest",
     "lint": "eslint ."

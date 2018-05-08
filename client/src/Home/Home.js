@@ -3,10 +3,24 @@ import {
   Link,
 } from 'react-router-dom';
 import { Button, Header, Icon, Label } from 'semantic-ui-react';
+import {fetchCategoriesAndDropdown} from "../Actions/categoriesActions";
 
 
 class Home extends Component {
-  render() {
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: null,
+        };
+        this.handleID = this.handleID.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.dispatch(fetchCategoriesAndDropdown()); // TODO: Fetch home page content
+    }
+
+
+  render() { // TODO: Pull all of the content from database
     return (
       <div className='homePage'>
         <Header as='h2' icon textAlign='center'>

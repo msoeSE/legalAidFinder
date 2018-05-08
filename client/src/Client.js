@@ -8,6 +8,7 @@ export const ELIGIBILITIES_ENDPOINT = 'eligibility';
 export const ELIGIBILITY_TYPE_ENDPOINT = 'eligibilityType';
 export const ADMINS_ENDPOINT = 'admin';
 export const AGENCY_REQUESTS_ENDPOINT = 'agencyrequests';
+export const HOME_PAGE_ENDPOINT = 'homepage'; // TODO: Set up this endpoint in db
 const LAMBDA_URL = 'https://c82fzxf28g.execute-api.us-east-1.amazonaws.com/prod/';
 // const LAMBDA_URL = 'http://localhost:3001/';
 
@@ -27,7 +28,7 @@ function getRequest(endpoint, id = null, cb) {
     .then(checkStatus)
     .then(parseJSON)
     .then(cb);
-}
+}npm
 
 function deleteRequest(endpoint, id, cb) {
   let url = LAMBDA_URL + endpoint;

@@ -6,6 +6,7 @@ import eligibility from './eligibilityReducer';
 import user from './userReducer';
 import admins from './adminsReducer';
 import agencyRequests from './agencyRequestsReducer';
+import homePage from './homePageReducer.js';
 
 export default combineReducers({
   agencies,
@@ -15,4 +16,5 @@ export default combineReducers({
   user,
   admins,
   agencyRequests,
+    homePage,
 });

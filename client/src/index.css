@@ -206,6 +206,10 @@ body {
     padding-bottom: 30%;
 }
 
+td {
+    padding: 3px;
+}
+
 @media only screen and (max-width: 600px) {
   .card-holder{
       margin: 25px;

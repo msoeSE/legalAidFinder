@@ -82,7 +82,13 @@ class AgencyHome extends Component {
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>Edit Supported Counties</Header>
-            <CountyModify agencyId={this.props.user.agency._id}/>
+            <CountyModify agencyId={this.props.user.agency._id} />
+          </Container>
+        </div></Tab.Pane> },
+      { menuItem: 'Contact Admins',
+        render: () => <Tab.Pane><div className='tab-content'>
+          <Container fluid textAlign='center'>
+            <Header as='h2'>Edit Supported Counties</Header>
           </Container>
         </div></Tab.Pane> },
     ];

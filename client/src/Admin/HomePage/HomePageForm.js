@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {Button, Input, Form, TextArea} from 'semantic-ui-react';
+import {Button, Form, Input, TextArea} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {fetchTitleAndDescription, updateTitleAndDescription} from "../../Actions/homePageActions";
 import MagnifyLoader from "../../Helpers/MagnifyLoader";
@@ -55,13 +55,13 @@ class HomePageForm extends Component {
         return (
             <div>
                 <Form onSubmit={this.submitHomePageChanges}>
-                    <Form.Field>
+                    <Form.Field style={{width: 100 + "%"}}>
                         <label>Title</label>
-                        <TextArea defaultValue={this.props.data.title} name='title' onChange={this.titleChange.bind(this)}/>
+                        <Input defaultValue={this.props.data.title} name='title' onChange={this.titleChange.bind(this)}/>
                     </Form.Field>
-                    <Form.Field>
+                    <Form.Field style={{width: 100 + "%"}}>
                         <label>Description</label>
-                        <TextArea defaultValue={this.props.data.description} name='description' onChange={this.descriptionChange.bind(this)}/>
+                        <TextArea autoHeight='true' defaultValue={this.props.data.description} name='description' onChange={this.descriptionChange.bind(this)}/>
                     </Form.Field>
                     <Form.Field>
                         <Button type='submit'>Submit</Button>

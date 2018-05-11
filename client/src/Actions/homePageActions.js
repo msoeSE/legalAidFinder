@@ -6,7 +6,7 @@ import {
     REQUEST_REJECTED
 } from '../Reducers/homePageReducer.js';
 
-export function fetchTitleAndDescription() { // TODO: Do all the setTitle, setDescription stuff
+export function fetchTitleAndDescription() {
     return dispatch => Client.getRequest(HOME_PAGE_ENDPOINT)
         .then((response) => {
             dispatch({ type: FETCH_HOME_INFO_FULFILLED, payload: response });

@@ -24,7 +24,7 @@ class Home extends Component {
     }
 
 
-  render() { // TODO: Pull all of the content from database
+  render() {
     return (
       <div className='homePage'>
         <Header as='h2' icon textAlign='center'>

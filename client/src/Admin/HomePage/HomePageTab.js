@@ -4,55 +4,23 @@ import { Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import {fetchTitleAndDescription} from "../../Actions/homePageActions";
+import HomePageForm from "./HomePageForm";
 
 function mapStateToProps(state) {
-    return { data: state.categories };
+    return { data: state.homePage };
 }
 
 class HomePageTab extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            title: '',
-            description: '',
-        };
-    }
-
-    componentWillMount() {
-        this.props.dispatch(fetchTitleAndDescription()); // TODO: Fetch home page content
+        this.state = {};
     }
 
     render() {
-        if (!this.props.data.dropdown) {
-            return (<MagnifyLoader label='Loading categories...' />);
-        }
-
-        if (this.state.id) {
-            return (
-                <div style={{ marginTop: '8px' }}>
-                    <Dropdown
-                        placeholder='Select a Category to edit'
-                        fluid
-                        className='padding'
-                        search selection
-                        options={this.props.data.dropdown}
-                        onChange={this.handleID}
-                    />
-                    <hr />
-                </div>
-            );
-        }
 
         return (
             <div>
-                <Dropdown
-                    placeholder='Select a Category to edit'
-                    fluid
-                    className='padding'
-                    search selection
-                    options={this.props.data.dropdown}
-                    onChange={this.handleID}
-                />
+                <HomePageForm/>
             </div>
         );
     }

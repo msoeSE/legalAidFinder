@@ -31,7 +31,6 @@ export default function reducer(state = { // TODO: Header stuff
             return { ...state, error: action.payload };
         }
         case UPDATE_HOMEPAGE: {
-            // TODO: Implement this case, might not need to do anything else
             return { ...state, title: action.payload.title, description: action.payload.description };
         }
     }

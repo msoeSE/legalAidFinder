@@ -39,7 +39,6 @@ class HomePageTab extends Component {
                         onChange={this.handleID}
                     />
                     <hr />
-                    <EditCategoryTree categoryId={this.state.id} />
                 </div>
             );
         }

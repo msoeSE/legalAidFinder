@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
 import {
-  Link,
+    Link, withRouter,
 } from 'react-router-dom';
 import { Button, Header, Icon, Label } from 'semantic-ui-react';
 import {fetchCategoriesAndDropdown} from "../Actions/categoriesActions";
+import {connect} from "react-redux";
+import {fetchTitleAndDescription} from "../Actions/homePageActions";
 
+function mapStateToProps(state) {
+    return { title: state.title, description: state.description };
+}
 
 class Home extends Component {
-    constructor(props) {
+    /*constructor(props) {
         super(props);
         this.state = {
             id: null,
+            title: "",
+            description: "",
         };
-        this.handleID = this.handleID.bind(this);
-    }
+    }*/
 
     componentWillMount() {
         this.props.dispatch(fetchCategoriesAndDropdown()); // TODO: Fetch home page content
+        this.props.dispatch(fetchTitleAndDescription());
     }
 
 
@@ -25,7 +32,7 @@ class Home extends Component {
       <div className='homePage'>
         <Header as='h2' icon textAlign='center'>
           <Header.Content>
-                  Welcome to Wisconsin's Civil Legal Aid!
+              {this.props.title}
               </Header.Content>
           <Icon name='law' circular fitted size='huge' />
         </Header>
@@ -34,9 +41,7 @@ class Home extends Component {
           Do you have a legal issue, but can’t afford to hire an attorney? Then you came to the right place!
           <br />
             <br />
-          Wisconsin Civil Legal Aid helps provide you with the information you need in order to request legal aid.  All you have to do is identify
-          your legal issue, and we will output a list of agencies that support your issue.  From there, you may contact the agency and receive the
-          proper assistance you need.
+              {this.props.description}
           <br />
             <br />
           To get started, click the button below!
@@ -52,4 +57,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(connect(mapStateToProps)(Home));

@@ -2,27 +2,24 @@ import React, { Component } from 'react';
 import {
     Link, withRouter,
 } from 'react-router-dom';
-import { Button, Header, Icon, Label } from 'semantic-ui-react';
-import {fetchCategoriesAndDropdown} from "../Actions/categoriesActions";
+import { Button, Header, Label } from 'semantic-ui-react';
 import {connect} from "react-redux";
 import {fetchTitleAndDescription} from "../Actions/homePageActions";
 
 function mapStateToProps(state) {
-    return { title: state.title, description: state.description };
+    return { data: state.homePage };
 }
 
 class Home extends Component {
-    /*constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {
-            id: null,
             title: "",
             description: "",
         };
-    }*/
+    }
 
     componentWillMount() {
-        this.props.dispatch(fetchCategoriesAndDropdown()); // TODO: Fetch home page content
         this.props.dispatch(fetchTitleAndDescription());
     }
 
@@ -32,16 +29,12 @@ class Home extends Component {
       <div className='homePage'>
         <Header as='h2' icon textAlign='center'>
           <Header.Content>
-              {this.props.title}
+              {this.props.data.title}
               </Header.Content>
-          <Icon name='law' circular fitted size='huge' />
         </Header>
         <div>
           <Label basic size='big'>
-          Do you have a legal issue, but can’t afford to hire an attorney? Then you came to the right place!
-          <br />
-            <br />
-              {this.props.description}
+              {this.props.data.description}
           <br />
             <br />
           To get started, click the button below!

@@ -20,6 +20,8 @@ class AgencyRequestForm extends Component {
       contact_phone: '',
       contact_email: '',
       comments: '',
+      request_status: '',
+      date_submitted: '',
     };
 
     this.submitAgencyRequest = this.submitAgencyRequest.bind(this);
@@ -72,6 +74,9 @@ class AgencyRequestForm extends Component {
         contact_phone: this.state.contact_phone,
         contact_email: this.state.contact_email,
         comments: this.state.comments,
+        request_status: 0,
+        date_submitted: new Date(),
+        date_accepted: null
       };
 
       this.props.dispatch(addAgencyRequests(data)).then(() => {
@@ -82,7 +87,7 @@ class AgencyRequestForm extends Component {
         });
         this.setState({ agency_name: '', agency_email: '', agency_url: '',
           contact_name: '', contact_phone: '', contact_email: '',
-          comments: '' });
+          comments: '', request_status: '', date_submitted: '' });
       });
     }
   }

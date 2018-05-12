@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchAgencyRequests, deleteAgencyRequests } from '../../Actions/agencyRequestsActions';
 import { addAgencies } from '../../Actions/agenciesActions';
+import $ from 'jquery';
 
 function mapStateToProps(state) {
   return { requests: state.agencyRequests.requests };
@@ -47,6 +48,29 @@ class AgencyRequests extends Component {
           alertTitle: "Agency Accepted",
           alertMsg: req.agency_name + " has been added as an agency. Please let " + req.contact_name + " know at " +
           req.contact_phone + " or " + req.contact_email + ".",
+        });
+
+        // Send email to administrator
+        const email = {
+          service_id: 'gmail',
+          template_id: 'template_e7jigLVZ',
+          user_id: 'user_p9e1W3DpCdsaN9gReADlT',
+          template_params: {
+              'message_html': '<div><table>'
+              + '<tr><td><b>Agency Name</b></td><td>' + data.agency_name + '</td></tr>'
+              + '<tr><td><b>Agency Email</b></td><td>' + data.agency_email + '</td></tr>'
+              + '<tr><td><b>Agency URL</b></td><td>' + data.agency_url + '</td></tr>'
+              + '<tr><td><b>Contact Name</b></td><td>' + data.contact_name + '</td></tr>'
+              + '<tr><td><b>Contact Phone</b></td><td>' + data.contact_phone + '</td></tr>'
+              + '<tr><td><b>Contact Email</b></td><td>' + data.contact_email + '</td></tr>'
+              + '<tr><td><b>Comments</b></td><td>' + data.comments + '</td></tr>'
+              +'</table></div>'
+          }
+        };
+        $.ajax('https://api.emailjs.com/api/v1.0/email/send', {
+          type: 'POST',
+          data: JSON.stringify(email),
+          contentType: 'application/json'
         });
       });
     });

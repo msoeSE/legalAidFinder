@@ -53,18 +53,15 @@ class AgencyRequests extends Component {
         // Send email to administrator
         const email = {
           service_id: 'gmail',
-          template_id: 'template_e7jigLVZ',
+          template_id: 'agency_request_accepted',
           user_id: 'user_p9e1W3DpCdsaN9gReADlT',
           template_params: {
-              'message_html': '<div><table>'
-              + '<tr><td><b>Agency Name</b></td><td>' + data.agency_name + '</td></tr>'
-              + '<tr><td><b>Agency Email</b></td><td>' + data.agency_email + '</td></tr>'
-              + '<tr><td><b>Agency URL</b></td><td>' + data.agency_url + '</td></tr>'
-              + '<tr><td><b>Contact Name</b></td><td>' + data.contact_name + '</td></tr>'
-              + '<tr><td><b>Contact Phone</b></td><td>' + data.contact_phone + '</td></tr>'
-              + '<tr><td><b>Contact Email</b></td><td>' + data.contact_email + '</td></tr>'
-              + '<tr><td><b>Comments</b></td><td>' + data.comments + '</td></tr>'
-              +'</table></div>'
+              'message_html': '<div>'
+              + '<b>Contact Name</b>   ' + req.contact_name
+              + '</br><b>Contact Email</b>   ' + req.contact_email
+              + '</br><b>Contact Phone</b>   ' + req.contact_phone
+              +'</div>',
+              'agency_name' : '<b>' + req.agency_name + '</b>'
           }
         };
         $.ajax('https://api.emailjs.com/api/v1.0/email/send', {

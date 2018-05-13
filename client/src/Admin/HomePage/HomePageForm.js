@@ -4,10 +4,11 @@ import {Button, Form, Input, TextArea} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {fetchTitleAndDescription, updateTitleAndDescription} from "../../Actions/homePageActions";
 import MagnifyLoader from "../../Helpers/MagnifyLoader";
+import {fetchHeader, updateHeader} from "../../Actions/headerActions";
 
 
 function mapStateToProps(state) {
-    return { data: state.homePage };
+    return { homeData: state.homePage, headerData: state.header };
 }
 
 class HomePageForm extends Component {
@@ -17,6 +18,7 @@ class HomePageForm extends Component {
         this.state = {
             title: '',
             description: '',
+            header: '',
             msg: '',
         };
 
@@ -25,7 +27,12 @@ class HomePageForm extends Component {
 
     componentWillMount() {
         this.props.dispatch(fetchTitleAndDescription());
-        this.setState({title: this.props.data.title, description: this.props.data.description});
+        this.props.dispatch(fetchHeader());
+        this.setState({header: this.props.headerData.header, title: this.props.homeData.title, description: this.props.homeData.description});
+    }
+
+    headerChange(event) {
+        this.setState({ header: event.target.value });
     }
 
     titleChange(event) {
@@ -40,15 +47,17 @@ class HomePageForm extends Component {
         event.preventDefault();
         this.state.msg = '';
 
+        this.props.dispatch(updateHeader(this.state.header));
         this.props.dispatch(updateTitleAndDescription(this.state.title, this.state.description));
         this.props.dispatch(fetchTitleAndDescription());
-        this.setState({msg: 'Successfully edited home page info.'});
+        this.props.dispatch(fetchHeader());
+        this.setState({msg: 'Successfully edited header and home page info.'});
 
     }
 
     render() {
 
-        if (!(this.props.data.title && this.props.data.description)) {
+        if (!(this.props.homeData.title && this.props.homeData.description && this.props.headerData.header)) {
             return (<MagnifyLoader label='Loading home page information...' />);
         }
 
@@ -56,12 +65,16 @@ class HomePageForm extends Component {
             <div>
                 <Form onSubmit={this.submitHomePageChanges}>
                     <Form.Field style={{width: 100 + "%"}}>
+                        <label>Header</label>
+                        <Input defaultValue={this.props.headerData.header} name='header' onChange={this.headerChange.bind(this)}/>
+                    </Form.Field>
+                    <Form.Field style={{width: 100 + "%"}}>
                         <label>Title</label>
-                        <Input defaultValue={this.props.data.title} name='title' onChange={this.titleChange.bind(this)}/>
+                        <Input defaultValue={this.props.homeData.title} name='title' onChange={this.titleChange.bind(this)}/>
                     </Form.Field>
                     <Form.Field style={{width: 100 + "%"}}>
                         <label>Description</label>
-                        <TextArea autoHeight='true' defaultValue={this.props.data.description} name='description' onChange={this.descriptionChange.bind(this)}/>
+                        <TextArea autoHeight='true' defaultValue={this.props.homeData.description} name='description' onChange={this.descriptionChange.bind(this)}/>
                     </Form.Field>
                     <Form.Field>
                         <Button type='submit'>Submit</Button>

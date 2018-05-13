@@ -18,9 +18,10 @@ import { fetchAgencies } from './Actions/agenciesActions';
 import { setUser, clearUser } from './Actions/userActions';
 import { fetchAdmins } from './Actions/adminsActions';
 import './Header.css';
+import {fetchHeader} from "./Actions/headerActions";
 
 function mapStateToProps(state) {
-  return { agencyData: state.agencies, user: state.user, adminData: state.admins };
+  return { agencyData: state.agencies, user: state.user, adminData: state.admins, headerData: state.header };
 }
 
 class Header extends Component {
@@ -31,6 +32,7 @@ class Header extends Component {
       showAlert: false,
       alertTitle: '',
       alertMsg: '',
+        header: '',
     };
 
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
@@ -43,6 +45,7 @@ class Header extends Component {
   componentWillMount() {
     this.props.dispatch(fetchAgencies());
     this.props.dispatch(fetchAdmins());
+    this.props.dispatch(fetchHeader());
   }
 
   handleLoginSuccess(response) {
@@ -155,7 +158,7 @@ class Header extends Component {
           <Link to='/' >
             <h1 className='ui header header-title'>
               <img className='ui image' src={logo} alt='logo' />
-              Wisconsin's Civil Legal Aid
+                {this.props.headerData.header}
             </h1>
           </Link>
           {login}

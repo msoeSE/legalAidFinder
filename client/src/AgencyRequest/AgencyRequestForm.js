@@ -67,6 +67,17 @@ class AgencyRequestForm extends Component {
         alertMsg: "Please enter all required fields.",
       });
     } else {
+      let today = new Date();
+      let dd = today.getDate();
+      let mm = today.getMonth()+1; // January is 0
+      let yyyy = today.getFullYear();
+      if (dd < 10) {
+        dd = '0' + dd;
+      }
+      if (mm < 10) {
+        mm = '0' + mm;
+      }
+      today = mm + '/' + dd + '/' + yyyy;
       const data = {
         agency_name: this.state.agency_name,
         agency_email: this.state.agency_email,
@@ -75,9 +86,8 @@ class AgencyRequestForm extends Component {
         contact_phone: this.state.contact_phone,
         contact_email: this.state.contact_email,
         comments: this.state.comments,
-        request_status: 0,
-        date_submitted: new Date(),
-        date_accepted: null
+        request_status: '0',
+        date_submitted: today.toString(),
       };
 
       this.props.dispatch(addAgencyRequests(data)).then(() => {
@@ -89,7 +99,7 @@ class AgencyRequestForm extends Component {
         this.setState({ agency_name: '', agency_email: '', agency_url: '',
           contact_name: '', contact_phone: '', contact_email: '',
           comments: '', request_status: '', date_submitted: '' });
-
+        
         // Send email to administrator
         const email = {
           service_id: 'gmail',
@@ -144,7 +154,9 @@ class AgencyRequestForm extends Component {
 
         <form className="ui form">
           <h1>Agency Registration</h1>
-          <p>Paragraph here with instructions</p>
+          <p> The Wisconsin Legal Aid Finder website is a project of the Wisconsin Access to Justice Commission.
+            The site aims to connect Wisconsin residents seeking access to justice with appropriate service providers.
+            Complete the fields below to add your legal aid program or services to the site. </p>
           <h3>Agency Information:</h3>
           <div className=" required field">
             <label>Name</label>

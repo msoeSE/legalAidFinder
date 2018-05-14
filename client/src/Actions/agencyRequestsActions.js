@@ -1,9 +1,10 @@
-import Client, { AGENCY_REQUESTS_ENDPOINT } from '../Client';
+import Client, { AGENCY_REQUESTS_ENDPOINT } from '../Client'
 import {
   FETCH_AGENCY_REQUESTS_FULFILLED,
   REQUEST_REJECTED,
   ADD_AGENCY_REQUEST,
   DELETE_AGENCY_REQUEST,
+  UPDATE_AGENCY_REQUEST,
 } from '../Reducers/agencyRequestsReducer';
 
 export function fetchAgencyRequests() {
@@ -30,6 +31,16 @@ export function addAgencyRequests(data) {
   return dispatch => Client.postRequest(AGENCY_REQUESTS_ENDPOINT, data)
     .then((response) => {
       dispatch({ type: ADD_AGENCY_REQUEST, payload: response });
+    })
+    .catch((err) => {
+      dispatch({ type: REQUEST_REJECTED, payload: err });
+    });
+}
+
+export function modifyAgencyRequests(data) {
+  return dispatch => Client.putRequest(AGENCY_REQUESTS_ENDPOINT, data)
+    .then((response) => {
+      dispatch({ type: UPDATE_AGENCY_REQUEST, payload: response });
     })
     .catch((err) => {
       dispatch({ type: REQUEST_REJECTED, payload: err });

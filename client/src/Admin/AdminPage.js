@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import AgencyRequests from './Agency/AgencyRequests';
 import CategoryTab from './Category/CategoryTab';
 import EligibilityTypeAdd from './EligibilityType/EligibilityTypeAdd';
+import HomePageTab from './HomePage/HomePageTab.js';
 import Agency from './Agency/Agency';
 import { fetchAgencyRequests } from '../Actions/agencyRequestsActions';
 
@@ -47,13 +48,20 @@ class AdminPage extends Component {
           </Container>
           <CategoryTab />
         </div></Tab.Pane> },
-      { menuItem: 'Eligibility Types',
-        render: () => <Tab.Pane><div className='tab-content'>
-          <Container fluid textAlign='center'>
-            <Header as='h2'>Eligibility Types</Header>
-          </Container>
-          <EligibilityTypeAdd />
-        </div></Tab.Pane> },
+        { menuItem: 'Eligibility Types',
+            render: () => <Tab.Pane><div className='tab-content'>
+                <Container fluid textAlign='center'>
+                    <Header as='h2'>Eligibility Types</Header>
+                </Container>
+                <EligibilityTypeAdd />
+            </div></Tab.Pane> },
+        { menuItem: 'Home Page',
+            render: () => <Tab.Pane><div className='tab-content'>
+                <Container fluid textAlign='center'>
+                    <Header as='h2'>Home Page</Header>
+                </Container>
+                <HomePageTab />
+            </div></Tab.Pane> },
     ];
     return (
       <div>

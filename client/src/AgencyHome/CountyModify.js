@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchCounties, addCountyToAgency } from '../Actions/countiesActions';
 import CountyCheckbox from './CountyCheckbox';
 import { fetchAgencies } from '../Actions/agenciesActions';
+import MagnifyLoader from '../Helpers/MagnifyLoader';
 
 function mapStateToProps(state) {
   return { data: state.counties, agency: state.agencies };

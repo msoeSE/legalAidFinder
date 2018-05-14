@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
 import {
-  Link,
+    Link, withRouter,
 } from 'react-router-dom';
-import { Button, Header, Icon, Label } from 'semantic-ui-react';
+import { Button, Header, Label } from 'semantic-ui-react';
+import {connect} from "react-redux";
+import {fetchTitleAndDescription} from "../Actions/homePageActions";
 
+function mapStateToProps(state) {
+    return { data: state.homePage };
+}
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: "",
+            description: "",
+        };
+    }
+
+    componentWillMount() {
+        this.props.dispatch(fetchTitleAndDescription());
+    }
+
+
   render() {
     return (
       <div className='homePage'>
         <Header as='h2' icon textAlign='center'>
           <Header.Content>
-                  Welcome to Wisconsin's Civil Legal Aid!
+              {this.props.data.title}
               </Header.Content>
-          <Icon name='law' circular fitted size='huge' />
         </Header>
         <div>
           <Label basic size='big'>
-          Do you have a legal issue, but can’t afford to hire an attorney? Then you came to the right place!
-          <br />
-            <br />
-          Wisconsin Civil Legal Aid helps provide you with the information you need in order to request legal aid.  All you have to do is identify
-          your legal issue, and we will output a list of agencies that support your issue.  From there, you may contact the agency and receive the
-          proper assistance you need.
+              {this.props.data.description}
           <br />
             <br />
           To get started, click the button below!
@@ -38,4 +50,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(connect(mapStateToProps)(Home));

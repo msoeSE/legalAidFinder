@@ -4,11 +4,10 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AgencyRequests from './Agency/AgencyRequests';
 import CategoryTab from './Category/CategoryTab';
-import CategoryAdd from './Category/CategoryAdd';
-import CategoryDelete from './Category/CategoryDelete';
 import EligibilityTypeAdd from './EligibilityType/EligibilityTypeAdd';
-import Agency from "./Agency/Agency";
-import { fetchAgencyRequests } from '../Actions/agencyRequestsActions'
+import HomePageTab from './HomePage/HomePageTab.js';
+import Agency from './Agency/Agency';
+import { fetchAgencyRequests } from '../Actions/agencyRequestsActions';
 
 function mapStateToProps(state) {
   return { data: state.categories, user: state.user, requests: state.agencyRequests.requests };
@@ -16,7 +15,7 @@ function mapStateToProps(state) {
 
 class AdminPage extends Component {
 
-  componentWillMount () {
+  componentWillMount() {
     this.props.dispatch(fetchAgencyRequests());
   }
 
@@ -28,42 +27,41 @@ class AdminPage extends Component {
     }
 
     const panes = [
-      { menuItem: <Menu.Item key='requests'>Agency Requests<Label>{this.props.requests.length}</Label></Menu.Item>, render: () => <Tab.Pane><div className='tab-content'>
+      { menuItem: <Menu.Item key='requests'>Agency Requests<Label>{this.props.requests.length}</Label></Menu.Item>,
+        render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>Agency Requests</Header>
-            <AgencyRequests/>
+            <AgencyRequests />
           </Container>
         </div></Tab.Pane> },
-      { menuItem: 'Agency Tools', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Agency Tools</Header>
-          <Agency />
-        </Container>
-      </div></Tab.Pane> },
-      { menuItem: 'Add Category', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Add a Category</Header>
-        </Container>
-        <CategoryAdd />
-      </div></Tab.Pane> },
-      { menuItem: 'Delete Category', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Delete a Category</Header>
-        </Container>
-        <CategoryDelete />
-      </div></Tab.Pane> },
-      { menuItem: 'Edit Category', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Edit the Categories</Header>
-        </Container>
-        <CategoryTab />
-      </div></Tab.Pane> },
-      { menuItem: 'Eligibility Types', render: () => <Tab.Pane><div className='tab-content'>
-        <Container fluid textAlign='center'>
-          <Header as='h2'>Eligibility Types</Header>
-        </Container>
-        <EligibilityTypeAdd />
-      </div></Tab.Pane> }
+      { menuItem: 'Agency Tools',
+        render: () => <Tab.Pane><div className='tab-content'>
+          <Container fluid textAlign='center'>
+            <Header as='h2'>Agency Tools</Header>
+            <Agency />
+          </Container>
+        </div></Tab.Pane> },
+      { menuItem: 'Category Tools',
+        render: () => <Tab.Pane><div className='tab-content'>
+          <Container fluid textAlign='center'>
+            <Header as='h2'>Category Tools</Header>
+          </Container>
+          <CategoryTab />
+        </div></Tab.Pane> },
+        { menuItem: 'Eligibility Types',
+            render: () => <Tab.Pane><div className='tab-content'>
+                <Container fluid textAlign='center'>
+                    <Header as='h2'>Eligibility Types</Header>
+                </Container>
+                <EligibilityTypeAdd />
+            </div></Tab.Pane> },
+        { menuItem: 'Home Page',
+            render: () => <Tab.Pane><div className='tab-content'>
+                <Container fluid textAlign='center'>
+                    <Header as='h2'>Home Page</Header>
+                </Container>
+                <HomePageTab />
+            </div></Tab.Pane> },
     ];
     return (
       <div>

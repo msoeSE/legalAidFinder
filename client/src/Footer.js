@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import { Button, Modal, Grid, Item, Header, Image } from 'semantic-ui-react';
+import { Button, Modal, Grid } from 'semantic-ui-react';
 import { clearUser, setUser } from './Actions/userActions';
 import { fetchAdmins } from './Actions/adminsActions';
 import { fetchAgencies } from './Actions/agenciesActions';
-import msoeLogo from './Images/msoe.png';
 
 function mapStateToProps(state) {
   return { agencyData: state.agencies, user: state.user, adminData: state.admins };

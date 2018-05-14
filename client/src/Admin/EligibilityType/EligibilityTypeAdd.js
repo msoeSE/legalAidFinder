@@ -61,7 +61,7 @@ class EligibilityAdd extends Component {
     this.setState({ valueType: data.value, msg: '' });
   }
 
-  submitEligibilityType(event) {
+  submitEligibilityType(event, data) { // TODO: Follow data pattern from category to get this to work???
     event.preventDefault();
 
     if (this.state.name === '') {
@@ -125,7 +125,7 @@ class EligibilityAdd extends Component {
         <Grid divided='vertically' celled='internally' centered>
           <Grid.Row columns={2}>
             <Grid.Column>
-              <div align='center'>
+              <div>
                 <h3>Create New Eligibility Type: </h3>
                 <Form>
                   <Form.Field>
@@ -133,7 +133,6 @@ class EligibilityAdd extends Component {
                       placeholder='e.g. Income'
                       label='Eligibility Name '
                       labelPosition='left'
-                      fluid
                       onChange={this.eligibilityName.bind(this)}
                       value={this.state.name}
                     />
@@ -142,7 +141,6 @@ class EligibilityAdd extends Component {
                     <label>Value Type</label>
                     <Dropdown
                       placeholder='Select an value type'
-                      fluid
                       search
                       selection
                       options={valueTypes}
@@ -154,7 +152,6 @@ class EligibilityAdd extends Component {
                     <Dropdown
                       multiple
                       selection
-                      fluid
                       options={comparators}
                       placeholder='Select which comparators can be used'
                       renderLabel={renderLabel}

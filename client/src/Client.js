@@ -8,6 +8,8 @@ export const ELIGIBILITIES_ENDPOINT = 'eligibility';
 export const ELIGIBILITY_TYPE_ENDPOINT = 'eligibilityType';
 export const ADMINS_ENDPOINT = 'admin';
 export const AGENCY_REQUESTS_ENDPOINT = 'agencyrequests';
+export const HOME_PAGE_ENDPOINT = 'homepage';
+export const HEADER_ENDPOINT = 'header';
 const LAMBDA_URL = 'https://c82fzxf28g.execute-api.us-east-1.amazonaws.com/prod/';
 //const LAMBDA_URL = 'http://localhost:3001/';
 
@@ -22,7 +24,7 @@ function getRequest(endpoint, id = null, cb) {
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json',
     },
-    // mode: 'cors'
+    mode: 'cors'
   })
     .then(checkStatus)
     .then(parseJSON)
@@ -38,6 +40,7 @@ function deleteRequest(endpoint, id, cb) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(id),
+    mode: 'cors'
   })
     .then(checkStatus)
     .then(parseJSON)
@@ -53,6 +56,7 @@ function postRequest(endpoint, data, cb) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
+    mode: 'cors'
   })
     .then(checkStatus)
     .then(parseJSON)
@@ -68,6 +72,7 @@ function putRequest(endpoint, data, cb) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
+    mode: 'cors'
   })
     .then(checkStatus)
     .then(parseJSON)

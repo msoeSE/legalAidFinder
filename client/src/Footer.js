@@ -145,7 +145,7 @@ class Footer extends Component {
                 {logout}
               </Grid.Column>
               <Grid.Column width={5}>
-                  Copyright 2018 - Wisconsin Access to Justice Commission and MSOE
+                  Copyright © 2018 Wisconsin Access to Justice Commission and MSOE
               </Grid.Column>
               <Grid.Column>
                 <Button as={Link} className='loginLogoutButton' to={'/agencyrequestform'}>Agency Registration</Button>

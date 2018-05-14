@@ -74,11 +74,11 @@ class AdminPage extends Component {
         </div></Tab.Pane> },
       { menuItem: 'Edit Admins',
         render: () => <Tab.Pane><div className='tab-content'>
-          <Container fluid textAlign='center'>
+          <Container fluid textAlign='center' style={{ paddingTop: '10px' }}>
             <Header as='h2'>Add New Admin</Header>
           </Container>
           <AddNewAdmin />
-          <Divider />
+          <Divider style={{ background: '#434343', borderBottom: '1px solid black' }} />
           <Container fluid textAlign='center'>
             <Header as='h2'>Remove Admin</Header>
           </Container>

@@ -15,29 +15,29 @@ class AgencyAdd extends Component {
       id: '',
     };
   }
-  adminID(data) {
-    this.setState({ id: data.value, msg: '' });
-  }
 
   componentWillMount() {
     this.props.dispatch(fetchAdminsAndDropdown());
   }
+
+  componentWillReceiveProps(){
+    this.props.dispatch(fetchAdminsAndDropdown());
+  }
+
+  adminID(event, data) {
+    this.setState({ id: data.value, msg: '' });
+  }
+
   deleteAdmins(event) {
     event.preventDefault();
-    if (window.confirm('Are you sure you want to delete it?')) {
+    if (window.confirm('Are you sure you want to delete this admin?')) {
       const data = {
         id: this.state.id,
       };
 
       this.props.dispatch(deleteAdmin(data)).then(() => {
-        //this.props.dispatch(fetchAdminsAndDropdown());
-        //this.setState({ msg: 'Successfuly deleted admin.' });
-        if (!this.props.data.error) {
-          this.props.dispatch(fetchAdminsAndDropdown());
-          this.setState({ msg: 'Successfuly deleted admin.' });
-        } else {
-          this.setState({ msg: 'Failed to delete admin.' });
-        }
+        this.props.dispatch(fetchAdminsAndDropdown());
+        this.setState({ msg: 'Successfuly deleted admin.' });
       });
     } else {
       this.setState({ msg: '' });
@@ -49,12 +49,15 @@ class AgencyAdd extends Component {
       <div>
         <div align='center'>
           <form>
-            <Dropdown placeholder='Select an Admin to delete'
-                      fluid={true} size='big' className='padding2' search selection
-                      options={this.props.data.dropdown} onChange={this.adminID.bind(this)}
+            <Dropdown
+              placeholder='Select an Admin to delete'
+              fluid size='big' className='padding' search selection
+              options={this.props.data.dropdown} onChange={this.adminID.bind(this)}
             />
-            <Button negative onClick={this.deleteAdmins.bind(this)}>Delete Admin</Button>
-            <h2>{this.state.msg}</h2>
+            <div style={{ padding: '5px' }}>
+              <Button negative onClick={this.deleteAdmins.bind(this)}>Delete Admin</Button>
+              <h2>{this.state.msg}</h2>
+            </div>
           </form>
         </div>
       </div>

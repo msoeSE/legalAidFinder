@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Input, Button } from 'semantic-ui-react';
-import { addAdmin } from '../Actions/adminsActions';
+import { addAdmin, fetchAdminsAndDropdown } from '../Actions/adminsActions';
 
 
 function mapStateToProps(state) {

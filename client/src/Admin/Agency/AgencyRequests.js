@@ -81,13 +81,13 @@ class AgencyRequests extends Component {
           user_id: 'user_p9e1W3DpCdsaN9gReADlT',
           template_params: {
             'message_html': '<div><table>'
-            + '<tr><td><b>Agency Name</b></td><td>' + data.agency_name + '</td></tr>'
-            + '<tr><td><b>Agency Email</b></td><td>' + data.agency_email + '</td></tr>'
-            + '<tr><td><b>Agency URL</b></td><td>' + data.agency_url + '</td></tr>'
-            + '<tr><td><b>Contact Name</b></td><td>' + data.contact_name + '</td></tr>'
-            + '<tr><td><b>Contact Phone</b></td><td>' + data.contact_phone + '</td></tr>'
-            + '<tr><td><b>Contact Email</b></td><td>' + data.contact_email + '</td></tr>'
-            + '<tr><td><b>Comments</b></td><td>' + data.comments + '</td></tr>'
+            + '<tr><td><b>Agency Name</b></td><td>' + req.agency_name + '</td></tr>'
+            + '<tr><td><b>Agency Email</b></td><td>' + req.agency_email + '</td></tr>'
+            + '<tr><td><b>Agency URL</b></td><td>' + req.agency_url + '</td></tr>'
+            + '<tr><td><b>Contact Name</b></td><td>' + req.contact_name + '</td></tr>'
+            + '<tr><td><b>Contact Phone</b></td><td>' + req.contact_phone + '</td></tr>'
+            + '<tr><td><b>Contact Email</b></td><td>' + req.contact_email + '</td></tr>'
+            + '<tr><td><b>Comments</b></td><td>' + req.comments + '</td></tr>'
             + '</table></div>',
               'agency_name' : '<b>' + req.agency_name + '</b>'
           }

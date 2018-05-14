@@ -20,11 +20,14 @@ class AgencyAdd extends Component {
     this.props.dispatch(fetchAdminsAndDropdown());
   }
 
-  componentWillReceiveProps(){
-    this.props.dispatch(fetchAdminsAndDropdown());
+  update(updated){
+    if (updated){
+      this.props.dispatch(fetchAdminsAndDropdown());
+    }
   }
 
   adminID(event, data) {
+    this.props.dispatch(fetchAdminsAndDropdown());
     this.setState({ id: data.value, msg: '' });
   }
 

@@ -4,11 +4,10 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AgencyRequests from './Agency/AgencyRequests';
 import CategoryTab from './Category/CategoryTab';
-import CategoryAdd from './Category/CategoryAdd';
-import CategoryDelete from './Category/CategoryDelete';
 import EligibilityTypeAdd from './EligibilityType/EligibilityTypeAdd';
 import AddNewAdmin from './AddAdmin';
 import RemoveAdmin from './RemoveAdmin';
+import HomePageTab from './HomePage/HomePageTab.js';
 import Agency from './Agency/Agency';
 import { fetchAgencyRequests } from '../Actions/agencyRequestsActions';
 
@@ -44,46 +43,39 @@ class AdminPage extends Component {
             <Agency />
           </Container>
         </div></Tab.Pane> },
-      { menuItem: 'Add Category',
+      { menuItem: 'Category Tools',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
-            <Header as='h2'>Add a Category</Header>
-          </Container>
-          <CategoryAdd />
-        </div></Tab.Pane> },
-      { menuItem: 'Delete Category',
-        render: () => <Tab.Pane><div className='tab-content'>
-          <Container fluid textAlign='center'>
-            <Header as='h2'>Delete a Category</Header>
-          </Container>
-          <CategoryDelete />
-        </div></Tab.Pane> },
-      { menuItem: 'Edit Category',
-        render: () => <Tab.Pane><div className='tab-content'>
-          <Container fluid textAlign='center'>
-            <Header as='h2'>Edit the Categories</Header>
+            <Header as='h2'>Category Tools</Header>
           </Container>
           <CategoryTab />
         </div></Tab.Pane> },
-      { menuItem: 'Eligibility Types',
-        render: () => <Tab.Pane><div className='tab-content'>
-          <Container fluid textAlign='center'>
-            <Header as='h2'>Eligibility Types</Header>
-          </Container>
-          <EligibilityTypeAdd />
-        </div></Tab.Pane> },
-      { menuItem: 'Edit Admins',
-        render: () => <Tab.Pane><div className='tab-content'>
-          <Container fluid textAlign='center' style={{ paddingTop: '10px' }}>
-            <Header as='h2'>Add New Admin</Header>
-          </Container>
-          <AddNewAdmin />
-          <Divider style={{ background: '#434343', borderBottom: '1px solid black' }} />
-          <Container fluid textAlign='center'>
-            <Header as='h2'>Remove Admin</Header>
-          </Container>
-          <RemoveAdmin />
-        </div></Tab.Pane> },
+        { menuItem: 'Eligibility Types',
+            render: () => <Tab.Pane><div className='tab-content'>
+                <Container fluid textAlign='center'>
+                    <Header as='h2'>Eligibility Types</Header>
+                </Container>
+                <EligibilityTypeAdd />
+            </div></Tab.Pane> },
+        { menuItem: 'Edit Admins',
+          render: () => <Tab.Pane><div className='tab-content'>
+            <Container fluid textAlign='center' style={{ paddingTop: '10px' }}>
+              <Header as='h2'>Add New Admin</Header>
+            </Container>
+            <AddNewAdmin />
+            <Divider style={{ background: '#434343', borderBottom: '1px solid black' }} />
+            <Container fluid textAlign='center'>
+              <Header as='h2'>Remove Admin</Header>
+            </Container>
+            <RemoveAdmin />
+          </div></Tab.Pane> },
+        { menuItem: 'Home Page',
+            render: () => <Tab.Pane><div className='tab-content'>
+                <Container fluid textAlign='center'>
+                    <Header as='h2'>Home Page</Header>
+                </Container>
+                <HomePageTab />
+            </div></Tab.Pane> },
     ];
     return (
       <div>

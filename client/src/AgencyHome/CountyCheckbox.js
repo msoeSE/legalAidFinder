@@ -28,6 +28,7 @@ class CountyCheckbox extends Component {
       <div>
         <Checkbox
           label={this.props.county.name}
+          id={this.props.county.name}
           value={this.props.county.name}
           key={this.props.county.name}
           checked={isChecked}

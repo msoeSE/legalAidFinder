@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import { addAgencyRequests } from '../Actions/agencyRequestsActions';
 import './AgencyRequestForm.css';
+import $ from 'jquery';
 
 function mapStateToProps(state) {
   return { data: state.requests };
@@ -98,7 +99,31 @@ class AgencyRequestForm extends Component {
         this.setState({ agency_name: '', agency_email: '', agency_url: '',
           contact_name: '', contact_phone: '', contact_email: '',
           comments: '', request_status: '', date_submitted: '' });
+        
+        // Send email to administrator
+        const email = {
+          service_id: 'gmail',
+          template_id: 'agency_request_notify_admin',
+          user_id: 'user_p9e1W3DpCdsaN9gReADlT',
+          template_params: {
+              'message_html': '<div><table>'
+              + '<tr><td><b>Agency Name</b></td><td>' + data.agency_name + '</td></tr>'
+              + '<tr><td><b>Agency Email</b></td><td>' + data.agency_email + '</td></tr>'
+              + '<tr><td><b>Agency URL</b></td><td>' + data.agency_url + '</td></tr>'
+              + '<tr><td><b>Contact Name</b></td><td>' + data.contact_name + '</td></tr>'
+              + '<tr><td><b>Contact Phone</b></td><td>' + data.contact_phone + '</td></tr>'
+              + '<tr><td><b>Contact Email</b></td><td>' + data.contact_email + '</td></tr>'
+              + '<tr><td><b>Comments</b></td><td>' + data.comments + '</td></tr>'
+              +'</table></div>'
+          }
+        };
+        $.ajax('https://api.emailjs.com/api/v1.0/email/send', {
+          type: 'POST',
+          data: JSON.stringify(email),
+          contentType: 'application/json'
+        });
       });
+
     }
   }
 

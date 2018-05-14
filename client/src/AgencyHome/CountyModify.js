@@ -47,24 +47,30 @@ class CountyModify extends Component {
       return 0; // default return value (no sorting)
     });
 
+    let rows = [];
     return sortedCountiesList.map((c, index) => {
+      if (index % 8 === 0) {
+        rows = [];
+        return (<tr key={index*11}>{rows}</tr>);
+      }
+
       if (!this.state.agency.counties) {
-        return (<CountyCheckbox
+        rows.push (<td><CountyCheckbox
           county={c}
           handleCheckboxChange={this.updateAgencyCounty}
           agencyId={this.props.agencyId}
           checked={false}
           key={index}
-        />);
+        /></td>);
       } else {
         const checked = this.state.agency.counties.find(x => x === c.name) !== undefined;
-        return (<CountyCheckbox
+        rows.push (<td><CountyCheckbox
           county={c}
           handleCheckboxChange={this.updateAgencyCounty}
           agencyId={this.props.agencyId}
           checked={checked}
           key={index}
-        />);
+        /></td>);
       }
     });
   }
@@ -76,8 +82,12 @@ class CountyModify extends Component {
 
     this.state.agency = this.props.agency.agencies.find(x => x._id === this.props.agencyId);
 
-    return (<div>
-      {this.checkCounty()}
+    return (<div align="left">
+      <table>
+        <tbody>
+          {this.checkCounty()}
+        </tbody>
+      </table>
     </div>);
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchAgencyRequests, deleteAgencyRequests } from '../../Actions/agencyRequestsActions';
+import { fetchAgencyRequests, deleteAgencyRequests, addAgencyRequests } from '../../Actions/agencyRequestsActions';
 import { addAgencies } from '../../Actions/agenciesActions';
 
 function mapStateToProps(state) {
@@ -28,25 +28,49 @@ class AgencyRequests extends Component {
     this.props.dispatch(fetchAgencyRequests());
   }
 
-  // Add agency to Agency table and delete from Agency Request table
+  // Add agency to Agency table and update in Agency Request table
   acceptAgencyRequest(req) {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth()+1; // January is 0
+    let yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    today = mm + '/' + dd + '/' + yyyy;
     // Add agency to Agency table
     var data = {
       name: req.agency_name,
       url: req.agency_url,
       emails: [{ address: req.agency_email}],
+      agency_name: req.agency_name,
+      agency_email: req.agency_email,
+      agency_url: req.agency_url,
+      contact_name: req.contact_name,
+      contact_phone: req.contact_phone,
+      contact_email: req.contact_email,
+      comments: req.comments,
+      request_status: 1,
+      date_submitted: req.date_submitted,
+      date_accepted: today.toString(),
+    };
+
+    const deleteData = {
+      id: req._id,
     };
 
     this.props.dispatch(addAgencies(data)).then(() => {
-      data = {
-        id: req._id,
-      };
-      this.props.dispatch(deleteAgencyRequests(data)).then(() => {
-        this.setState({
-          showAlert: true,
-          alertTitle: "Agency Accepted",
-          alertMsg: req.agency_name + " has been added as an agency. Please let " + req.contact_name + " know at " +
-          req.contact_phone + " or " + req.contact_email + ".",
+      this.props.dispatch(deleteAgencyRequests(deleteData)). then(() => {
+        this.props.dispatch(addAgencyRequests(data)).then(() => {
+          this.setState({
+            showAlert: true,
+            alertTitle: "Agency Accepted",
+            alertMsg: req.agency_name + " has been added as an agency. Please let " + req.contact_name + " know at " +
+            req.contact_phone + " or " + req.contact_email + ".",
+          });
         });
       });
     });
@@ -79,8 +103,19 @@ class AgencyRequests extends Component {
       var requests = [];
       for (var i = 0; i < this.props.requests.length; i++) {
         var req = this.props.requests[i];
+        var action;
+        if (req.request_status === 1) {
+          action = "Accepted on " + req.date_accepted;
+        } else {
+          action = <div className="ui buttons">
+            <button className="ui positive button" onClick={() => this.acceptAgencyRequest(req)}>Accept</button>
+            <div className="or"/>
+            <button className="ui negative button" onClick={() => this.rejectAgencyRequest(req)}>Reject</button>
+          </div>;
+        }
         requests.push(
           <tr key={req._id}>
+            <td>{req.date_submitted}</td>
             <td>Name: {req.agency_name}<br/>
               Email: {req.agency_email}<br/>
               URL: {req.agency_url}</td>
@@ -89,11 +124,7 @@ class AgencyRequests extends Component {
               Phone: {req.contact_phone}</td>
             <td>{req.comments}</td>
             <td>
-              <div className="ui buttons">
-                <button className="ui positive button" onClick={() => this.acceptAgencyRequest(req)}>Accept</button>
-                <div className="or"/>
-                <button className="ui negative button" onClick={() => this.rejectAgencyRequest(req)}>Reject</button>
-              </div>
+              {action}
             </td>
           </tr>
         );
@@ -119,10 +150,11 @@ class AgencyRequests extends Component {
           <table className="ui celled table">
             <thead>
             <tr>
+              <th>Date Submitted</th>
               <th>Agency</th>
               <th>Contact Person</th>
               <th>Comments</th>
-              <th>Action</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>

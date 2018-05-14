@@ -77,11 +77,11 @@ class AgencyDisplay extends Component {
             <p style={{ fontSize: '1.33em' }}>
               {this.props.agency.url ? <div className='phoneNum'>
                 {this.props.agency.url} </div> : <div className='noPhone'>There is currently no URL on file for this agency!</div>}</p>
-            <Header as='h3' style={{ fontSize: '1.5em', textDecoration: 'underline' }}>Hours of Operation Link:</Header>
+            <Header as='h3' style={{ fontSize: '1.5em', textDecoration: 'underline' }}>Agency Contact Information:</Header>
             <p style={{ fontSize: '1.33em' }}>
               {this.props.agency.operation ? <div className='phoneNum'>
                 {this.props.agency.operation} </div> :
-              <div className='noPhone'>There is currently no hours of operation link on file for this agency!</div>}</p>
+              <div className='noPhone'>There is currently no contact link on file for this agency!</div>}</p>
             <div>
               <AgencyHomeModal
                 showModal
@@ -190,7 +190,7 @@ class AgencyHomeModal extends Component {
                 labelPosition='left'
                 onChange={this.phoneNumber.bind(this)} value={this.state.phone}
               />
-              <h3 style={{ textAlign: 'center', textDecoration: 'underline' }}> Hours of Operation Link </h3>
+              <h3 style={{ textAlign: 'center', textDecoration: 'underline' }}> Contact Information Link </h3>
               <Input
                 placeholder={this.props.agency.operation} label='http://' labelPosition='left'
                 size='big' fluid className='padding'

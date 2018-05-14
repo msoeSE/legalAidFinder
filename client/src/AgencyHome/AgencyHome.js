@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tab, Container, Header, Loader, Dropdown, Icon, Popup, Form } from 'semantic-ui-react';
+import { Tab, Container, Header, Loader, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import AgencyCategoryTab from './AgencyCategoryTab';
@@ -72,17 +72,21 @@ class AgencyHome extends Component {
               <AgencyCategoryTab />
             </Container>
           </div></Tab.Pane> },
-      { menuItem: 'Global Eligibility',
-        render: () => <Tab.Pane><div className='tab-content'>
-          <Container fluid textAlign='center'>
-            <Header as='h2'>View Global Eligibility</Header>
-          </Container>
-        </div></Tab.Pane> },
       { menuItem: 'Counties',
         render: () => <Tab.Pane><div className='tab-content'>
           <Container fluid textAlign='center'>
             <Header as='h2'>Edit Supported Counties</Header>
-            <CountyModify agencyId={this.props.user.agency._id}/>
+            <CountyModify agencyId={this.props.user.agency._id} />
+          </Container>
+        </div></Tab.Pane> },
+      { menuItem: 'Contact Admins',
+        render: () => <Tab.Pane><div className='tab-content'>
+          <Container fluid textAlign='center'>
+            <Header as='h2'>Have Any Questions, Comments, Or Concerns?</Header>
+            <Divider />
+            <p style={{ fontSize: 'large' }}>
+              Contact the admins at: <a href='mailto:wi.laf.edu@gmail.com'>wi.laf.edu@gmail.com</a>
+            </p>
           </Container>
         </div></Tab.Pane> },
     ];

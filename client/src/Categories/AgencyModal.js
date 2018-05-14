@@ -38,10 +38,10 @@ class AgencyModal extends Component {
           <Modal.Actions>
             {this.props.agency.operation ?
               <Button className='ui green button' href={`http://${this.props.agency.operation}`}>
-              Hours of Operation
+              Additional Contact Info
             </Button> :
               <Button disabled>
-                Hours of Operation
+                Additional Contact Info
               </Button>}
             {this.props.agency.url ?
               <Button className='ui blue button' href={this.props.agency.url}>

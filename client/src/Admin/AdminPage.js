@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Tab, Container, Header, Menu, Label } from 'semantic-ui-react';
+import { Tab, Container, Header, Menu, Label, Divider } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AgencyRequests from './Agency/AgencyRequests';
 import CategoryTab from './Category/CategoryTab';
 import EligibilityTypeAdd from './EligibilityType/EligibilityTypeAdd';
+import AddNewAdmin from './AddAdmin';
+import RemoveAdmin from './RemoveAdmin';
 import HomePageTab from './HomePage/HomePageTab.js';
 import Agency from './Agency/Agency';
 import { fetchAgencyRequests } from '../Actions/agencyRequestsActions';
@@ -55,6 +57,18 @@ class AdminPage extends Component {
                 </Container>
                 <EligibilityTypeAdd />
             </div></Tab.Pane> },
+        { menuItem: 'Edit Admins',
+          render: () => <Tab.Pane><div className='tab-content'>
+            <Container fluid textAlign='center' style={{ paddingTop: '10px' }}>
+              <Header as='h2'>Add New Admin</Header>
+            </Container>
+            <AddNewAdmin />
+            <Divider style={{ background: '#434343', borderBottom: '1px solid black' }} />
+            <Container fluid textAlign='center'>
+              <Header as='h2'>Remove Admin</Header>
+            </Container>
+            <RemoveAdmin />
+          </div></Tab.Pane> },
         { menuItem: 'Home Page',
             render: () => <Tab.Pane><div className='tab-content'>
                 <Container fluid textAlign='center'>

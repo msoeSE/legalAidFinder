@@ -6,12 +6,26 @@ import {
 import logo from './Images/logo.png';
 
 import './HeaderAndFooter.css';
+import {fetchHeader} from "./Actions/headerActions";
 
 function mapStateToProps(state) {
-  return { agencyData: state.agencies, user: state.user, adminData: state.admins, headerData: state.header };
+  return { headerData: state.header };
 }
 
 class Header extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            header: '',
+        };
+    }
+
+    componentWillMount(){
+      this.props.dispatch(fetchHeader());
+    }
+
   render() {
     return (
       <div className='app-header'>

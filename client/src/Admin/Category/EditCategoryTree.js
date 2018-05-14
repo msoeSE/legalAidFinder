@@ -6,6 +6,7 @@ import { deleteCategories, fetchCategories } from '../../Actions/categoriesActio
 import MagnifyLoader from '../../Helpers/MagnifyLoader';
 import CategoryModal from './CategoryModal';
 import getBulletPoint from '../../Helpers/Bulletpoints';
+import AdminDeleteModal from "../AdminDeleteModal";
 
 
 function mapStateToProps(state) {
@@ -23,30 +24,48 @@ class EditCategoryTree extends Component {
       innerDepth: 0,
       created: false,
       currentCategory: '',
+        deleteModalOpen: false
     };
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.toggleDeleteModal = this.toggleDeleteModal.bind(this);
+    this.deleteCategory = this.deleteCategory.bind(this);
   }
 
   componentWillMount() {
     this.props.dispatch(fetchCategories());
   }
 
-  deleteCategory(event, data) {
-    event.preventDefault();
-    if (window.confirm('Are you sure you want to delete it?')) {
-      const parent = this.findCategory(data.id).parent;
-
-      const category = {
-        id: data.id,
-        parent: parent,
-      };
-
-      this.props.dispatch(deleteCategories(category)).then(() => {
-        this.props.dispatch(fetchCategories());
-      });
+    toggleDeleteModal(event, data) {
+    if(data.id) {
+        const category = this.findCategory(data.id);
+        this.setState({
+            deleteModalOpen: !this.state.deleteModalOpen,
+            currentCategory: category
+        });
+    } else {
+        this.setState({
+            deleteModalOpen: !this.state.deleteModalOpen
+        });
     }
+        event.preventDefault();
+
+    }
+
+    deleteCategory() {
+        //const parent = this.findCategory(data.id).parent;
+
+        const category = this.state.currentCategory;
+        category.id = this.state.currentCategory._id;
+
+        this.setState({
+            deleteModalOpen: false
+        });
+
+        this.props.dispatch(deleteCategories(category)).then(() => {
+            this.props.dispatch(fetchCategories());
+        });
   }
 
   // Recursive function that generates the checkboxes
@@ -134,7 +153,7 @@ class EditCategoryTree extends Component {
               <Icon name='plus' />
             </Button.Content>
           </Button>
-          <Button animated='vertical' inverted onClick={this.deleteCategory.bind(this)} color='red' id={category._id}>
+          <Button animated='vertical' inverted onClick={this.toggleDeleteModal} color='red' id={category._id}>
             <Button.Content hidden>Delete</Button.Content>
             <Button.Content visible>
               <Icon name='minus' />
@@ -190,6 +209,13 @@ class EditCategoryTree extends Component {
           category={this.state.currentCategory}
         />
         {this.state.items.map(item => item)}
+          <AdminDeleteModal
+              showModal={this.state.deleteModalOpen}
+              onClose={this.toggleDeleteModal}
+              deleteMessage="Are you sure you want to delete this category?"
+              onSubmit={this.deleteCategory}
+              category={this.state.id}
+          />
       </div>);
   }
 }

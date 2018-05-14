@@ -1,0 +1,23 @@
+.loginLogoutButton {
+    background:none!important;
+    border:none;
+    padding:0!important;
+    font: inherit;
+    cursor: pointer;
+    font-family: "Times New Roman", Times, serif !important;
+    text-decoration: underline !important;
+    font-weight: normal !important;
+    color: blue !important;
+}
+
+.categoryTab, .lawyerTab {
+    float: right;
+    color: white;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 5px;
+}
+
+h3:hover {
+    color: black;
+}

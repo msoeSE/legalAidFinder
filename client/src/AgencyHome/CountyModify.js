@@ -71,7 +71,7 @@ class CountyModify extends Component {
 
   render() {
     if (!this.props.data.counties || this.props.data.counties.length === 0 || this.props.agency.length === 0) {
-      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+      return (<MagnifyLoader label='Retrieving counties...' />);
     }
 
     this.state.agency = this.props.agency.agencies.find(x => x._id === this.props.agencyId);

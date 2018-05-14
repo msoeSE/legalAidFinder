@@ -6,7 +6,6 @@ env:
     - COMMIT=${TRAVIS_COMMIT::8}
     - REPO=msoese/legal-aid-finder
 node_js:
-  - '7'
   - '8.9.4'
   - 'stable'
 before_install:

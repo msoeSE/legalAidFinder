@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchCounties, addCountyToAgency } from '../Actions/countiesActions';
 import CountyCheckbox from './CountyCheckbox';
 import { fetchAgencies } from '../Actions/agenciesActions';
+import MagnifyLoader from '../Helpers/MagnifyLoader';
 
 function mapStateToProps(state) {
   return { data: state.counties, agency: state.agencies };
@@ -77,7 +78,7 @@ class CountyModify extends Component {
 
   render() {
     if (!this.props.data.counties || this.props.data.counties.length === 0 || this.props.agency.length === 0) {
-      return (<Loader active inline='centered' size='massive'>Loading...</Loader>);
+      return (<MagnifyLoader label='Retrieving counties...' />);
     }
 
     this.state.agency = this.props.agency.agencies.find(x => x._id === this.props.agencyId);

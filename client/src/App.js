@@ -24,18 +24,24 @@ class App extends Component {
       <div className='App'>
         <Header />
         <div className='content'>
+          <div className='wrapper'>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route path='/workflow' component={CategoryHome} />
+              <Route path='/agency' component={AgencyHome} />
+              <Route path='/admin' component={AdminPage} />
+              <Route path='/category/:id' component={CategoryDetail} />
+              <Route path='/counties' component={CountySelect} />
+              <Route path='/agencyrequestform' component={AgencyRequestForm} />
+              <Route component={NoMatch} />
+            </Switch>
+          </div>
+        </div>
+        <div className='footer'>
           <Switch>
-            <Route exact path='/' component={Home} />
-            <Route path='/workflow' component={CategoryHome} />
-            <Route path='/agency' component={AgencyHome} />
-            <Route path='/admin' component={AdminPage} />
-            <Route path='/category/:id' component={CategoryDetail} />
-            <Route path='/counties' component={CountySelect} />
-            <Route path='/agencyrequestform' component={AgencyRequestForm} />
-            <Route component={NoMatch} />
+            <Route exact path='/' component={Footer} />
           </Switch>
         </div>
-        {/*<Footer />*/}
       </div>
     );
   }
